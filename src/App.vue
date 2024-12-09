@@ -1,30 +1,45 @@
 <template>
-	<nav>
-		<router-link to="/">Home</router-link> |
-		<router-link to="/about">About</router-link>
-	</nav>
-	<router-view />
+	<div class="app-container">
+		<NavigationBar/>
+
+		<RouterView/>
+
+		<FooterBar/>
+	</div>
 </template>
 
-<style lang="scss">
-	#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-	}
+<script setup>
+	import { onMounted } from "vue";
+	import { RouterView } from "vue-router";
 
-	nav {
-		padding: 30px;
+	import FooterBar from "@/components/FooterBar.vue";
+	import NavigationBar from "@/components/NavigationBar.vue";
+	import { useYSContractsStore } from "@/stores/YSContracts";
+	import { useWeb3WalletStore } from "@/stores/Web3Wallet";
 
-		a {
-			font-weight: bold;
-			color: #2c3e50;
 
-			&.router-link-exact-active {
-				color: #42b983;
-			}
+	const ySContractsStore = useYSContractsStore();
+	const web3Wallet = useWeb3WalletStore();
+
+
+	onMounted(async () =>
+	{
+		const initializeStores = async () => {
+			await web3Wallet.initialize();
+			await ySContractsStore.initialize();
 		}
+
+		await initializeStores();
+	});
+</script>
+
+<style lang="scss" scoped>
+	@import "@/assets/styles/variables.scss";
+
+	.app-container {
+		background-attachment: fixed;
+		background-size: cover;
+
+		@extend .bg-gradient;
 	}
 </style>

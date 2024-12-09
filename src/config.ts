@@ -1,0 +1,100 @@
+type Config = {
+	getChainName: (chainId: number) => "mainnet" | "sepolia" | "base-sepolia",
+	networkChain: {
+		[key: string]: {
+			chainId: string,
+			chainName: string,
+			nativeCurrency: {
+				name: string,
+				symbol: string,
+				decimals: number,
+			},
+			rpcUrls: string[],
+			blockExplorerUrls: string[]
+			icon: string,
+			yieldSyncGovernance: string
+		}
+	},
+}
+
+
+import ethLogo from "./assets/eth.svg";
+import baseLogo from "./assets/base.svg";
+
+
+export default {
+	getChainName: (chainId: number): "mainnet" | "sepolia" | "base-sepolia" =>
+	{
+		switch (chainId)
+		{
+			case 1:
+				return "mainnet";
+
+			case 11155111:
+				return "sepolia";
+
+			case 84532:
+				return "base-sepolia";
+
+			default:
+				return "mainnet";
+		}
+	},
+
+	networkChain: {
+		// Mainnet
+		1: {
+			chainId: "0x1",
+			chainName: "Ethereum Mainnet",
+			nativeCurrency: {
+				name: "ETH",
+				symbol: "ETH",
+				decimals: 18
+			},
+			rpcUrls: [
+			],
+			blockExplorerUrls: [
+				"https://etherscan.io",
+			],
+			icon: ethLogo,
+			yieldSyncGovernance: "0x0000000000000000000000000000000000000000",
+		},
+
+		// Seploia
+		11155111: {
+			chainId: "0xAA36A7",
+			chainName: "Ethereum Sepolia",
+			nativeCurrency: {
+				name: "ETH",
+				symbol: "ETH",
+				decimals: 18
+			},
+			rpcUrls: [
+			],
+			blockExplorerUrls: [
+				"https://etherscan.io",
+			],
+			icon: ethLogo,
+			yieldSyncGovernance: "0x86BD4296Ba41375504bfFa2cd4C1Eedec9b09fA4",
+
+		},
+
+		// base sepolia
+		84532: {
+			chainId: "0x14a34",
+			chainName: "Base Sepolia",
+			nativeCurrency: {
+				name: "ETH",
+				symbol: "ETH",
+				decimals: 18
+			},
+			rpcUrls: [
+			],
+			blockExplorerUrls: [
+				"	https://sepolia-explorer.base.org",
+			],
+			icon: baseLogo,
+			yieldSyncGovernance: "0x5a0a98c17E61aA4Df761b4Fc77aC5ba77C93d6B6",
+		},
+	},
+} as Config;
