@@ -24,7 +24,7 @@ export default createVuetify({
 					primary: "#7fad6f",
 					"primary-light": "#6e964e",
 					secondary: "#03DAC6",
-					success: "#00FF1D",
+					success: "#008000",
 					warning: "#ffd712",
 					danger: "#f0483a",
 					white: "#FFFFFF",

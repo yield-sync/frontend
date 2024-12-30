@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import Web3 from "web3";
 
+import config from "../config";
+
 
 interface State
 {
@@ -28,6 +30,16 @@ function _withdowEthereumAvailable(): boolean
 {
 	if (window.ethereum)
 	{
+		if (window.ethereum.isMetaMask)
+		{
+			console.log("MetaMask detected");
+		}
+
+		if (window.ethereum.isCoinbaseWallet)
+		{
+			console.log("Coinbase Wallet detected");
+		}
+
 		return true;
 	}
 
@@ -37,7 +49,7 @@ function _withdowEthereumAvailable(): boolean
 /**
 * @notice This store is meant to store the web 3 wallet details.
 */
-export const useWeb3WalletStore = defineStore<"Web3Wallet", State, {}, Actions>(
+export default defineStore<"Web3Wallet", State, {}, Actions>(
 	"Web3Wallet",
 	{
 		state: () =>
@@ -59,7 +71,7 @@ export const useWeb3WalletStore = defineStore<"Web3Wallet", State, {}, Actions>(
 				this.walletConnected = false;
 				this.web3 = undefined;
 				this.accounts = [];
-				this.networkId = -1;
+				this.networkId = 1;
 				this.error = "";
 			},
 
@@ -104,6 +116,8 @@ export const useWeb3WalletStore = defineStore<"Web3Wallet", State, {}, Actions>(
 					return;
 				}
 
+				const CHAIN_ID_INT = parseInt(chainId, 16);
+
 				try
 				{
 					if (!this.web3)
@@ -113,22 +127,48 @@ export const useWeb3WalletStore = defineStore<"Web3Wallet", State, {}, Actions>(
 						return;
 					}
 
-					await window.ethereum.request({
-						method: "wallet_switchEthereumChain",
-						params: [
-							{
-								chainId
-							},
-						],
-					});
+					await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId }] });
 
 					await this.connectWallet();
 				}
-				catch (e)
+				catch (e: any)
 				{
-					this.error = String(e);
+					if (e.code !== 4902)
+					{
+						this.error = String(e);
 
-					return;
+						return;
+					}
+
+					try
+					{
+						await window.ethereum.request({
+							method: "wallet_addEthereumChain",
+							params: [
+								{
+									chainId,
+									chainName: config.networkChain[CHAIN_ID_INT].chainName,
+									nativeCurrency: {
+										name: config.networkChain[CHAIN_ID_INT].nativeCurrency.name,
+										symbol: config.networkChain[CHAIN_ID_INT].nativeCurrency.symbol,
+										decimals: config.networkChain[CHAIN_ID_INT].nativeCurrency.decimals,
+									},
+									rpcUrls: config.networkChain[CHAIN_ID_INT].rpcUrls,
+									blockExplorerUrls: config.networkChain[CHAIN_ID_INT].blockExplorerUrls,
+								},
+							],
+						});
+
+						await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId }] });
+
+						await this.connectWallet();
+					}
+					catch (addError)
+					{
+						this.error = `Failed to add chain: ${String(addError)}`;
+
+						return;
+					}
 				}
 			},
 
