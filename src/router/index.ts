@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import HomeView from "@/views/HomeView.vue";
+import RegistryView from "@/views/RegistryView.vue";
 
 
 export default createRouter({
@@ -10,6 +11,11 @@ export default createRouter({
 			path: "/",
 			name: "home",
 			component: HomeView
+		},
+		{
+			path: "/registry",
+			name: "registry",
+			component: RegistryView
 		},
 		{
 			path: "/governance",

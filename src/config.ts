@@ -13,6 +13,7 @@ type Config = {
 			blockExplorerUrls: string[]
 			icon: string,
 			yieldSyncGovernance: string
+			v1EMPRegistry: string
 		}
 	},
 }
@@ -42,7 +43,6 @@ export default {
 	},
 
 	networkChain: {
-		// Mainnet
 		1: {
 			chainId: "0x1",
 			chainName: "Ethereum Mainnet",
@@ -52,15 +52,16 @@ export default {
 				decimals: 18
 			},
 			rpcUrls: [
+				"https://rpc.ankr.com/eth"
 			],
 			blockExplorerUrls: [
 				"https://etherscan.io",
 			],
 			icon: ethLogo,
 			yieldSyncGovernance: "0x0000000000000000000000000000000000000000",
+			v1EMPRegistry: "0x0000000000000000000000000000000000000000",
 		},
 
-		// Seploia
 		11155111: {
 			chainId: "0xAA36A7",
 			chainName: "Ethereum Sepolia",
@@ -70,16 +71,16 @@ export default {
 				decimals: 18
 			},
 			rpcUrls: [
+				"https://rpc.sepolia.org"
 			],
 			blockExplorerUrls: [
-				"https://etherscan.io",
+				"https://sepolia.etherscan.io",
 			],
 			icon: ethLogo,
 			yieldSyncGovernance: "0x86BD4296Ba41375504bfFa2cd4C1Eedec9b09fA4",
-
+			v1EMPRegistry: "0x0000000000000000000000000000000000000000",
 		},
 
-		// base sepolia
 		84532: {
 			chainId: "0x14a34",
 			chainName: "Base Sepolia",
@@ -89,12 +90,14 @@ export default {
 				decimals: 18
 			},
 			rpcUrls: [
+				"https://sepolia.base.org"
 			],
 			blockExplorerUrls: [
-				"	https://sepolia-explorer.base.org",
+				"https://sepolia.basescan.org",
 			],
 			icon: baseLogo,
 			yieldSyncGovernance: "0x5a0a98c17E61aA4Df761b4Fc77aC5ba77C93d6B6",
+			v1EMPRegistry: "0xAb056497829674Ee438d7d792275A08A05030565",
 		},
 	},
 } as Config;

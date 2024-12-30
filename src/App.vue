@@ -2,34 +2,32 @@
 	<div class="app-container">
 		<NavigationBar/>
 
-		<RouterView/>
+		<RouterView v-if="initialized" />
 
 		<FooterBar/>
 	</div>
 </template>
 
 <script setup>
-	import { onMounted } from "vue";
+	import { ref, onMounted } from "vue";
 	import { RouterView } from "vue-router";
 
 	import FooterBar from "@/components/FooterBar.vue";
 	import NavigationBar from "@/components/NavigationBar.vue";
-	import { useYSContractsStore } from "@/stores/YSContracts";
-	import { useWeb3WalletStore } from "@/stores/Web3Wallet";
+	import useContractsStore from "@/stores/Contracts";
+	import useWeb3WalletStore from "@/stores/Web3Wallet";
 
+	const initialized = ref(false);
 
-	const ySContractsStore = useYSContractsStore();
+	const contractsStore = useContractsStore();
 	const web3Wallet = useWeb3WalletStore();
-
 
 	onMounted(async () =>
 	{
-		const initializeStores = async () => {
-			await web3Wallet.initialize();
-			await ySContractsStore.initialize();
-		}
+		await web3Wallet.initialize();
+		await contractsStore.initialize();
 
-		await initializeStores();
+		initialized.value = true;
 	});
 </script>
 

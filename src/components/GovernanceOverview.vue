@@ -1,29 +1,26 @@
 <template>
-	<MainContainer title="YS Govnernance">
-		<h4 class="text-center text-light">{{ governance }}</h4>
+	<h4 class="text-center text-light">{{ governance }}</h4>
 
-		<br/>
+	<br/>
 
-		<h4>Pay To:</h4>
+	<h4>Pay To:</h4>
 
-		<h5>{{ defaultAdminRole }}</h5>
+	<h5>{{ defaultAdminRole }}</h5>
 
-		<br>
+	<br>
 
-		<h4>Default Admin Role:</h4>
+	<h4>Default Admin Role:</h4>
 
-		<h5>{{ defaultAdminRole }}</h5>
-	</MainContainer>
+	<h5>{{ defaultAdminRole }}</h5>
 </template>
 
 <script setup>
 	import { ref, watch } from "vue";
 
-	import MainContainer from "@/components/MainContainer.vue";
-	import { useYSContractsStore } from "@/stores/YSContracts";
+	import useContractsStore from "@/stores/Contracts";
 
 
-	const ySContracts = useYSContractsStore();
+	const contracts = useContractsStore();
 
 	const governance = ref("?");
 	const payTo = ref("?");
@@ -32,15 +29,15 @@
 
 	const getGovernance = () =>
 	{
-		return ySContracts.yieldSyncGovernance.options.address ? ySContracts.yieldSyncGovernance.options.address : "?";
+		return contracts.yieldSyncGovernance.options.address ? contracts.yieldSyncGovernance.options.address : "?";
 	};
 
 
 	const getPayTo = () =>
 	{
-		if (ySContracts.yieldSyncGovernance)
+		if (contracts.yieldSyncGovernance)
 		{
-			return ySContracts.yieldSyncGovernance.methods.payTo().call().then((result) =>
+			return contracts.yieldSyncGovernance.methods.payTo().call().then((result) =>
 			{
 				return result;
 			}).catch((error) =>
@@ -53,9 +50,9 @@
 
 	const getDefaultAdminRole = () =>
 	{
-		if (ySContracts.yieldSyncGovernance)
+		if (contracts.yieldSyncGovernance)
 		{
-			return ySContracts.yieldSyncGovernance.methods.DEFAULT_ADMIN_ROLE().call().then((result) =>
+			return contracts.yieldSyncGovernance.methods.DEFAULT_ADMIN_ROLE().call().then((result) =>
 			{
 				return result;
 			}).catch((error) =>
@@ -69,7 +66,7 @@
 	watch(
 		() =>
 		{
-			return ySContracts.yieldSyncGovernance;
+			return contracts.yieldSyncGovernance;
 		},
 		async (newYieldSyncGovernance) =>
 		{

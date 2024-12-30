@@ -7,12 +7,7 @@
 					lg="4"
 				>
 					<RouterLink to="/" style="letter-spacing: 4px; text-decoration: none !important">
-						<h1
-							class="text-primary text-uppercase"
-							style="letter-spacing: 4px;"
-						>
-							Yield Sync - V1 EMP
-						</h1>
+						<h1 class="text-primary text-uppercase" style="letter-spacing: 4px;">Yield Sync</h1>
 					</RouterLink>
 				</VCol>
 
@@ -38,8 +33,8 @@
 
 						<VMenu activator="parent">
 							<VList class="mt-3 px-0 py-0 rounded-xl bg-dark elevation-0">
-								<VListItem v-for="(n, key) in config.networkChain" :key="key" class="network-option">
-									<VListItemTitle @click="switchNetwork(String(key))">
+								<VListItem v-for="(n, k) in config.networkChain" :key="k" class="network-option">
+									<VListItemTitle @click="switchNetwork(String(k))">
 										<VRow>
 											<VCol cols="1">
 												<img :src="n.icon" style="max-width: 20px;" />
@@ -91,9 +86,10 @@
 						class="mr-2 text-decoration-none text-dark"
 					>
 						<VBtn
+							v-if="v.name != 'governance'"
 							variant="plain"
 							color="primary"
-							class="rounded-xl"
+							class="rounded-xl text-uppercase"
 						>
 							{{ v.name }}
 						</VBtn>
@@ -122,6 +118,7 @@
 					<VTextField
 						label="Insert Alchemy API Key Here"
 						variant="outlined"
+						density="compact"
 						hide-details
 					/>
 				</VCol>
@@ -135,15 +132,13 @@
 	import { useRouter, RouterLink } from "vue-router";
 
 	import config from "@/config";
-	import { useWeb3WalletStore } from "@/stores/Web3Wallet";
+	import useWeb3WalletStore from "@/stores/Web3Wallet";
 
 
 	const web3Wallet = useWeb3WalletStore();
 	const router = useRouter();
 
-	const shortener = (
-		subject: string | null
-	) =>
+	const shortener = (subject: string | null) =>
 	{
 		return subject ? subject.substring(0, 4) + "..." + subject.substring(subject.length - 4) : "";
 	};
