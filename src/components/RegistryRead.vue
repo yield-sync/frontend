@@ -1,5 +1,9 @@
 <template>
 	<VRow class="dev-section">
+		<VCol cols="12">
+			<h3 class="text-center text-primary text-uppercase">Values</h3>
+		</VCol>
+
 		<VCol v-if="app.advancedMode" cols="12">
 			<h6 class="text-center">Block Explorer: {{ getBlockExplorer() }}</h6>
 		</VCol>
@@ -10,7 +14,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">Registry</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 Registry</VBtn>
 			</a>
 		</VCol>
 
@@ -20,7 +24,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">Array Utility</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 Array Utility</VBtn>
 			</a>
 		</VCol>
 
@@ -30,7 +34,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">EMP Deployer</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 EMP Deployer</VBtn>
 			</a>
 		</VCol>
 
@@ -40,7 +44,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">EMP Utility</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 EMP Utility</VBtn>
 			</a>
 		</VCol>
 
@@ -50,7 +54,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">Strategy Deployer</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 Strategy Deployer</VBtn>
 			</a>
 		</VCol>
 
@@ -60,7 +64,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VBtn variant="flat" color="primary" class="w-100 rounded-xl">Strategy Utility</VBtn>
+				<VBtn variant="tonal" color="white" class="w-100 rounded-xl">🔗 Strategy Utility</VBtn>
 			</a>
 		</VCol>
 	</VRow>

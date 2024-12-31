@@ -1,7 +1,7 @@
 <template>
 	<VRow>
 		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Read Registry Values</h3>
+			<h3 class="text-center text-primary text-uppercase">Retrieve Values</h3>
 		</VCol>
 
 		<VCol cols="12" lg="6" class="text-center">

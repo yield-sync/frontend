@@ -1,7 +1,7 @@
 <template>
 	<VRow v-if="app.advancedMode">
 		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Admin Functions</h3>
+			<h3 class="text-center text-primary text-uppercase">Admin Registry Functions</h3>
 		</VCol>
 
 		<VCol cols="12" class="text-center">
