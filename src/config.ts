@@ -97,7 +97,7 @@ export default {
 			],
 			icon: baseLogo,
 			yieldSyncGovernance: "0x5a0a98c17E61aA4Df761b4Fc77aC5ba77C93d6B6",
-			v1EMPRegistry: "0xAb056497829674Ee438d7d792275A08A05030565",
+			v1EMPRegistry: "0xB21bB59caf6C58C1824123e87420AFF147481C01",
 		},
 	},
 } as Config;
