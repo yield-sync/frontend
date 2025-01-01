@@ -29,7 +29,7 @@
 
 			<VBtn variant="flat" color="primary" class="w-100" @click="eRC20_v1EMPERC20ETHValueFeedUpdate">Submit</VBtn>
 
-			<h6 v-if="errorERC20_v1EMPERC20ETHValueFeedUpdate" class="text-danger">
+			<h6 v-if="errorERC20_v1EMPERC20ETHValueFeedUpdate" class="text-error">
 				{{ errorERC20_v1EMPERC20ETHValueFeedUpdate }}
 			</h6>
 			<h6 v-if="resultERC20_v1EMPERC20ETHValueFeedUpdate" class="text-success">

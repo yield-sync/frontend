@@ -103,7 +103,7 @@
 					xl="4"
 					class="text-left"
 				>
-					<h4 class="text-center text-danger">
+					<h4 class="text-center text-error">
 						{{ web3Wallet.error }}
 					</h4>
 				</VCol>

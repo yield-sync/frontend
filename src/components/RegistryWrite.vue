@@ -21,7 +21,7 @@
 				@keyup.enter="v1EMPId_v1EMP"
 			></VTextField>
 
-			<h6 v-if="errorInputV1EMPId" class="text-danger">{{ errorInputV1EMPId }}</h6>
+			<h6 v-if="errorInputV1EMPId" class="text-error">{{ errorInputV1EMPId }}</h6>
 
 			<h6 v-if="resultV1EMP" class="text-success">{{ resultV1EMP }}</h6>
 		</VCol>
@@ -42,7 +42,7 @@
 				@keyup.enter="v1EMP_v1EMPId"
 			></VTextField>
 
-			<h6 v-if="errorInputV1EMP" class="text-danger">{{ errorInputV1EMP }}</h6>
+			<h6 v-if="errorInputV1EMP" class="text-error">{{ errorInputV1EMP }}</h6>
 
 			<h6 v-if="resultV1EMPId" class="text-success">{{ resultV1EMPId }}</h6>
 		</VCol>
@@ -64,7 +64,7 @@
 				@keyup.enter="v1EMPStrategyId_v1EMPStrategy"
 			></VTextField>
 
-			<h6 v-if="errorInputV1EMPStrategyId" class="text-danger">{{ errorInputV1EMPStrategyId }}</h6>
+			<h6 v-if="errorInputV1EMPStrategyId" class="text-error">{{ errorInputV1EMPStrategyId }}</h6>
 
 			<h6 v-if="resultV1EMPStrategy" class="text-success">{{ resultV1EMPStrategy }}</h6>
 		</VCol>
@@ -85,7 +85,7 @@
 				@keyup.enter="v1EMPStrategy_v1EMPStrategyId"
 			></VTextField>
 
-			<h6 v-if="errorInputV1EMPStrategy" class="text-danger">{{ errorInputV1EMPStrategy }}</h6>
+			<h6 v-if="errorInputV1EMPStrategy" class="text-error">{{ errorInputV1EMPStrategy }}</h6>
 
 			<h6 v-if="resultV1EMPStrategyId" class="text-success">{{ resultV1EMPStrategyId }}</h6>
 		</VCol>
@@ -106,7 +106,7 @@
 				@keyup.enter="eRC20_v1EMPERC20ETHValueFeed"
 			></VTextField>
 
-			<h6 v-if="errorInputERC20" class="text-center text-danger">{{ errorInputERC20 }}</h6>
+			<h6 v-if="errorInputERC20" class="text-center text-error">{{ errorInputERC20 }}</h6>
 
 			<a
 				v-if="resultV1EMPERC20ETHValueFeed"
