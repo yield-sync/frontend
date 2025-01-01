@@ -1,7 +1,7 @@
 <template>
 	<VRow>
 		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Update ETH Value Feed</h3>
+			<h3 class="text-primary">Update ETH Value Feed</h3>
 		</VCol>
 
 		<VCol cols="12" class="text-center">
@@ -17,13 +17,15 @@
 			<VTextField
 				v-model="v1EMPERC20ETHValueFeed"
 				density="compact"
-				label="ETH Value Feed"
+				label="ETH Value Feed Address"
 				variant="outlined"
 				color="primary"
 				class="mb-1"
 			></VTextField>
 
-			<VBtn variant="flat" color="primary" class="w-100" @click="eRC20_v1EMPERC20ETHValueFeedUpdate">Submit</VBtn>
+			<VBtn variant="flat" color="primary" class="w-100 rounded-pill" @click="eRC20_v1EMPERC20ETHValueFeedUpdate">
+				Submit
+			</VBtn>
 
 			<h6 v-if="errorERC20_v1EMPERC20ETHValueFeedUpdate" class="text-error">
 				{{ errorERC20_v1EMPERC20ETHValueFeedUpdate }}

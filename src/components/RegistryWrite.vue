@@ -1,11 +1,11 @@
 <template>
 	<VRow>
 		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Retrieve Values</h3>
+			<h3 class="text-center text-primary">Retrieve Values</h3>
 		</VCol>
 
 		<VCol cols="12">
-			<h4 class="text-center text-primary m-0">V1 EMP</h4>
+			<h4 class="text-primary m-0">V1 EMP</h4>
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
@@ -41,7 +41,7 @@
 				hide-details
 				append-inner-icon="mdi-magnify"
 				density="compact"
-				label="V1 EMP Address"
+				label="Address"
 				hint="Returns the ID of V1EMP"
 				variant="outlined"
 				color="primary"
@@ -62,7 +62,7 @@
 		</VCol>
 
 		<VCol cols="12">
-			<h4 class="text-center text-primary m-0">V1 EMP Strategy</h4>
+			<h4 class="text-primary m-0">V1 EMP Strategy</h4>
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
@@ -98,7 +98,7 @@
 				hide-details
 				append-inner-icon="mdi-magnify"
 				density="compact"
-				label="V1 EMP Strategy Address"
+				label="Address"
 				hint="Returns the ID the V1EMP Strategy"
 				variant="outlined"
 				color="primary"
@@ -118,7 +118,7 @@
 			<p class="text-center text-error">{{ errorInputV1EMPStrategy }}</p>
 		</VCol>
 
-		<VCol cols="12" class="text-center">
+		<VCol cols="12">
 			<h4 class="text-primary mb-3">ERC20 Value Feed</h4>
 
 			<VTextField
