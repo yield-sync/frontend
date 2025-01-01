@@ -24,7 +24,6 @@ type Actions = {
 }
 
 
-
 const NO_WINDOW_ETHEREUM_ERROR: string = "No Ethereum provider found, please install a wallet";
 
 

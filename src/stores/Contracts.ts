@@ -7,7 +7,6 @@ import type { AbiItem } from "web3-utils";
 import V1EMPRegistry from "@/abi/V1EMPRegistry";
 import V1EMPArrayUtility from "@/abi/V1EMPArrayUtility";
 import config from "@/config";
-
 import useWeb3WalletStore from "@/stores/Web3Wallet";
 
 
@@ -106,8 +105,6 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 
 				if (!this.v1EMPRegistry)
 				{
-					console.error("Registry not available.");
-
 					this.error = "Registry not available.";
 
 					return;
@@ -122,6 +119,8 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 					this.v1EMPUtility = "?";
 
 					console.error("Error:", error);
+
+					this.error = String(error);
 				});
 
 				this.v1EMPRegistry.methods.v1EMPStrategyUtility().call().then((result) =>
@@ -133,6 +132,8 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 					this.v1EMPStrategyUtility = "?";
 
 					console.error("Error:", error);
+
+					this.error = String(error);
 				});
 
 				this.v1EMPRegistry.methods.v1EMPDeployer().call().then((result) =>
@@ -144,6 +145,8 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 					this.v1EMPDeployer = "?";
 
 					console.error("Error:", error);
+
+					this.error = String(error);
 				});
 
 				this.v1EMPRegistry.methods.v1EMPStrategyDeployer().call().then((result) =>
@@ -155,6 +158,8 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 					this.v1EMPStrategyDeployer = "?";
 
 					console.error("Error:", error);
+
+					this.error = String(error);
 				});
 			},
 
