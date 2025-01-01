@@ -1,11 +1,7 @@
 <template>
-	<VRow v-if="app.advancedMode">
+	<VRow>
 		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Admin Registry Functions</h3>
-		</VCol>
-
-		<VCol cols="12" class="text-center">
-			<h4 class="text-primary m-0">V1 EMP ERC20 ETH Value Feed Update</h4>
+			<h3 class="text-center text-primary text-uppercase">Update ETH Value Feed</h3>
 		</VCol>
 
 		<VCol cols="12" class="text-center">

@@ -4,10 +4,6 @@
 	</div>
 
 	<VRow v-else class="dev-section">
-		<VCol cols="12">
-			<h3 class="text-center text-primary text-uppercase">Values</h3>
-		</VCol>
-
 		<VCol v-if="app.advancedMode" cols="12">
 			<h6 class="text-center">Block Explorer: {{ getBlockExplorer() }}</h6>
 		</VCol>

@@ -18,6 +18,15 @@
 							hide-details
 							class="text-primary switch-center"
 						></VSwitch>
+
+						<VSwitch
+							v-model="_adminMode"
+							@change="toggleAdminMode()"
+							label="Admin Mode"
+							color="primary"
+							hide-details
+							class="text-primary switch-center"
+						></VSwitch>
 					</VCol>
 				</VRow>
 			</VContainer>
@@ -33,6 +42,14 @@
 
 	const app = useAppStore();
 	const router = useRouter();
+
+	let _adminMode = ref(app.adminMode);
+
+	const toggleAdminMode = () => {
+		app.toggleAdminMode();
+
+		_adminMode.value = app.adminMode;
+	};
 
 	let _advancedMode = ref(app.advancedMode);
 
