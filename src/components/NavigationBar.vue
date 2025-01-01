@@ -53,7 +53,7 @@
 					lg="4"
 				>
 					<VBtn
-						v-if="!web3Wallet.walletConnected"
+						v-if="!web3Wallet.connected"
 						@click="web3Wallet.connectWallet"
 						color="dark"
 						variant="tonal"

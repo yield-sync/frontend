@@ -4,8 +4,12 @@ import { Contract } from "web3-eth-contract";
 import { isAddress } from "web3-validator";
 import type { AbiItem } from "web3-utils";
 
-import V1EMPRegistry from "@/abi/V1EMPRegistry";
 import V1EMPArrayUtility from "@/abi/V1EMPArrayUtility";
+import V1EMPDeployer from "@/abi/V1EMPDeployer";
+import V1EMPUtility from "@/abi/V1EMPUtility";
+import V1EMPRegistry from "@/abi/V1EMPRegistry";
+import V1EMPStrategyDeployer from "@/abi/V1EMPStrategyDeployer";
+import V1EMPStrategyUtility from "@/abi/V1EMPStrategyUtility";
 import config from "@/config";
 import useWeb3WalletStore from "@/stores/Web3Wallet";
 
@@ -14,19 +18,23 @@ type State = {
 	error: string,
 	v1EMPRegistry?: Contract<AbiItem[]>,
 	v1EMPArrayUtility?: Contract<AbiItem[]>,
-	v1EMPUtility?: string,
-	v1EMPDeployer?: string,
-	v1EMPStrategyUtility?: string,
-	v1EMPStrategyDeployer?: string,
+	v1EMPUtility?: Contract<AbiItem[]>,
+	v1EMPDeployer?: Contract<AbiItem[]>,
+	v1EMPStrategyUtility?: Contract<AbiItem[]>,
+	v1EMPStrategyDeployer?: Contract<AbiItem[]>,
 }
 
 type Getters = {
 };
 
 type Actions = {
+	_setAllContracts(): Promise<void>,
 	setV1EMPRegistry(): Promise<void>,
 	setV1EMPArrayUtility(): Promise<void>,
-	setAllContractAddresses(): void,
+	setV1EMPDeployer(): Promise<void>,
+	setV1EMPUtility(): Promise<void>,
+	setV1EMPStrategyDeployer(): Promise<void>,
+	setV1EMPStrategyUtility(): Promise<void>,
 	initialize(): Promise<void>,
 }
 
@@ -40,6 +48,8 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				error: "",
 			};
 		},
+
+		getters: {},
 
 		actions: {
 			async setV1EMPRegistry(): Promise<void>
@@ -72,7 +82,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 
 				if (!this.v1EMPRegistry)
 				{
-					console.error("setV1EMPArrayUtility: Registry not found");
+					this.error = "setV1EMPArrayUtility: Registry not set";
 
 					return;
 				}
@@ -99,77 +109,183 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 			},
 
-			setAllContractAddresses(): void
+			async setV1EMPDeployer(): Promise<void>
 			{
-				console.log("Setting all contract..");
+				const web3Wallet = useWeb3WalletStore();
 
-				if (!this.v1EMPRegistry)
+				if (!web3Wallet.web3)
 				{
-					this.error = "Registry not available.";
+					this.error = "setV1EMPDeployer: No web3 found";
 
 					return;
 				}
 
-				this.v1EMPRegistry.methods.v1EMPUtility().call().then((result) =>
+				if (!this.v1EMPRegistry)
 				{
-					this.v1EMPUtility = String(result);
+					this.error = "setV1EMPDeployer: Registry not set";
 
-				}).catch((error) =>
+					return;
+				}
+
+				try
 				{
-					this.v1EMPUtility = "?";
+					const result = await this.v1EMPRegistry.methods.v1EMPDeployer().call();
 
-					console.error("Error:", error);
+					if (!isAddress(String(result)))
+					{
+						this.error = "setV1EMPDeployer: Get address failure";
 
+						return;
+					}
+
+					this.v1EMPDeployer = new web3Wallet.web3.eth.Contract(
+						V1EMPDeployer as AbiItem[],
+						String(result)
+					);
+				}
+				catch (error)
+				{
 					this.error = String(error);
-				});
+				}
+			},
 
-				this.v1EMPRegistry.methods.v1EMPStrategyUtility().call().then((result) =>
+			async setV1EMPUtility(): Promise<void>
+			{
+				const web3Wallet = useWeb3WalletStore();
+
+				if (!web3Wallet.web3)
 				{
-					this.v1EMPStrategyUtility = String(result);
+					this.error = "setV1EMPUtility: No web3 found";
 
-				}).catch((error) =>
+					return;
+				}
+
+				if (!this.v1EMPRegistry)
 				{
-					this.v1EMPStrategyUtility = "?";
+					this.error = "setV1EMPUtility: Registry not set";
 
-					console.error("Error:", error);
+					return;
+				}
 
+				try
+				{
+					const result = await this.v1EMPRegistry.methods.v1EMPUtility().call();
+
+					if (!isAddress(String(result)))
+					{
+						this.error = "setV1EMPUtility: Get address failure";
+
+						return;
+					}
+
+					this.v1EMPUtility = new web3Wallet.web3.eth.Contract(
+						V1EMPUtility as AbiItem[],
+						String(result)
+					);
+				}
+				catch (error)
+				{
 					this.error = String(error);
-				});
+				}
+			},
 
-				this.v1EMPRegistry.methods.v1EMPDeployer().call().then((result) =>
+			async setV1EMPStrategyDeployer(): Promise<void>
+			{
+				const web3Wallet = useWeb3WalletStore();
+
+				if (!web3Wallet.web3)
 				{
-					this.v1EMPDeployer = String(result);
+					this.error = "setV1EMPStrategyDeployer: No web3 found";
 
-				}).catch((error) =>
+					return;
+				}
+
+				if (!this.v1EMPRegistry)
 				{
-					this.v1EMPDeployer = "?";
+					this.error = "setV1EMPStrategyDeployer: Registry not set";
 
-					console.error("Error:", error);
+					return;
+				}
 
+				try
+				{
+					const result = await this.v1EMPRegistry.methods.v1EMPStrategyDeployer().call();
+
+					if (!isAddress(String(result)))
+					{
+						this.error = "setV1EMPStrategyDeployer: Get address failure";
+
+						return;
+					}
+
+					this.v1EMPStrategyDeployer = new web3Wallet.web3.eth.Contract(
+						V1EMPStrategyDeployer as AbiItem[],
+						String(result)
+					);
+				}
+				catch (error)
+				{
 					this.error = String(error);
-				});
+				}
+			},
 
-				this.v1EMPRegistry.methods.v1EMPStrategyDeployer().call().then((result) =>
+			async setV1EMPStrategyUtility(): Promise<void>
+			{
+				const web3Wallet = useWeb3WalletStore();
+
+				if (!web3Wallet.web3)
 				{
-					this.v1EMPStrategyDeployer = String(result);
+					this.error = "setV1EMPStrategyUtility: No web3 found";
 
-				}).catch((error) =>
+					return;
+				}
+
+				if (!this.v1EMPRegistry)
 				{
-					this.v1EMPStrategyDeployer = "?";
+					this.error = "setV1EMPStrategyUtility: Registry not set";
 
-					console.error("Error:", error);
+					return;
+				}
 
+				try
+				{
+					const result = await this.v1EMPRegistry.methods.v1EMPStrategyUtility().call();
+
+					if (!isAddress(String(result)))
+					{
+						this.error = "setV1EMPStrategyUtility: Get address failure";
+
+						return;
+					}
+
+					this.v1EMPStrategyUtility = new web3Wallet.web3.eth.Contract(
+						V1EMPStrategyUtility as AbiItem[],
+						String(result)
+					);
+				}
+				catch (error)
+				{
 					this.error = String(error);
-				});
+				}
+			},
+
+			async _setAllContracts(): Promise<void>
+			{
+				console.log("Setting all contract..");
+
+				await this.setV1EMPRegistry();
+				await this.setV1EMPArrayUtility();
+				await this.setV1EMPDeployer();
+				await this.setV1EMPUtility();
+				await this.setV1EMPStrategyDeployer();
+				await this.setV1EMPStrategyUtility();
 			},
 
 			async initialize(): Promise<void>
 			{
 				const web3Wallet = useWeb3WalletStore();
 
-				await this.setV1EMPRegistry();
-				await this.setV1EMPArrayUtility();
-				this.setAllContractAddresses();
+				await this._setAllContracts();
 
 				watch(
 					() => web3Wallet.networkId,
@@ -177,9 +293,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 					{
 						if (networkIdNew != networkIdOld)
 						{
-							await this.setV1EMPRegistry();
-							await this.setV1EMPArrayUtility();
-							this.setAllContractAddresses();
+							await this._setAllContracts();
 						}
 					}
 				);

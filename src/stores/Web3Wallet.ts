@@ -6,7 +6,7 @@ import config from "../config";
 
 
 type State = {
-	walletConnected: boolean,
+	connected: boolean,
 	web3?: Web3,
 	accounts: string[],
 	networkId: number,
@@ -56,19 +56,21 @@ export default defineStore<"Web3Wallet", State, Getters, Actions>(
 		state: () =>
 		{
 			return {
-				walletConnected: false,
+				connected: false,
 				accounts: [],
 				networkId: 1,
 				error: "",
 			};
 		},
 
+		getters: {},
+
 		actions: {
 			disconnectWallet(): void
 			{
 				localStorage.removeItem("walletAddress");
 
-				this.walletConnected = false;
+				this.connected = false;
 				this.web3 = undefined;
 				this.accounts = [];
 				this.networkId = 1;
@@ -84,14 +86,10 @@ export default defineStore<"Web3Wallet", State, Getters, Actions>(
 
 				try
 				{
+					this.connected = true;
 					this.web3 = new Web3(window.ethereum);
-
 					this.accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-
 					this.networkId = Number(await this.web3.eth.net.getId());
-
-					this.walletConnected = true;
-
 					this.error = "";
 				}
 				catch (e: any)
@@ -202,7 +200,7 @@ export default defineStore<"Web3Wallet", State, Getters, Actions>(
 						await this.connectWallet();
 					}
 				});
-			}
+			},
 		},
 	}
 );

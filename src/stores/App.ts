@@ -25,6 +25,8 @@ export default defineStore<"App", State, Getters, Actions>(
 			};
 		},
 
+		getters: {},
+
 		actions: {
 			toggleAdvancedMode()
 			{

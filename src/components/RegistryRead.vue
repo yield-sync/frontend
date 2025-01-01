@@ -34,7 +34,7 @@
 
 		<VCol v-if="app.advancedMode" cols="12" md="6">
 			<a
-				:href="getBlockExplorer() + contracts.v1EMPDeployer"
+				:href="getBlockExplorer() + contracts.v1EMPDeployer.options.address"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -44,7 +44,7 @@
 
 		<VCol v-if="app.advancedMode" cols="12" md="6">
 			<a
-				:href="getBlockExplorer() + contracts.v1EMPUtility"
+				:href="getBlockExplorer() + contracts.v1EMPUtility.options.address"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -54,7 +54,7 @@
 
 		<VCol v-if="app.advancedMode" cols="12" md="6">
 			<a
-				:href="getBlockExplorer() + contracts.v1EMPStrategyDeployer"
+				:href="getBlockExplorer() + contracts.v1EMPStrategyDeployer.options.address"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -64,7 +64,7 @@
 
 		<VCol v-if="app.advancedMode" cols="12" md="6">
 			<a
-				:href="getBlockExplorer() + contracts.v1EMPStrategyDeployer"
+				:href="getBlockExplorer() + contracts.v1EMPStrategyDeployer.options.address"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
