@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import type { _GettersTree } from 'pinia';
 import { watch } from "vue";
 import { Contract } from "web3-eth-contract";
 import { isAddress } from "web3-validator";
@@ -12,23 +11,20 @@ import config from "@/config";
 import useWeb3WalletStore from "@/stores/Web3Wallet";
 
 
-interface State
-{
+type State = {
 	error: string,
 	v1EMPRegistry?: Contract<AbiItem[]>,
 	v1EMPArrayUtility?: Contract<AbiItem[]>,
 	v1EMPUtility?: string,
 	v1EMPDeployer?: string,
 	v1EMPStrategyUtility?: string,
-	v1EMPStrategyDeployer?: string
+	v1EMPStrategyDeployer?: string,
 }
 
-type Getters = _GettersTree<State> & {
-	doubleCount(state: State): number;
+type Getters = {
 };
 
-interface Actions
-{
+type Actions = {
 	setV1EMPRegistry(): Promise<void>,
 	setV1EMPArrayUtility(): Promise<void>,
 	setAllContractAddresses(): void,

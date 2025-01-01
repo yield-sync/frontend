@@ -1,19 +1,15 @@
 import { defineStore } from "pinia";
-import type { _GettersTree } from 'pinia';
 
 
-interface State
-{
-	advancedMode: boolean;
+type State = {
+	advancedMode: boolean,
 }
 
-type Getters = _GettersTree<State> & {
-	doubleCount(state: State): number;
+type Getters = {
 };
 
-interface Actions
-{
-	toggleAdvancedMode(): void;
+type Actions = {
+	toggleAdvancedMode(): void,
 }
 
 

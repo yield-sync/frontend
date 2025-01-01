@@ -1,13 +1,11 @@
 import { defineStore } from "pinia";
-import type { _GettersTree } from 'pinia';
 import Web3 from "web3";
 
 
 import config from "../config";
 
 
-interface State
-{
+type State = {
 	walletConnected: boolean,
 	web3?: Web3,
 	accounts: string[],
@@ -15,15 +13,13 @@ interface State
 	error: string,
 }
 
-type Getters = _GettersTree<State> & {
-	doubleCount(state: State): number;
+type Getters = {
 };
 
-interface Actions
-{
+type Actions = {
 	connectWallet(): Promise<void>,
 	disconnectWallet(): void,
-	initialize(): Promise<void>
+	initialize(): Promise<void>,
 	switchNetwork(networkId: string): Promise<void>,
 }
 
