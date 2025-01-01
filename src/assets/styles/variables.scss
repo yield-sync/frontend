@@ -29,12 +29,12 @@ $bg-img-dark: url('@/assets/blurry-gradient-dark.svg');
 * {
 	font-family: "Roboto", serif;
 	font-weight: 400;
-  	font-style: normal;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
 	font-family: 'Chakra Petch';
 	letter-spacing: 2px;
+	font-weight: 200;
 }
 
 .word-wrap {

@@ -4,11 +4,14 @@
 			<h3 class="text-center text-primary text-uppercase">Retrieve Values</h3>
 		</VCol>
 
-		<VCol cols="12" lg="6" class="text-center">
-			<h4 class="text-primary mb-3">V1 EMP</h4>
+		<VCol cols="12">
+			<h4 class="text-center text-primary m-0">V1 EMP</h4>
+		</VCol>
 
+		<VCol cols="12" lg="3" class="text-center">
 			<VTextField
 				v-model="inputV1EMPId"
+				hide-details
 				type="number"
 				append-inner-icon="mdi-magnify"
 				density="compact"
@@ -20,17 +23,22 @@
 				@click:append-inner="v1EMPId_v1EMP"
 				@keyup.enter="v1EMPId_v1EMP"
 			></VTextField>
-
-			<h6 v-if="errorInputV1EMPId" class="text-error">{{ errorInputV1EMPId }}</h6>
-
-			<h6 v-if="resultV1EMP" class="text-success">{{ resultV1EMP }}</h6>
 		</VCol>
 
-		<VCol cols="12" lg="6" class="text-center">
-			<h4 class="text-primary mb-3">V1 EMP ID</h4>
+		<VCol cols="12" lg="9" class="text-center">
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="my-3 text-primary">{{ resultV1EMP }}</p>
+			</div>
+		</VCol>
 
+		<VCol v-if="errorInputV1EMPId" cols="12" class="text-center">
+			<p class="text-center text-error">{{ errorInputV1EMPId }}</p>
+		</VCol>
+
+		<VCol cols="12" lg="9" class="text-center">
 			<VTextField
 				v-model="inputV1EMP"
+				hide-details
 				append-inner-icon="mdi-magnify"
 				density="compact"
 				label="V1 EMP Address"
@@ -41,10 +49,16 @@
 				@click:append-inner="v1EMP_v1EMPId"
 				@keyup.enter="v1EMP_v1EMPId"
 			></VTextField>
+		</VCol>
 
-			<h6 v-if="errorInputV1EMP" class="text-error">{{ errorInputV1EMP }}</h6>
+		<VCol cols="12" lg="3" class="text-center">
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="my-3 text-primary">{{ resultV1EMPId }}</p>
+			</div>
+		</VCol>
 
-			<h6 v-if="resultV1EMPId" class="text-success">{{ resultV1EMPId }}</h6>
+		<VCol v-if="errorInputV1EMP" cols="12" class="text-center">
+			<p class="text-center text-error">{{ errorInputV1EMP }}</p>
 		</VCol>
 
 		<VCol cols="12" lg="6" class="text-center">
@@ -66,7 +80,7 @@
 
 			<h6 v-if="errorInputV1EMPStrategyId" class="text-error">{{ errorInputV1EMPStrategyId }}</h6>
 
-			<h6 v-if="resultV1EMPStrategy" class="text-success">{{ resultV1EMPStrategy }}</h6>
+			<h6 v-if="resultV1EMPStrategy" class="text-primary">{{ resultV1EMPStrategy }}</h6>
 		</VCol>
 
 		<VCol cols="12" lg="6" class="text-center">
@@ -87,7 +101,7 @@
 
 			<h6 v-if="errorInputV1EMPStrategy" class="text-error">{{ errorInputV1EMPStrategy }}</h6>
 
-			<h6 v-if="resultV1EMPStrategyId" class="text-success">{{ resultV1EMPStrategyId }}</h6>
+			<h6 v-if="resultV1EMPStrategyId" class="text-primary">{{ resultV1EMPStrategyId }}</h6>
 		</VCol>
 
 		<VCol cols="12" class="text-center">
@@ -252,3 +266,9 @@
 		})
 	};
 </script>
+
+<style lang="scss">
+.h-min {
+	min-height: 40px;
+}
+</style>
