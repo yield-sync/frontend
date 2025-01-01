@@ -26,7 +26,7 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
 				<p class="text-h6 my-3 text-primary">{{ resultV1EMP }}</p>
 			</div>
 		</VCol>
@@ -52,7 +52,7 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
 				<p class="text-h6 my-3 text-primary">{{ resultV1EMPId }}</p>
 			</div>
 		</VCol>
@@ -83,7 +83,7 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
 				<p class="text-h6 my-3 text-primary">{{ resultV1EMPStrategy }}</p>
 			</div>
 		</VCol>
@@ -109,7 +109,7 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
 				<p class="text-h6 my-3 text-primary">{{ resultV1EMPStrategyId }}</p>
 			</div>
 		</VCol>
