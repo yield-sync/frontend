@@ -43,12 +43,6 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 		{
 			return {
 				error: "",
-				yieldSyncGovernance: undefined,
-				v1EMPRegistry: undefined,
-				v1EMPArrayUtility: undefined,
-				v1EMPDeployer: undefined,
-				v1EMPStrategyUtility: undefined,
-				v1EMPStrategyDeployer: undefined
 			};
 		},
 

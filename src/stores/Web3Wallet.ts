@@ -62,7 +62,6 @@ export default defineStore<"Web3Wallet", State, Getters, Actions>(
 		{
 			return {
 				walletConnected: false,
-				web3: undefined,
 				accounts: [],
 				networkId: 1,
 				error: "",
