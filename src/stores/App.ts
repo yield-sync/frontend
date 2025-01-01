@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { _GettersTree } from 'pinia';
 
 
 interface State
@@ -6,6 +7,9 @@ interface State
 	advancedMode: boolean;
 }
 
+type Getters = _GettersTree<State> & {
+	doubleCount(state: State): number;
+};
 
 interface Actions
 {
@@ -13,7 +17,7 @@ interface Actions
 }
 
 
-export default defineStore<"App", State, {}, Actions>(
+export default defineStore<"App", State, Getters, Actions>(
 	"App",
 	{
 		state: () =>

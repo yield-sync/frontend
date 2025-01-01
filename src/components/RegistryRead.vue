@@ -1,5 +1,9 @@
 <template>
-	<VRow class="dev-section">
+	<div v-if="error != ''" class="text-center">
+		<h6 class="my-3 text-error">{{ error }}</h6>
+	</div>
+
+	<VRow v-else class="dev-section">
 		<VCol cols="12">
 			<h3 class="text-center text-primary text-uppercase">Values</h3>
 		</VCol>
@@ -20,7 +24,7 @@
 
 		<VCol v-if="app.advancedMode" cols="12">
 			<a
-				:href="getBlockExplorer() + contracts.v1EMPStrategyDeployer"
+				:href="getBlockExplorer() + contracts.v1EMPArrayUtility.options.address"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -71,6 +75,7 @@
 </template>
 
 <script setup>
+	import { ref, watch } from "vue";
 	import useAppStore from "@/stores/App";
 	import useContractsStore from "@/stores/Contracts";
 	import useWeb3WalletStore from "@/stores/Web3Wallet";
@@ -80,7 +85,20 @@
 	const contracts = useContractsStore();
 	const web3Wallet = useWeb3WalletStore();
 
+	let error = ref(contracts.error);
+
 	const getBlockExplorer = () => {
 		return config.networkChain[web3Wallet.networkId].blockExplorerUrls[0] + '/address/';
 	};
+
+	watch(
+		() => contracts.error,
+		async (errorNew, errorOld) =>
+		{
+			if (errorNew != "")
+			{
+				error.value = errorNew;
+			}
+		}
+	);
 </script>

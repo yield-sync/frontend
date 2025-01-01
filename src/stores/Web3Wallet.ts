@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
+import type { _GettersTree } from 'pinia';
 import Web3 from "web3";
+
 
 import config from "../config";
 
@@ -13,6 +15,9 @@ interface State
 	error: string,
 }
 
+type Getters = _GettersTree<State> & {
+	doubleCount(state: State): number;
+};
 
 interface Actions
 {
@@ -23,10 +28,11 @@ interface Actions
 }
 
 
+
 const NO_WINDOW_ETHEREUM_ERROR: string = "No Ethereum provider found, please install a wallet";
 
 
-function _withdowEthereumAvailable(): boolean
+function _windowEthereumAvailable(): boolean
 {
 	if (window.ethereum)
 	{
@@ -49,7 +55,7 @@ function _withdowEthereumAvailable(): boolean
 /**
 * @notice This store is meant to store the web 3 wallet details.
 */
-export default defineStore<"Web3Wallet", State, {}, Actions>(
+export default defineStore<"Web3Wallet", State, Getters, Actions>(
 	"Web3Wallet",
 	{
 		state: () =>
@@ -77,7 +83,7 @@ export default defineStore<"Web3Wallet", State, {}, Actions>(
 
 			async connectWallet(): Promise<void>
 			{
-				if (!_withdowEthereumAvailable())
+				if (!_windowEthereumAvailable())
 				{
 					this.error = NO_WINDOW_ETHEREUM_ERROR;
 				}
@@ -174,7 +180,7 @@ export default defineStore<"Web3Wallet", State, {}, Actions>(
 
 			async initialize(): Promise<void>
 			{
-				if (!_withdowEthereumAvailable())
+				if (!_windowEthereumAvailable())
 				{
 					this.error = NO_WINDOW_ETHEREUM_ERROR;
 
