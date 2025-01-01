@@ -105,7 +105,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 				catch (error)
 				{
-					this.error = String(error);
+					this.error = "setV1EMPArrayUtility: Caught Error -> " + String(error);
 				}
 			},
 
@@ -145,7 +145,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 				catch (error)
 				{
-					this.error = String(error);
+					this.error = "setV1EMPDeployer: Caught Error -> " + String(error);
 				}
 			},
 
@@ -185,7 +185,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 				catch (error)
 				{
-					this.error = String(error);
+					this.error = "setV1EMPUtility: Caught Error -> " + String(error);
 				}
 			},
 
@@ -225,7 +225,7 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 				catch (error)
 				{
-					this.error = String(error);
+					this.error = "setV1EMPStrategyDeployer: Caught Error -> " + String(error);
 				}
 			},
 
@@ -265,13 +265,15 @@ export default defineStore<"Contracts", State, Getters, Actions>(
 				}
 				catch (error)
 				{
-					this.error = String(error);
+					this.error = "setV1EMPStrategyUtility: Caught Error -> " + String(error);
 				}
 			},
 
 			async _setAllContracts(): Promise<void>
 			{
 				console.log("Setting all contract..");
+
+				this.error = "";
 
 				await this.setV1EMPRegistry();
 				await this.setV1EMPArrayUtility();

@@ -95,10 +95,7 @@
 		() => contracts.error,
 		async (errorNew, errorOld) =>
 		{
-			if (errorNew != "")
-			{
-				error.value = errorNew;
-			}
+			error.value = errorNew;
 		}
 	);
 </script>
