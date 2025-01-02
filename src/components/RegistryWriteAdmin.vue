@@ -10,7 +10,8 @@
 				density="compact"
 				label="ERC20 Address"
 				variant="outlined"
-				color="primary"
+				base-color="warning"
+				color="warning"
 				rounded
 				class="mb-1"
 			></VTextField>
@@ -20,7 +21,8 @@
 				density="compact"
 				label="ETH Value Feed Address"
 				variant="outlined"
-				color="primary"
+				base-color="warning"
+				color="warning"
 				rounded
 				class="mb-1"
 			></VTextField>

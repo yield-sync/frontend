@@ -116,7 +116,7 @@
 					class="text-right"
 				>
 					<VTextField
-						label="Insert Alchemy API Key Here"
+						label="Alchemy API Key"
 						variant="outlined"
 						density="compact"
 						rounded

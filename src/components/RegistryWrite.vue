@@ -27,8 +27,10 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
-				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMP }}</p>
+			<div class="p-0 w-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0" :class="resultV1EMP ? 'text-primary': 'text-grey'">
+					{{ resultV1EMP ? resultV1EMP : "Address" }}
+				</p>
 			</div>
 		</VCol>
 
@@ -54,8 +56,10 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
-				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPId }}</p>
+			<div class="p-0 w-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0" :class="resultV1EMPId ? 'text-primary': 'text-grey'">
+					{{ resultV1EMPId ? resultV1EMPId : "Id" }}
+				</p>
 			</div>
 		</VCol>
 
@@ -86,8 +90,10 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
-				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPStrategy }}</p>
+			<div class="p-0 w-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0" :class="resultV1EMPStrategy ? 'text-primary': 'text-grey'">
+					{{ resultV1EMPStrategy ? resultV1EMPStrategy : "Address" }}
+				</p>
 			</div>
 		</VCol>
 
@@ -113,8 +119,10 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
-				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPStrategyId }}</p>
+			<div class="p-0 w-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0" :class="resultV1EMPStrategyId ? 'text-primary': 'text-grey'">
+					{{ resultV1EMPStrategyId ? resultV1EMPStrategyId : "Id" }}
+				</p>
 			</div>
 		</VCol>
 
@@ -123,8 +131,10 @@
 		</VCol>
 
 		<VCol cols="12">
-			<h4 class="text-primary mb-3">ERC20 Value Feed</h4>
+			<h4 class="text-primary my-0">ERC20 Value Feed</h4>
+		</VCol>
 
+		<VCol cols="12" lg="9">
 			<VTextField
 				v-model="inputERC20"
 				append-inner-icon="mdi-magnify"
@@ -140,7 +150,9 @@
 			></VTextField>
 
 			<h6 v-if="errorInputERC20" class="text-center text-error">{{ errorInputERC20 }}</h6>
+		</VCol>
 
+		<VCol cols="12" lg="3">
 			<a
 				v-if="resultV1EMPERC20ETHValueFeed"
 				:href="getBlockExplorer() + resultV1EMPERC20ETHValueFeed"
@@ -148,11 +160,11 @@
 				rel="noopener noreferrer"
 			>
 				<VBtn
-					variant="flat"
-					color="success"
-					class="rounded-xl elevation-0 font-weight-bold"
+					variant="tonal"
+					color="white"
+					class="w-100 rounded-xl elevation-0 font-weight-bold"
 				>
-					🔗 {{ resultV1EMPERC20ETHValueFeed }}
+					🔗 Etherscan
 				</VBtn>
 			</a>
 		</VCol>
