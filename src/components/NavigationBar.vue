@@ -119,6 +119,7 @@
 						label="Insert Alchemy API Key Here"
 						variant="outlined"
 						density="compact"
+						rounded
 						hide-details
 					/>
 				</VCol>

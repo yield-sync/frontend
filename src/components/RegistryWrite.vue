@@ -19,6 +19,7 @@
 				hint="Returns the V1 EMP ID"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 				@click:append-inner="v1EMPId_v1EMP"
 				@keyup.enter="v1EMPId_v1EMP"
@@ -26,8 +27,8 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
-				<p class="text-h6 my-3 text-primary">{{ resultV1EMP }}</p>
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMP }}</p>
 			</div>
 		</VCol>
 
@@ -45,6 +46,7 @@
 				hint="Returns the ID of V1EMP"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 				@click:append-inner="v1EMP_v1EMPId"
 				@keyup.enter="v1EMP_v1EMPId"
@@ -52,8 +54,8 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
-				<p class="text-h6 my-3 text-primary">{{ resultV1EMPId }}</p>
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPId }}</p>
 			</div>
 		</VCol>
 
@@ -76,6 +78,7 @@
 				hint="Returns the V1 EMP Strategy ID"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 				@click:append-inner="v1EMPStrategyId_v1EMPStrategy"
 				@keyup.enter="v1EMPStrategyId_v1EMPStrategy"
@@ -83,8 +86,8 @@
 		</VCol>
 
 		<VCol cols="12" lg="9" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
-				<p class="text-h6 my-3 text-primary">{{ resultV1EMPStrategy }}</p>
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPStrategy }}</p>
 			</div>
 		</VCol>
 
@@ -102,6 +105,7 @@
 				hint="Returns the ID the V1EMP Strategy"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 				@click:append-inner="v1EMPStrategy_v1EMPStrategyId"
 				@keyup.enter="v1EMPStrategy_v1EMPStrategyId"
@@ -109,8 +113,8 @@
 		</VCol>
 
 		<VCol cols="12" lg="3" class="text-center">
-			<div class="p-0 w-100 h-100 border-md border-dashed border-primary rounded-xl">
-				<p class="text-h6 my-3 text-primary">{{ resultV1EMPStrategyId }}</p>
+			<div class="p-0 w-100 h-100 border-md border-dashed rounded-xl">
+				<p class="text-h6 my-0 mt-1 text-primary">{{ resultV1EMPStrategyId }}</p>
 			</div>
 		</VCol>
 
@@ -129,6 +133,7 @@
 				hint="Returns Value Feed Address"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 				@click:append-inner="eRC20_v1EMPERC20ETHValueFeed"
 				@keyup.enter="eRC20_v1EMPERC20ETHValueFeed"

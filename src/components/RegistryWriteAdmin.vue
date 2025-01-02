@@ -11,6 +11,7 @@
 				label="ERC20 Address"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 			></VTextField>
 
@@ -20,6 +21,7 @@
 				label="ETH Value Feed Address"
 				variant="outlined"
 				color="primary"
+				rounded
 				class="mb-1"
 			></VTextField>
 
