@@ -77,7 +77,7 @@ export default {
 				"https://sepolia.etherscan.io",
 			],
 			icon: ethLogo,
-			yieldSyncGovernance: "0x86BD4296Ba41375504bfFa2cd4C1Eedec9b09fA4",
+			yieldSyncGovernance: "0xf0A36563020F90De506d0BaB29EdEfffAcD3A0F0",
 			v1EMPRegistry: "0x0000000000000000000000000000000000000000",
 		},
 
