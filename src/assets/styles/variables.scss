@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import 'vuetify/_styles.scss';
+
+$primary: #56733d;
+$light: rgb(245, 245, 245);
+$frosted: #ffffffd8;
+
+$regulard-blur: 10px;
+
+$bg-img: url('@/assets/blurry-gradient.svg');
+$bg-img-dark: url('@/assets/blurry-gradient-dark.svg');
+
+// [BG][FROST][PRIMARY] //
+.bg-primary-frost-lightest {
+	background-color: mix($primary, rgba(255, 255, 255, .75), $weight: 90%);
+	backdrop-filter: blur($regulard-blur) !important;
+	-webkit-backdrop-filter: blur($regulard-blur) !important;
+}
+
+// [BG][FROST][LIGHT] //
+.bg-light-frost {
+	background-color: mix($light, rgba(255, 255, 255, 0.1), $weight: 15%);
+	backdrop-filter: blur($regulard-blur) !important;
+	-webkit-backdrop-filter: blur($regulard-blur) !important;
+}
+
+* {
+	font-family: "Nunito", serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Chakra Petch';
+	letter-spacing: 2px;
+	font-weight: bold;
+}
+
+.word-wrap {
+	word-wrap: break-word;
+}
+
+.text-decoration-none {
+	text-decoration: none !important;
+}
+
+.vault {
+	color: $primary;
+	background-color: mix($light, rgba(255, 255, 255, .1), $weight: 10%);
+	backdrop-filter: blur($regulard-blur) !important;
+	-webkit-backdrop-filter: blur($regulard-blur) !important;
+
+	&:hover {
+		background-color: mix($primary, rgba(255, 255, 255, 0), $weight: 0%);
+		backdrop-filter: blur($regulard-blur) !important;
+		-webkit-backdrop-filter: blur($regulard-blur) !important;
+	}
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	-webkit-transition: .4s;
+	transition: .4s;
+
+	background-color: rgb(49, 140, 224);
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #f3d421;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #f3d421;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+// [BG][GRADIENT] //
+.bg-gradient {
+	background-image: $bg-img;
+}
+
+// [BG][GRADIENT] //
+.bg-gradient-dark {
+	background-image: $bg-img-dark;
+}
