@@ -1,5 +1,5 @@
 <template>
-HOME
+	HOME
 </template>
 
 <script setup>
