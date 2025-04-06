@@ -73,13 +73,12 @@
 				}
 			});
 
+			loginError.value = "";
 			console.log("Login successful:", response.data);
-			// Handle successful login (e.g., store token, redirect, etc.)
 		}
 		catch (error)
 		{
 			loginError.value = error.response?.data || error.message;
-			// Handle error (e.g., show message to user)
 		}
 	};
 </script>
