@@ -18,10 +18,10 @@ export default createVuetify({
 				dark: false,
 				colors: {
 					admin: "#ffe596",
-					dark: "#212224",
+					dark: "rgb(52, 89, 201)",
 					info: "#2196F3",
-					light: "#e6e6e6",
-					primary: "#7fad6f",
+					light: "rgb(37, 235, 159)",
+					primary: "rgb(37, 235, 159)",
 					"primary-light": "#6e964e",
 					secondary: "#03DAC6",
 					success: "#008000",

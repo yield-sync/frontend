@@ -3,9 +3,7 @@
 		<VSheet color="transparent">
 			<VContainer>
 				<VRow>
-					<VCol cols="12" lg="6">
-
-					</VCol>
+					<VCol cols="12" lg="6"/>
 				</VRow>
 			</VContainer>
 		</VSheet>

@@ -17,5 +17,6 @@ type Actions = {
 
 export default defineStore<"App", State, Getters, Actions>(
 	"App",
-	{}
+	{
+	}
 );
