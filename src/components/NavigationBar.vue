@@ -1,5 +1,7 @@
 <template>
-	<h1>Yield Sync</h1>
+	<VContainer>
+		<h1 class="text-uppercase">Yield Sync</h1>
+	</VContainer>
 </template>
 
 

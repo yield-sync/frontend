@@ -1,5 +1,5 @@
 <template>
-	<div class="app-container">
+	<div>
 		<NavigationBar/>
 
 		<RouterView />
@@ -12,6 +12,9 @@
 	import { onMounted } from "vue";
 	import { RouterView } from "vue-router";
 
+	import NavigationBar from "@/components/NavigationBar.vue";
+	import FooterBar from "@/components/FooterBar.vue";
+
 	onMounted(async () =>
 	{
 
@@ -20,11 +23,4 @@
 
 <style lang="scss" scoped>
 	@import "@/assets/styles/variables.scss";
-
-	.app-container {
-		background-attachment: fixed;
-		background-size: cover;
-
-		@extend .bg-gradient;
-	}
 </style>

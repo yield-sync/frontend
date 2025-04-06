@@ -1,15 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import 'vuetify/_styles.scss';
 
+@import './font.scss';
+
+$dark: #1d1d1d;
 $primary: #56733d;
-$light: rgb(245, 245, 245);
+$light: rgb(135, 163, 196);
 $frosted: #ffffffd8;
 
 $regulard-blur: 10px;
 
 $bg-img: url('@/assets/blurry-gradient.svg');
 $bg-img-dark: url('@/assets/blurry-gradient-dark.svg');
+
 
 // [BG][FROST][PRIMARY] //
 .bg-primary-frost-lightest {
@@ -26,16 +28,19 @@ $bg-img-dark: url('@/assets/blurry-gradient-dark.svg');
 }
 
 * {
-	font-family: "Nunito", serif;
+	font-family: "IBM Plex Mono", monospace;
 	font-optical-sizing: auto;
 	font-weight: 400;
 	font-style: normal;
 }
 
+html {
+	background-color: $dark;
+}
+
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Chakra Petch';
-	letter-spacing: 2px;
-	font-weight: bold;
+	color: $light;
+	font-family: "IBM Plex Mono", monospace;
 }
 
 .word-wrap {
@@ -118,14 +123,4 @@ input:checked+.slider:before {
 
 .slider.round:before {
 	border-radius: 50%;
-}
-
-// [BG][GRADIENT] //
-.bg-gradient {
-	background-image: $bg-img;
-}
-
-// [BG][GRADIENT] //
-.bg-gradient-dark {
-	background-image: $bg-img-dark;
 }
