@@ -55,7 +55,13 @@
 	{
 		try
 		{
-			const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/user/login`, {
+			let URL = "";
+
+			if (import.meta.env.MODE === 'development') {
+				URL = import.meta.env.VITE_DEV_SERVER_URL
+			}
+
+			const response = await axios.post(`${URL}/api/user/login`, {
 				load: {
 					email: email.value,
 					password: password.value,
