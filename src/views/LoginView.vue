@@ -1,11 +1,8 @@
 <template>
 	<VContainer>
-
 		<VCard color="" elevation="0" class="mx-auto p-5" style="max-width: 360px;">
 			<VCardTitle class="py-6 text-center">
-				<h2 class="text-center text-uppercase text-dark">
-					Login
-				</h2>
+				<h2 class="text-center text-uppercase text-dark">Login</h2>
 			</VCardTitle>
 
 			<VCardText>
@@ -16,7 +13,6 @@
 							label="Email"
 							variant="outlined"
 							hint="user@example.com"
-							class=""
 						></VTextField>
 					</VCol>
 					<VCol cols="12">
@@ -30,7 +26,16 @@
 					</VCol>
 
 					<VCol cols="12">
-						<VBtn size="large" color="primary" class="w-100" rounded elevation="0">Login</VBtn>
+						<VBtn
+							size="large"
+							color="primary"
+							class="w-100"
+							rounded
+							elevation="0"
+							@click="handleLogin"
+						>
+							Login
+						</VBtn>
 					</VCol>
 				</VRow>
 			</VCardText>
@@ -39,7 +44,23 @@
 </template>
 
 <script setup>
-	import { ref } from "vue";
-	const email = ref();
-	const password = ref();
+	import { ref } from 'vue'
+	import axios from 'axios'
+
+	const email = ref('')
+	const password = ref('')
+
+	const handleLogin = async () => {
+		try {
+			const response = await axios.post('https://your-server.com/api/login', {
+				email: email.value,
+				password: password.value,
+			})
+			console.log('Login successful:', response.data)
+			// Handle successful login (e.g., store token, redirect, etc.)
+		} catch (error) {
+			console.error('Login failed:', error.response?.data || error.message)
+			// Handle error (e.g., show message to user)
+		}
+	}
 </script>
