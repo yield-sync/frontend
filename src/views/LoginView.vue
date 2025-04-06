@@ -13,16 +13,17 @@
 							label="Email"
 							variant="outlined"
 							hint="user@example.com"
-						></VTextField>
+						/>
 					</VCol>
+
 					<VCol cols="12">
 						<VTextField
 							v-model="password"
-							:type="'password'"
+							type="password"
 							label="Password"
 							variant="outlined"
 							hint="*****"
-						></VTextField>
+						/>
 					</VCol>
 
 					<VCol cols="12">
@@ -44,23 +45,30 @@
 </template>
 
 <script setup>
-	import { ref } from 'vue'
-	import axios from 'axios'
+	import { ref } from "vue";
+	import axios from "axios";
 
-	const email = ref('')
-	const password = ref('')
+	const email = ref("");
+	const password = ref("");
 
-	const handleLogin = async () => {
-		try {
-			const response = await axios.post('https://your-server.com/api/login', {
-				email: email.value,
-				password: password.value,
-			})
-			console.log('Login successful:', response.data)
+	const handleLogin = async () =>
+	{
+		try
+		{
+			const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/user/login`, {
+				load: {
+					email: email.value,
+					password: password.value,
+				}
+			});
+
+			console.log("Login successful:", response.data);
 			// Handle successful login (e.g., store token, redirect, etc.)
-		} catch (error) {
-			console.error('Login failed:', error.response?.data || error.message)
+		}
+		catch (error)
+		{
+			console.error("Login failed:", error.response?.data || error.message);
 			// Handle error (e.g., show message to user)
 		}
-	}
+	};
 </script>
