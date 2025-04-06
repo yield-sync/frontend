@@ -1,6 +1,6 @@
 <template>
 	<VContainer>
-		<h1 class="text-center"></h1>
+		<h1 class="text-center">Manage Your Portfolio</h1>
 	</VContainer>
 </template>
 
