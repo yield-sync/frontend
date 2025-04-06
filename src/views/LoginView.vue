@@ -38,6 +38,10 @@
 							Login
 						</VBtn>
 					</VCol>
+
+					<VCol v-if="loginError">
+						<h3 class="text-center text-error">{{ loginError }}</h3>
+					</VCol>
 				</VRow>
 			</VCardText>
 		</VCard>
@@ -50,6 +54,7 @@
 
 	const email = ref("");
 	const password = ref("");
+	const loginError = ref("");
 
 	const handleLogin = async () =>
 	{
@@ -73,7 +78,7 @@
 		}
 		catch (error)
 		{
-			console.error("Login failed:", error.response?.data || error.message);
+			loginError.value = error.response?.data || error.message;
 			// Handle error (e.g., show message to user)
 		}
 	};
