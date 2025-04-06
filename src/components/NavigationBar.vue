@@ -1,5 +1,5 @@
 <template>
-
+	<h1>Yield Sync</h1>
 </template>
 
 
