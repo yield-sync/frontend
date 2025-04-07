@@ -66,7 +66,7 @@
 				URL = import.meta.env.VITE_DEV_SERVER_URL
 			}
 
-			const response = await axios.post(`${URL}/api/user/login`, {
+			const response = await axios.post(`${URL}/api/login`, {
 				load: {
 					email: email.value,
 					password: password.value,
