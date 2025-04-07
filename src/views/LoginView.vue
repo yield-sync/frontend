@@ -74,7 +74,8 @@
 			});
 
 			loginError.value = "";
-			console.log("Login successful:", response.data);
+
+			localStorage.setItem("authToken",  response.data.token);
 		}
 		catch (error)
 		{
