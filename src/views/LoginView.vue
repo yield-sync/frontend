@@ -60,11 +60,7 @@
 	{
 		try
 		{
-			let URL = "";
-
-			if (import.meta.env.MODE === 'development') {
-				URL = import.meta.env.VITE_DEV_SERVER_URL
-			}
+			const URL = import.meta.env.MODE === 'development' ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 			const response = await axios.post(`${URL}/api/user/login`, {
 				load: {
