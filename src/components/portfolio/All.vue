@@ -7,7 +7,7 @@
 
 			<VRow v-if="!requestError">
 				<VCol v-for="p in portfolios" :key="p.id" cols="12">
-					<VCard @click="router.push('/portfolio')" color="secondary" elevation="0" class="">
+					<VCard @click="router.push(`/portfolio/${p.id}`)" color="secondary" elevation="0">
 						<VCardTitle class="py-6 text-center">
 							<h4 class="text-center text-uppercase text-light">{{ p.name }}</h4>
 						</VCardTitle>
@@ -39,7 +39,7 @@
 
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
-	onMounted(async () => 
+	onMounted(async () =>
 	{
 		try
 		{

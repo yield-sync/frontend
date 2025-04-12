@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-	import Portfolios from "@/components/Portfolios.vue";
+	import Portfolios from "@/components/portfolio/All.vue";
 </script>
