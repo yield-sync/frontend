@@ -1,8 +1,9 @@
 <template>
 	<VContainer>
-		<VBtn class="w-100">Your Portfolios</VBtn>
+		<Portfolios />
 	</VContainer>
 </template>
 
 <script setup>
+import Portfolios from '@/components/Portfolios.vue';
 </script>
