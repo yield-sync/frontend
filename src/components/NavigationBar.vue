@@ -3,7 +3,7 @@
 		<VRow>
 			<VCol cols="12" sm="10">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1 class="text-uppercase">Yield Sync</h1>
+					<h1>yieldsync.xyz</h1>
 				</RouterLink>
 			</VCol>
 
@@ -12,7 +12,10 @@
 					<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
 				</RouterLink>
 
-				<VBtn v-else @click="logOut"rounded color="secondary" elevation="0" class="w-100">Log out</VBtn>
+				<VBtn v-else @click="logOut"rounded color="secondary"
+					elevation="0" class="w-100">
+					Log out
+				</VBtn>
 			</VCol>
 		</VRow>
 	</VContainer>
@@ -20,17 +23,18 @@
 
 
 <script lang="ts" setup>
-	import { useRouter } from 'vue-router';
+	import { useRouter } from "vue-router";
 	import useAppStore from "@/stores/App";
 
 	const app = useAppStore();
 
-	const router = useRouter()
+	const router = useRouter();
 
-	const logOut = async () => {
-		localStorage.removeItem('authToken')
+	const logOut = async () => 
+	{
+		localStorage.removeItem("authToken");
 
-		router.push('/login');
+		router.push("/login");
 
 		app.setLoggedIn(false);
 	};

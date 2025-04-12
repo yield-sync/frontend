@@ -7,6 +7,21 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 import { createVuetify } from "vuetify";
 
 
+// This changes the colors of the components
+export const colors = {
+	background: "rgb(255, 255, 255)",
+	surface: "rgb(255, 255, 255)",
+	primary: "rgb(98, 224, 176)",
+	secondary: "rgb(63, 87, 86)",
+	error: "rgb(255, 82, 82)",
+	info: "rgb(33, 150, 243)",
+	success: "rgb(11, 175, 16)",
+	warning: "rgb(251, 140, 0)0",
+	light: "rgb(200, 200, 200)",
+	dark: "rgb(38, 43, 46)",
+};
+
+
 export default createVuetify({
 	components,
 
@@ -17,18 +32,7 @@ export default createVuetify({
 		themes: {
 			myCustomTheme: {
 				dark: false,
-				colors: {
-					background: "#FFFFFF",
-					surface: "#FFFFFF",
-					primary: "#62e0b0",
-					secondary: "rgb(63, 87, 86)",
-					error: "#FF5252",
-					info: "#2196F3",
-					success: "rgb(11, 175, 16)",
-					warning: "#FB8C00",
-					light: "rgb(200, 200, 200)",
-					dark: "rgb(38, 43, 46)",
-				}
+				colors
 			},
 		},
 	},
@@ -36,6 +40,8 @@ export default createVuetify({
 	icons: {
 		defaultSet: "mdi",
 		aliases,
-		sets: { mdi }
+		sets: {
+			mdi 
+		}
 	}
 });

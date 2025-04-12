@@ -17,23 +17,24 @@ export default defineStore<"App", State, Getters, Actions>(
 	"App",
 	{
 		state: () =>
+		{
+			const loggedIn = (
+				localStorage.getItem("authToken") && localStorage.getItem("authToken") != ""
+			) ? true : false;
+
+			return {
+				loggedIn
+			};
+		},
+
+		getters: {
+		},
+
+		actions: {
+			setLoggedIn(state: boolean)
 			{
-				const loggedIn = (
-					localStorage.getItem("authToken") && localStorage.getItem("authToken") != ""
-				) ? true : false;
-
-				return {
-					loggedIn
-				};
+				this.loggedIn = state;
 			},
-
-			getters: {},
-
-			actions: {
-				setLoggedIn(state: boolean)
-				{
-					this.loggedIn = state;
-				},
-			},
+		},
 	}
 );

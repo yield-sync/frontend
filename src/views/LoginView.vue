@@ -41,6 +41,7 @@
 								:disabled="loading"
 							>
 								<span v-if="!loading">Login</span>
+
 								<span v-else>Loading...</span>
 							</VBtn>
 						</VCol>
@@ -62,7 +63,7 @@
 <script setup>
 	import axios from "axios";
 	import { ref } from "vue";
-	import { useRouter } from 'vue-router';
+	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
 
@@ -75,7 +76,7 @@
 	const loginError = ref("");
 	const loading = ref(false);
 
-	const URL = import.meta.env.MODE === 'development' ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const handleLogin = async () =>
 	{
@@ -102,9 +103,12 @@
 
 			app.setLoggedIn(true);
 
-			await new Promise(resolve => setTimeout(resolve, 2000));
+			await new Promise((resolve) => 
+			{
+				return setTimeout(resolve, 2000);
+			});
 
-			router.push('/');
+			router.push("/");
 		}
 		catch (error)
 		{

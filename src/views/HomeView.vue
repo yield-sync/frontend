@@ -1,9 +1,9 @@
 <template>
 	<VContainer>
-		<Portfolios />
+		<Portfolios/>
 	</VContainer>
 </template>
 
 <script setup>
-import Portfolios from '@/components/Portfolios.vue';
+	import Portfolios from "@/components/Portfolios.vue";
 </script>
