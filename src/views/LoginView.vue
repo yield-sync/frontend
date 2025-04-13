@@ -2,7 +2,7 @@
 	<VContainer>
 		<VCard color="dark" elevation="0" class="mx-auto p-5" style="max-width: 360px;">
 			<VCardTitle class="py-6 text-center">
-				<h2 class="text-center text-uppercase">Login</h2>
+				<h2 class="text-center">Login</h2>
 			</VCardTitle>
 
 			<VCardText>
@@ -103,7 +103,7 @@
 
 			app.setLoggedIn(true);
 
-			await new Promise((resolve) => 
+			await new Promise((resolve) =>
 			{
 				return setTimeout(resolve, 2000);
 			});
