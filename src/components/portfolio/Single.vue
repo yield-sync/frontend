@@ -25,10 +25,10 @@
 					<VCol v-for="a in portfolioAssets" :key="a.id" cols="12">
 						<VRow>
 							<VCol cols="2" lg="2" class="border border-light">
-								<h4 class="text-light">{{ a.symbol }}</h4>
+								<h4 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h4>
 							</VCol>
 							<VCol cols="8" lg="8" class="border border-light">
-								<h4 class="text-light">{{ a.name }}</h4>
+								<h4 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h4>
 							</VCol>
 
 							<VCol cols="2" lg="2" class="border border-light">
