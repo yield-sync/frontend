@@ -32,7 +32,7 @@
 							</VCol>
 
 							<VCol cols="2" lg="2" class="border border-light">
-								<h4 class="text-light">%{{ a.percent_allocation / 100 }}</h4>
+								<h4 class="text-light">% {{ a.percent_allocation / 100 }}</h4>
 							</VCol>
 						</VRow>
 					</VCol>
