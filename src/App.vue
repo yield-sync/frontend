@@ -172,4 +172,8 @@
 	.text-decoration-none {
 		text-decoration: none !important;
 	}
+
+	.text-bold {
+		font-weight: bold;
+	}
 </style>

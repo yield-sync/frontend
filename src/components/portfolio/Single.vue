@@ -1,10 +1,50 @@
 <template>
 	<VContainer>
-		<div class="mx-auto" style="max-width: 600px;">
-			<h2 class="text-center">{{ portfolio.name }}</h2>
+		<VRow v-if="portfolio">
+			<VCol cols="12">
+				<h2 class="text-center">Portfolio: {{ portfolio.name }}</h2>
+			</VCol>
 
-			<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
-		</div>
+			<VCol cols="12">
+				<VRow v-if="portfolioAssets.length > 0">
+					<VCol cols="12">
+						<VRow>
+							<VCol cols="2" lg="2" class="border border-light">
+								<h4 class="text-bold text-primary">Symbol</h4>
+							</VCol>
+							<VCol cols="8" lg="8" class="border border-light">
+								<h4 class="text-bold text-primary">Name</h4>
+							</VCol>
+
+							<VCol cols="2" lg="2" class="border border-light">
+								<h4 class="text-bold text-primary">% Allocation</h4>
+							</VCol>
+						</VRow>
+					</VCol>
+
+					<VCol v-for="a in portfolioAssets" :key="a.id" cols="12">
+						<VRow>
+							<VCol cols="2" lg="2" class="border border-light">
+								<h4 class="text-light">{{ a.symbol }}</h4>
+							</VCol>
+							<VCol cols="8" lg="8" class="border border-light">
+								<h4 class="text-light">{{ a.name }}</h4>
+							</VCol>
+
+							<VCol cols="2" lg="2" class="border border-light">
+								<h4 class="text-light">%{{ a.percent_allocation / 100 }}</h4>
+							</VCol>
+						</VRow>
+					</VCol>
+				</VRow>
+
+				<div v-else>
+					<h3 class="text-center text-warning">No portfolio assets</h3>
+				</div>
+			</VCol>
+		</VRow>
+
+		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 	</VContainer>
 </template>
 
@@ -19,8 +59,10 @@
 	});
 
 	const app = useAppStore();
-	const portfolio = ref([
-	]);
+
+	const portfolio = ref();
+	const portfolioAssets = ref([]);
+
 	const requestError = ref("");
 
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
@@ -43,7 +85,11 @@
 
 			const response = await authAxios.get(`/${props.id}`);
 
+			console.log(response.data);
+
+
 			portfolio.value = response.data.portfolio;
+			portfolioAssets.value = response.data.portfolioAssets;
 			requestError.value = "";
 		}
 		catch (error)
