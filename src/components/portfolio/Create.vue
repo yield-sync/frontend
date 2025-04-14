@@ -71,7 +71,7 @@
 				}
 			});
 
-			const response = await authAxios.post(`${URL}/api/portfolio/create`, {
+			await authAxios.post(`${URL}/api/portfolio/create`, {
 				load: {
 					name: userName.value,
 				}
@@ -79,6 +79,9 @@
 
 			successMessage.value = "Portfolio created successfully!";
 			userName.value = "";
+
+			// TODO: Force the portfolio list to update in the portfolio "All" component. The data should be centralized
+			// in a store.
 		}
 		catch (error)
 		{
