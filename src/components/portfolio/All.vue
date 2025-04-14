@@ -4,20 +4,23 @@
 			<h2 class="mb-6 text-center">Your Portfolios</h2>
 
 			<div v-if="!requestError">
-				<VRow v-if="portfolios.length > 0">
-					<VCol v-for="p in portfolios" :key="p.id" cols="12">
+				<VRow>
+					<VCol v-if="portfolios.length > 0" v-for="p in portfolios" :key="p.id" cols="12">
 						<VCard @click="router.push(`/portfolio/${p.id}`)" color="secondary" elevation="0">
 							<VCardTitle class="py-6 text-center">
 								<h4 class="text-center text-uppercase text-light">{{ p.name }}</h4>
 							</VCardTitle>
 						</VCard>
 					</VCol>
-				</VRow>
 
-				<div v-else cols="12" class="text-center">
-					<h3 class="mb-8 text-center text-light">You do not have any portfolios</h3>
-					<VBtn color="success" variant="outlined">+ Create Portfolio</VBtn>
-				</div>
+					<VCol v-else cols="12">
+						<h3 class="text-center text-light">You do not have any portfolios</h3>
+					</VCol>
+
+					<VCol cols="12">
+						<VBtn size="large" color="success" variant="outlined" class="w-100">+ Create Portfolio</VBtn>
+					</VCol>
+				</VRow>
 			</div>
 
 			<div v-else cols="12">
