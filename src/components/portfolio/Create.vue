@@ -1,25 +1,35 @@
 <template>
 	<VRow v-if="app.loggedIn">
 		<VCol cols="12">
+			<h2 class="text-center">Create Portfolio</h2>
+		</VCol>
+
+		<VCol cols="12">
 			<VSheet class="text-center" color="dark">
 				<VForm @submit.prevent="createPortfolio" validate-on="submit lazy" ref="formRef">
-					<VTextField
-						v-model="userName"
-						:rules="rules"
-						variant="outlined"
-						color="success"
-						label="Portfolio Name"
-					/>
-
-					<VBtn
-						:loading="loading"
-						color="success"
-						variant="outlined"
-						type="submit"
-						rounded
-					>
-						+ Create Portfolio
-					</VBtn>
+					<VRow>
+						<VCol cols="9">
+							<VTextField
+								v-model="userName"
+								:rules="rules"
+								variant="outlined"
+								color="success"
+								label="Portfolio Name"
+							/>
+						</VCol>
+						<VCol cols="3">
+							<VBtn
+								:loading="loading"
+								color="success"
+								variant="outlined"
+								type="submit"
+								class="w-100"
+								style="height: 56px;"
+							>
+								+ Create
+							</VBtn>
+						</VCol>
+					</VRow>
 				</VForm>
 			</VSheet>
 		</VCol>
