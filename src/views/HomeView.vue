@@ -1,6 +1,6 @@
 <template>
 	<VContainer>
-		<Portfolios/>
+		<Portfolios class="mx-auto" style="max-width: 600px;" />
 	</VContainer>
 </template>
 

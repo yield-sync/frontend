@@ -1,29 +1,31 @@
 <template>
 	<VContainer>
-		<div v-if="app.loggedIn" class="mx-auto" style="max-width: 600px;">
+		<div v-if="app.loggedIn">
 			<h2 class="mb-6 text-center">Your Portfolios</h2>
 
-			<div v-if="!requestError">
-				<VRow>
-					<VCol v-if="portfolios.length > 0" v-for="p in portfolios" :key="p.id" cols="12">
-						<VCard @click="router.push(`/portfolio/${p.id}`)" color="secondary" elevation="0">
-							<VCardTitle class="py-6 text-center">
-								<h4 class="text-center text-uppercase text-light">{{ p.name }}</h4>
-							</VCardTitle>
-						</VCard>
-					</VCol>
+			<VRow v-if="!requestError">
+				<VCol v-if="portfolios.length > 0" v-for="p in portfolios" :key="p.id" cols="12">
+					<VCard @click="router.push(`/portfolio/${p.id}`)" color="secondary" elevation="0">
+						<VCardTitle class="py-6 text-center">
+							<h4 class="text-center text-uppercase text-light">{{ p.name }}</h4>
+						</VCardTitle>
+					</VCard>
+				</VCol>
 
-					<VCol v-else cols="12">
-						<h3 class="text-center text-light">You do not have any portfolios</h3>
-					</VCol>
+				<VCol v-else cols="12">
+					<h3 class="text-center text-light">You do not have any portfolios</h3>
+				</VCol>
 
-					<VCol cols="12">
-						<VBtn size="large" color="success" variant="outlined" class="w-100">+ Create Portfolio</VBtn>
-					</VCol>
-				</VRow>
-			</div>
+				<VCol cols="12">
+					<hr class="border border-secondary">
+				</VCol>
 
-			<div v-else cols="12">
+				<VCol cols="12">
+					<PortfolioCreate />
+				</VCol>
+			</VRow>
+
+			<div v-else>
 				<h3 class="text-center text-error">{{ requestError }}</h3>
 			</div>
 		</div>
@@ -35,11 +37,12 @@
 </template>
 
 <script setup>
-	import { ref, onMounted } from "vue";
 	import axios from "axios";
-
-	import useAppStore from "@/stores/App";
+	import { ref, onMounted } from "vue";
 	import { useRouter } from "vue-router";
+
+	import PortfolioCreate from "./Create.vue";
+	import useAppStore from "@/stores/App";
 
 	const app = useAppStore();
 	const router = useRouter();
