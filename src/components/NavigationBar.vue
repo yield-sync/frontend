@@ -3,7 +3,7 @@
 		<VRow>
 			<VCol cols="12" sm="10">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1>yieldsync.xyz</h1>
+					<h1>Yield Sync</h1>
 				</RouterLink>
 			</VCol>
 
@@ -30,7 +30,7 @@
 
 	const router = useRouter();
 
-	const logOut = async () => 
+	const logOut = async () =>
 	{
 		localStorage.removeItem("authToken");
 
