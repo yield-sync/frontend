@@ -10,7 +10,7 @@
 					<VRow>
 						<VCol cols="9">
 							<VTextField
-								v-model="userName"
+								v-model="portfolioName"
 								:rules="rules"
 								variant="outlined"
 								color="success"
@@ -48,7 +48,7 @@
 
 	const app = useAppStore();
 
-	const userName = ref("");
+	const portfolioName = ref("");
 	const requestError = ref("");
 	const successMessage = ref("");
 	const loading = ref(false);
@@ -81,14 +81,14 @@
 				}
 			});
 
-			await authAxios.post(`${URL}/api/portfolio/create`, {
+			await authAxios.post("/create", {
 				load: {
-					name: userName.value,
+					name: portfolioName.value,
 				}
 			});
 
 			successMessage.value = "Portfolio created successfully!";
-			userName.value = "";
+			portfolioName.value = "";
 
 			// TODO: Force the portfolio list to update in the portfolio "All" component. The data should be centralized
 			// in a store.
