@@ -80,9 +80,6 @@
 
 			const response = await authAxios.get(`/${props.id}`);
 
-			console.log(response.data);
-
-
 			portfolio.value = response.data.portfolio;
 			portfolioAssets.value = response.data.portfolioAssets;
 			requestError.value = "";

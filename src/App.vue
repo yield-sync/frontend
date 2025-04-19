@@ -14,11 +14,6 @@
 
 	import NavigationBar from "@/components/NavigationBar.vue";
 	import FooterBar from "@/components/FooterBar.vue";
-
-	onMounted(async () =>
-	{
-
-	});
 </script>
 
 <style lang="scss">

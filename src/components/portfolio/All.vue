@@ -4,7 +4,7 @@
 			<h2 class="mb-6 text-center">Your Portfolios</h2>
 
 			<VRow v-if="!requestError">
-				<VCol v-if="portfolios.length > 0" v-for="p in portfolios" :key="p.id" cols="12">
+				<VCol v-if="app.portfolios.length > 0" v-for="p in app.portfolios" :key="p.id" cols="12">
 					<VCard @click="router.push(`/portfolio/${p.id}`)" color="secondary" elevation="0">
 						<VCardTitle class="py-6 text-center">
 							<h4 class="text-center text-uppercase text-light">{{ p.name }}</h4>
@@ -37,7 +37,6 @@
 </template>
 
 <script setup>
-	import axios from "axios";
 	import { ref, onMounted } from "vue";
 	import { useRouter } from "vue-router";
 
@@ -46,32 +45,14 @@
 
 	const app = useAppStore();
 	const router = useRouter();
-	const portfolios = ref([
-	]);
-	const requestError = ref("");
 
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const requestError = ref("");
 
 	onMounted(async () =>
 	{
 		try
 		{
-			if (!app.loggedIn)
-			{
-				return;
-			}
-
-			const authAxios = axios.create({
-				baseURL: `${URL}/api/portfolio`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`
-				}
-			});
-
-			const response = await authAxios.get("/");
-
-			portfolios.value = response.data.portfolios;
-			requestError.value = "";
+			await app.getPortfolios();
 		}
 		catch (error)
 		{

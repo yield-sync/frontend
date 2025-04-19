@@ -1,8 +1,10 @@
+import axios from "axios";
 import { defineStore } from "pinia";
 
 
 type State = {
 	loggedIn: boolean,
+	portfolios: any[],
 }
 
 type Getters = {
@@ -23,7 +25,8 @@ export default defineStore<"App", State, Getters, Actions>(
 			) ? true : false;
 
 			return {
-				loggedIn
+				loggedIn,
+				portfolios: [],
 			};
 		},
 
@@ -34,6 +37,22 @@ export default defineStore<"App", State, Getters, Actions>(
 			setLoggedIn(state: boolean)
 			{
 				this.loggedIn = state;
+			},
+
+			async getPortfolios()
+			{
+				const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+
+				const authAxios = axios.create({
+					baseURL: `${URL}/api/portfolio`,
+					headers: {
+						authorization: `Bearer ${localStorage.getItem("authToken")}`
+					}
+				});
+
+				const response = await authAxios.get("/");
+
+				this.portfolios = response.data.portfolios;
 			},
 		},
 	}

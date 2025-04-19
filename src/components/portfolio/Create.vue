@@ -44,6 +44,7 @@
 <script setup>
 	import { ref } from "vue";
 	import axios from "axios";
+	
 	import useAppStore from "@/stores/App";
 
 	const app = useAppStore();
@@ -86,6 +87,8 @@
 					name: portfolioName.value,
 				}
 			});
+
+			await app.getPortfolios();
 
 			successMessage.value = "Portfolio created successfully!";
 			portfolioName.value = "";
