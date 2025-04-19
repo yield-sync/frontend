@@ -12,6 +12,7 @@ type Getters = {
 
 type Actions = {
 	setLoggedIn(state: boolean): void,
+	getPortfolios(): void,
 }
 
 
