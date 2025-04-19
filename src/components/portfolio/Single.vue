@@ -37,6 +37,12 @@
 					<h3 class="text-center text-warning">No portfolio assets</h3>
 				</div>
 			</VCol>
+
+			<VCol cols="12">
+				<div class="text-center">
+					<VBtn @click="deletePortfolio()" variant="outlined" color="danger">Delete</VBtn>
+				</div>
+			</VCol>
 		</VRow>
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
@@ -48,6 +54,9 @@
 	import axios from "axios";
 
 	import useAppStore from "@/stores/App";
+	import { useRouter } from "vue-router";
+
+	const router = useRouter();
 
 	const props = defineProps({
 		id: [String, Number]
@@ -89,4 +98,35 @@
 			requestError.value = error.response?.data.message || error.message;
 		}
 	});
+
+	const deletePortfolio = async () => {
+		try
+		{
+			if (!app.loggedIn)
+			{
+				return;
+			}
+
+			const authAxios = axios.create({
+				baseURL: `${URL}/api/portfolio/`,
+				headers: {
+					authorization: `Bearer ${localStorage.getItem("authToken")}`
+				}
+			});
+
+			const response = await authAxios.delete(`/delete/${props.id}`);
+
+			portfolio.value = response.data.portfolio;
+			portfolioAssets.value = response.data.portfolioAssets;
+			requestError.value = "";
+
+			router.push("/");
+		}
+		catch (error)
+		{
+			console.log(error);
+
+			requestError.value = error.response?.data.message || error.message;
+		}
+	};
 </script>
