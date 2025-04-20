@@ -59,12 +59,12 @@
 							</VRow>
 						</VCol>
 					</VRow>
+
+					<div v-else>
+						<h3 class="text-center text-light">No portfolio assets</h3>
+					</div>
 				</VCardText>
 			</VCard>
-		</div>
-
-		<div v-else>
-			<h3 class="text-center text-light">No portfolio assets</h3>
 		</div>
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
