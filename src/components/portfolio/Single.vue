@@ -106,7 +106,7 @@
 						</VRow>
 					</div>
 
-					<div v-else>
+					<div v-else class="py-5">
 						<h3 class="text-center text-light">No portfolio assets</h3>
 					</div>
 				</VCardText>
