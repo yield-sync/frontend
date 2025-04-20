@@ -1,11 +1,7 @@
 <template>
-	<VContainer style="max-width: 800px;">
+	<VContainer>
 		<div v-if="portfolio">
-			<VCard
-				width="100%"
-				elevation="0"
-				color="secondary"
-			>
+
 				<VCardTitle v-if="!updatePortfolioToggle">
 					<VRow>
 						<VCol cols="10">
@@ -43,34 +39,83 @@
 						@cancel="updatePortfolioToggle = false"
 					/>
 
-					<hr class="border border-dark my-3">
+					<hr class="border border-light my-3">
 
-					<VRow v-if="portfolioAssets.length > 0">
-						<VCol v-for="a in portfolioAssets" :key="a.id" cols="12">
-							<VRow>
-								<VCol cols="6" lg="6">
-									<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
-									<h5 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h5>
-								</VCol>
+					<VRow>
+						<VCol cols="2">
+							<h3 class="text-primary">Stock</h3>
+						</VCol>
 
-								<VCol cols="6" lg="6">
-									<h3 class="text-right text-light">% {{ a.percent_allocation / 100 }}</h3>
-								</VCol>
-							</VRow>
+						<VCol cols="4">
+							<h3 class="text-primary">Sector - Industry</h3>
+						</VCol>
+
+						<VCol cols="2">
+							<h3 class="text-primary">Target Allocation</h3>
+						</VCol>
+
+						<VCol cols="2">
+							<h3 class="text-primary">Allocation</h3>
+						</VCol>
+
+						<VCol cols="2">
+							<h3 class="text-primary">Balance</h3>
 						</VCol>
 					</VRow>
+
+					<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.id" cols="12">
+						<VRow>
+							<VCol lg="2">
+								<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
+								<h5 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h5>
+							</VCol>
+
+							<VCol lg="4">
+								<h5 class="text-light">{{ a.sector }} - {{ a.industry }}</h5>
+							</VCol>
+
+							<VCol lg="2">
+								<VSheet
+									color="secondary"
+									class="py-2 text-white text-center d-flex align-center justify-center"
+									rounded
+								>
+									% {{ a.percent_allocation / 100 }}
+								</VSheet>
+							</VCol>
+
+							<VCol lg="2">
+								<VSheet
+									color="secondary"
+									class="py-2 text-white text-center d-flex align-center justify-center"
+									rounded
+								>
+									% {{ 0.00 }}
+								</VSheet>
+							</VCol>
+
+							<VCol lg="2">
+								<VSheet
+									color="success"
+									class="py-2 text-white text-center d-flex align-center justify-center"
+									rounded
+								>
+									0.00
+								</VSheet>
+							</VCol>
+						</VRow>
+					</div>
 
 					<div v-else>
 						<h3 class="text-center text-light">No portfolio assets</h3>
 					</div>
 				</VCardText>
-			</VCard>
 		</div>
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
 		<VDialog v-model="confirmDelete" max-width="400">
-			<VCard color="dark" border="warning">
+			<VCard color="dark">
 				<VCardTitle class="text-center">
 					Are you sure?
 				</VCardTitle>

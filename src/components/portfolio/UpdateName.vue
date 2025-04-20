@@ -8,8 +8,10 @@
 					density="compact"
 					variant="outlined"
 					color="success"
+					base-color=""
 					label="Portfolio Name"
 					hide-details="auto"
+					class="text-light"
 				/>
 			</VCol>
 
@@ -30,7 +32,7 @@
 			<VCol cols="6" class="text-center">
 				<VBtn
 					@click="$emit('cancel')"
-					color="grey-darken-2"
+					color="light"
 					variant="outlined"
 					class="w-100"
 					size="small"
