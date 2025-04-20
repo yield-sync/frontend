@@ -1,7 +1,7 @@
 <template>
 	<VRow v-if="app.loggedIn">
 		<VCol cols="12">
-			<h2 class="text-center">Create Portfolio</h2>
+			<h2 class="text-center text-light">Create Portfolio</h2>
 		</VCol>
 
 		<VCol cols="12">
@@ -44,7 +44,7 @@
 <script setup>
 	import { ref } from "vue";
 	import axios from "axios";
-	
+
 	import useAppStore from "@/stores/App";
 
 	const app = useAppStore();
