@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import PortfolioView from "@/views/PortfolioView.vue";
+import QueryView from "@/views/QueryView.vue";
 
 
 export default createRouter({
@@ -22,6 +23,11 @@ export default createRouter({
 			path: "/portfolio/:id",
 			name: "portfolio",
 			component: PortfolioView
+		},
+		{
+			path: "/query/:query",
+			name: "query",
+			component: QueryView,
 		},
 	]
 });
