@@ -27,7 +27,8 @@ export default defineStore<"App", State, Getters, Actions>(
 
 			return {
 				loggedIn,
-				portfolios: [],
+				portfolios: [
+				],
 			};
 		},
 

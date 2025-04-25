@@ -48,7 +48,9 @@
 <script setup>
 	import { ref } from "vue";
 
-	const emit = defineEmits(["submit"]);
+	const emit = defineEmits([
+		"submit",
+	]);
 
 	const props = defineProps({
 		id: String,
@@ -61,7 +63,8 @@
 
 	const formRef = ref();
 
-	const submit = () => {
+	const submit = () => 
+	{
 		emit("submit", nameModel.value);
 	};
 </script>

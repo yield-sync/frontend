@@ -17,11 +17,11 @@
 				</VCol>
 
 				<VCol cols="12">
-					<hr class="border border-secondary">
+					<hr class="border border-secondary"/>
 				</VCol>
 
 				<VCol cols="12">
-					<PortfolioCreate />
+					<PortfolioCreate/>
 				</VCol>
 			</VRow>
 
