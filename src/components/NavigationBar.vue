@@ -61,6 +61,8 @@
 	const search = async () =>
 	{
 		router.push(`/query/${query.value}`);
+
+		query.value = "";
 	};
 
 	const logOut = async () =>
