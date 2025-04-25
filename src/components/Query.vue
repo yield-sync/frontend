@@ -1,26 +1,8 @@
 <template>
-	<h1>Search results for: {{ query }}</h1>
+	<div v-if="queryResult" class=mx-auto style="max-width: 600px;">
+		<h1 class="text-light">Search results for: {{ query }}</h1>
 
-	<hr class="my-3 border border-light">
-
-	<div v-if="queryResult">
-		<VRow>
-			<VCol cols="2">
-				<h3 class="text-primary">Symbol</h3>
-			</VCol>
-
-			<VCol cols="6">
-				<h3 class="text-primary">Company Name</h3>
-			</VCol>
-
-			<VCol cols="2">
-				<h3 class="text-primary">Exchange</h3>
-			</VCol>
-
-			<VCol cols="2">
-
-			</VCol>
-		</VRow>
+		<hr class="my-3 border border-light">
 
 		<div
 			v-for="q in queryResult"
@@ -29,17 +11,15 @@
 			@click="handleSelect(q)"
 		>
 			<VRow>
-				<VCol cols="2">
-					<h3 class="text-light">{{ q.symbol }}</h3>
+				<VCol cols="7">
+					<h3 class="text-primary">{{ q.symbol }}</h3>
+					<h5 class="text-light">{{ q.name }}</h5>
 				</VCol>
-				<VCol cols="6">
-					<h3 class="text-light">{{ q.name }}</h3>
-				</VCol>
-				<VCol cols="2">
+				<VCol cols="3">
 					<h3 class="text-light">{{ q.exchange }}</h3>
 				</VCol>
 				<VCol cols="2">
-					<VBtn color="primary" variant="outlined" rounded class="w-100" @click=handleSelect(q)>View</VBtn>
+					<VBtn color="secondary" rounded class="w-100" @click=handleSelect(q)>View</VBtn>
 				</VCol>
 			</VRow>
 		</div>
