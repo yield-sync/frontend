@@ -1,29 +1,31 @@
 <template>
-	<div v-if="queryResult" class=mx-auto style="max-width: 600px;">
-		<h1 class="text-light">Search results for: {{ query }}</h1>
+	<VRow v-if="stockProfileResult" class=mx-auto style="max-width: 600px;">
+		<VCol cols="12">
+			<h1>{{ stockProfileResult.symbol }}</h1>
 
-		<hr class="my-3 border border-light">
+			<h2 class="text-light">{{ stockProfileResult.name }}</h2>
+		</VCol>
 
-		<div
-			v-for="q in queryResult"
-			:key="q.symbol"
-			class="search-result-row"
-			@click="handleSelect(q)"
-		>
-			<VRow>
-				<VCol cols="7">
-					<h3 class="text-primary">{{ q.symbol }}</h3>
-					<h5 class="text-light">{{ q.name }}</h5>
-				</VCol>
-				<VCol cols="3">
-					<h3 class="text-light">{{ q.exchange }}</h3>
-				</VCol>
-				<VCol cols="2">
-					<VBtn color="secondary" rounded class="w-100" @click=handleSelect(q)>View</VBtn>
-				</VCol>
-			</VRow>
-		</div>
-	</div>
+		<VCol cols="6">
+			<h3 class="text-Primary">Exchange</h3>
+			<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
+		</VCol>
+
+		<VCol cols="6">
+			<h3 class="text-Primary">ISIN</h3>
+			<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
+		</VCol>
+
+		<VCol cols="6">
+			<h3 class="text-Primary">Sector</h3>
+			<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
+		</VCol>
+
+		<VCol cols="6">
+			<h3 class="text-Primary">Industry</h3>
+			<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
+		</VCol>
+	</VRow>
 
 	<h2 class="text-center text-error">{{ requestError }}</h2>
 </template>
@@ -31,15 +33,14 @@
 <script setup>
 	import axios from "axios";
 	import { ref, onMounted, watch } from "vue";
-	import { useRoute, useRouter } from "vue-router";
+	import { useRoute } from "vue-router";
 	import useAppStore from "@/stores/App";
 
 	const route = useRoute();
-	const router = useRouter();
 	const app = useAppStore();
 
-	const query = ref(route.params.query);
-	const queryResult = ref();
+	const symbol = ref(route.params.symbol);
+	const stockProfileResult = ref();
 	const requestError = ref("");
 	const loading = ref(false);
 
@@ -57,8 +58,8 @@
 				},
 			});
 
-			const response = await authAxios.get(`/stock/search-external/${query.value}`);
-			queryResult.value = response.data.stocks;
+			const response = await authAxios.get(`/stock/profile/${symbol.value}`);
+			stockProfileResult.value = response.data.stocks;
 		}
 		catch (error)
 		{
@@ -66,27 +67,23 @@
 		}
 	};
 
-	const handleSelect = (q) => {
-		router.push(`/stock/${q.symbol}`);
-	};
-
 	onMounted(async () => {
 		if (!app.loggedIn) return;
 
 		requestError.value = null;
-		queryResult.value = null;
+		stockProfileResult.value = null;
 
 		await search();
 	});
 
 	// 🔁 Watch route change
 	watch(
-		() => route.params.query,
-		async (newQuery) => {
-			query.value = newQuery;
+		() => route.params.symbol,
+		async (newSymbol) => {
+			symbol.value = newSymbol;
 
 			requestError.value = null;
-			queryResult.value = null;
+			stockProfileResult.value = null;
 
 			await search();
 		}
