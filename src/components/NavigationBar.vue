@@ -30,6 +30,7 @@
 						@keydown.down.prevent="moveSelection(1)"
 						@keydown.up.prevent="moveSelection(-1)"
 						@keydown.enter.prevent="handleEnter"
+						@keydown.esc.prevent="isListVisible = false"
 						@input="fetchSuggestions"
 						@update:modelValue="fetchSuggestions"
 						ref="inputRef"
@@ -37,17 +38,20 @@
 					/>
 
 					<VList
-						v-if="suggestions.length > 0"
-						class="position-absolute"
-						style="z-index: 10; background: white; width: 100%; max-height: 200px; overflow-y: auto; color: black;"
+						v-if="suggestions.length > 0 && isListVisible"
+						class="position-absolute w-100 text-light"
+						variant="dark"
+						bgColor="secondary"
+						rounded
+						style="z-index: 10; max-height: 200px; overflow-y: auto; color: black;"
 					>
 						<VListItem
 							v-for="(stock, i) in suggestions"
 							:key="stock.symbol"
-							:class="{ 'bg-grey-lighten-3': i === selectedIndex }"
+							:class="{ 'bg-light text-secondary': i === selectedIndex }"
 							@mousedown.prevent="viewStockProfile(stock.symbol)"
 						>
-							<VListItemTitle>{{ stock.symbol }}</VListItemTitle>
+							<VListItemTitle>{{ stock.symbol }} - {{ stock.name }}</VListItemTitle>
 						</VListItem>
 					</VList>
 				</div>
@@ -69,7 +73,7 @@
 	const router = useRouter();
 
 	const loading = ref(false);
-	const isFocused = ref(false);
+	const isListVisible = ref(true);
 	const inputRef = ref(null);
 
 	const selectedIndex = ref(-1);
@@ -87,6 +91,8 @@
 			suggestions.value = [];
 			return;
 		}
+
+		isListVisible.value = true;
 
 		loading.value = true;
 
@@ -116,9 +122,10 @@
 		if (!suggestions.value.length) return;
 
 		const next = selectedIndex.value + delta;
-		if (next < 0)
-		{
-			selectedIndex.value = suggestions.value.length - 1;
+
+		if (next < 0) {
+			// Deselect list when moving up from first item
+			selectedIndex.value = -1;
 		}
 		else if (next >= suggestions.value.length)
 		{
@@ -187,11 +194,8 @@
 	});
 
 	onMounted(() => {
-		inputRef.value?.$el?.addEventListener("focus", () => (isFocused.value = true));
-
-		inputRef.value?.$el?.addEventListener("blur", () => {
-			// Delay to allow item click
-			setTimeout(() => (isFocused.value = false), 150);
+		inputRef.value?.$el?.addEventListener("focus", () => {
+			isListVisible.value = true;
 		});
 	});
 </script>
