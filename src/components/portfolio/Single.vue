@@ -114,21 +114,21 @@
 				<hr class="border border-light my-8"/>
 
 				<VRow>
-					<VCol cols="6" sm="6" md="4" lg="2">
+					<VCol cols="12">
+						<h2 class="text-success">Add Stock</h2>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="4" lg="4">
 						<VTextField
 							v-model="symbol"
 							density="compact"
-							label="Symbol"
+							label="Stock Symbol"
 							variant="outlined"
 							class="text-light"
 						/>
 					</VCol>
 
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h4 class="text-light">Autofill Sector & Industry</h4>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
+					<VCol cols="12" sm="6" md="4" lg="4">
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
@@ -142,9 +142,7 @@
 						/>
 					</VCol>
 
-					<VCol lg="4"/>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
+					<VCol cols="12" sm="6" md="4" lg="4">
 						<VBtn variant="flat" rounded color="success" class="w-100"
 							@click="addPortfolioAsset">
 							Add
