@@ -60,15 +60,15 @@
 
 	const search = async () =>
 	{
+		const authAxios = axios.create({
+			baseURL: `${URL}/api`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
 		try
 		{
-			const authAxios = axios.create({
-				baseURL: `${URL}/api`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`,
-				},
-			});
-
 			const response = await authAxios.get(`/stock/search-external/${query.value}`);
 			queryResult.value = response.data.stocks;
 		}

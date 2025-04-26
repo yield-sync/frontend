@@ -109,16 +109,15 @@
 
 		loading.value = true;
 
+		const authAxios = axios.create({
+			baseURL: `${apiUrl}/api`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
 		try
 		{
-
-			const authAxios = axios.create({
-				baseURL: `${apiUrl}/api`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`,
-				},
-			});
-
 			const res = await authAxios.get(`/stock/search/${query.value}`);
 
 			suggestions.value = res.data.stocks;

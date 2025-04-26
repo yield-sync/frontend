@@ -84,15 +84,15 @@
 
 		loading.value = true;
 
+		const authAxios = axios.create({
+			baseURL: `${URL}/api/portfolio`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`
+			}
+		});
+
 		try
 		{
-			const authAxios = axios.create({
-				baseURL: `${URL}/api/portfolio`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`
-				}
-			});
-
 			await authAxios.post("/create", {
 				load: {
 					name: portfolioName.value,

@@ -61,17 +61,18 @@
 
 	const search = async () =>
 	{
+		const authAxios = axios.create({
+			baseURL: `${URL}/api`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
 		try
 		{
-			const authAxios = axios.create({
-				baseURL: `${URL}/api`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`,
-				},
-			});
-
 			const response = await authAxios.get(`/stock/profile/${symbol.value}`);
-			stockProfileResult.value = response.data.stocks;
+
+			stockProfileResult.value = response.data.stock;
 		}
 		catch (error)
 		{

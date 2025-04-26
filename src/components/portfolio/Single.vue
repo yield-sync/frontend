@@ -45,7 +45,7 @@
 						<h3 class="text-primary">Stock</h3>
 					</VCol>
 
-					<VCol cols="4">
+					<VCol cols="3">
 						<h3 class="text-primary">Sector - Industry</h3>
 					</VCol>
 
@@ -60,9 +60,11 @@
 					<VCol cols="2">
 						<h3 class="text-primary">Balance</h3>
 					</VCol>
+
+					<VCol cols="1" />
 				</VRow>
 
-				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.id" cols="12">
+				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id" cols="12">
 					<VRow>
 						<VCol lg="2">
 							<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
@@ -70,45 +72,83 @@
 							<h5 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h5>
 						</VCol>
 
-						<VCol lg="4">
+						<VCol lg="3">
 							<h5 class="text-light">{{ a.sector }} - {{ a.industry }}</h5>
 						</VCol>
 
 						<VCol lg="2">
-							<VSheet
-								color="secondary"
-								class="py-2 text-white text-center d-flex align-center justify-center"
-								rounded
-							>
+							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								% {{ a.percent_allocation / 100 }}
 							</VSheet>
 						</VCol>
 
 						<VCol lg="2">
-							<VSheet
-								color="secondary"
-								class="py-2 text-white text-center d-flex align-center justify-center"
-								rounded
-							>
+							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								% {{ 0.00 }}
 							</VSheet>
 						</VCol>
 
 						<VCol lg="2">
-							<VSheet
-								color="success"
-								class="py-2 text-white text-center d-flex align-center justify-center"
-								rounded
-							>
+							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								0.00
 							</VSheet>
+						</VCol>
+
+						<VCol cols="1">
+							<VBtn
+								@click="removePortfolioAsset(a.portfolio_asset_id)"
+								variant="outlined"
+								rounded color="danger"
+								class=w-100
+							>
+								✖
+							</VBtn>
 						</VCol>
 					</VRow>
 				</div>
 
-				<div v-else class="py-5">
+				<div v-else class="py-8">
 					<h3 class="text-center text-light">No portfolio assets</h3>
 				</div>
+
+				<hr class="border border-light my-8"/>
+
+				<VRow>
+					<VCol lg="2">
+						<VTextField
+							v-model="symbol"
+							density="compact"
+							label="Symbol"
+							variant="outlined"
+							class="text-light"
+						/>
+					</VCol>
+
+					<VCol lg="3">
+						<h3 class="text-light">Autofill Sector & Industry</h3>
+					</VCol>
+
+					<VCol lg="2">
+						<VTextField
+							v-model="percentAllocation"
+							density="compact"
+							label="Target Allocation (0.01 - 100.00%)"
+							variant="outlined"
+							class="text-light"
+							type="number"
+							:min=".01"
+							:max="10000"
+							@input="validateAllocation"
+						/>
+					</VCol>
+
+					<VCol lg="4">
+					</VCol>
+
+					<VCol lg="1">
+						<VBtn variant="flat" rounded color="success" class=w-100 @click="addPortfolioAsset">Add</VBtn>
+					</VCol>
+				</VRow>
 			</VCardText>
 		</div>
 
@@ -154,12 +194,16 @@
 	});
 
 	const id = ref(props.id);
+
+	const percentAllocation = ref(10);
+
 	const loading = ref(false);
 	const updatePortfolioToggle = ref(false);
 	const confirmDelete = ref(false);
 	const portfolio = ref();
 	const portfolioAssets = ref([
-	]);
+		]);
+	const symbol = ref("");
 	const requestError = ref("");
 
 
@@ -169,6 +213,11 @@
 
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
+
+	const validateAllocation = () => {
+		if (percentAllocation.value < .01) percentAllocation.value = 0.01;
+		if (percentAllocation.value > 100) percentAllocation.value = 100;
+	};
 
 	const onConfirmDelete = async () =>
 	{
@@ -190,23 +239,21 @@
 		portfolio.value = response.data.portfolio;
 
 		portfolioAssets.value = response.data.portfolioAssets;
-
-		requestError.value = "";
 	};
 
 	const onPortfolioNameUpdate = async (newName) =>
 	{
 		loading.value = true;
 
+		const authAxios = axios.create({
+			baseURL: `${URL}/api/portfolio/`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`
+			}
+		});
+
 		try
 		{
-			const authAxios = axios.create({
-				baseURL: `${URL}/api/portfolio/`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`
-				}
-			});
-
 			await authAxios.post("/update", {
 				load: {
 					id: props.id,
@@ -232,17 +279,17 @@
 
 	const deletePortfolio = async () =>
 	{
+		if (!app.loggedIn) return;
+
+		const authAxios = axios.create({
+			baseURL: `${URL}/api/portfolio/`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`
+			}
+		});
+
 		try
 		{
-			if (!app.loggedIn) return;
-
-			const authAxios = axios.create({
-				baseURL: `${URL}/api/portfolio/`,
-				headers: {
-					authorization: `Bearer ${localStorage.getItem("authToken")}`
-				}
-			});
-
 			const response = await authAxios.delete(`/delete/${props.id}`);
 
 			portfolio.value = response.data.portfolio;
@@ -257,15 +304,79 @@
 		}
 	};
 
-	onMounted(async () =>
-	{
+	const addPortfolioAsset = async () => {
+		if (!app.loggedIn) return;
+
+		requestError.value = "";
+
+		let stockIsin = null;
+
+		const authAxios = axios.create({
+			baseURL: `${URL}/api`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
 		try
 		{
-			if (!app.loggedIn)
-			{
-				return;
-			}
+			const response = await authAxios.get(`/stock/profile/${symbol.value}`);
 
+			stockIsin = response.data.stock.isin;
+		}
+		catch (error)
+		{
+			requestError.value = error;
+		}
+
+		try
+		{
+			await authAxios.post(`/portfolio-asset/create`, {
+				load: {
+					portfolio_id: props.id,
+					stock_isin: stockIsin,
+					percent_allocation: percentAllocation.value * 100,
+				}
+			});
+		}
+		catch (error)
+		{
+			requestError.value = error.response.data;
+		}
+
+		await getPortfolio();
+	};
+
+	const removePortfolioAsset = async (portfolio_asset_id) => {
+		if (!app.loggedIn) return;
+
+		requestError.value = "";
+
+		const authAxios = axios.create({
+			baseURL: `${URL}/api/portfolio-asset`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
+		try
+		{
+			await authAxios.delete(`/${portfolio_asset_id}`);
+		}
+		catch (error)
+		{
+			requestError.value = error.response.data.message;
+		}
+
+		await getPortfolio();
+	};
+
+	onMounted(async () =>
+	{
+		if (!app.loggedIn) return;
+
+		try
+		{
 			await getPortfolio();
 		}
 		catch (error)
