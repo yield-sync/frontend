@@ -38,7 +38,40 @@
 					@cancel="updatePortfolioToggle = false"
 				/>
 
-				<hr class="border border-light my-3"/>
+				<hr class="border border-light my-8"/>
+
+				<VRow>
+					<VCol cols="12" sm="6" md="4" lg="4">
+						<VTextField
+							v-model="symbol"
+							density="compact"
+							label="Stock Symbol"
+							variant="outlined"
+							class="text-light"
+						/>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="4" lg="4">
+						<VTextField
+							v-model="percentAllocation"
+							density="compact"
+							label="Target Allocation (0.01 - 100.00%)"
+							variant="outlined"
+							class="text-light"
+							type="number"
+							:min=".01"
+							:max="10000"
+							@input="validateAllocation"
+						/>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="4" lg="4">
+						<VBtn variant="outlined" rounded color="success" class="w-100"
+							@click="addPortfolioAsset">
+							+ Add Stock
+						</VBtn>
+					</VCol>
+				</VRow>
 
 				<VRow>
 					<VCol cols="6" sm="6" md="4" lg="2">
@@ -64,7 +97,7 @@
 					<VCol cols="6" sm="6" md="4" lg="2"/>
 				</VRow>
 
-				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id" cols="12">
+				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id">
 					<VRow>
 						<VCol cols="6" sm="6" md="4" lg="2">
 							<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
@@ -110,45 +143,6 @@
 				<div v-else class="py-8">
 					<h3 class="text-center text-light">No portfolio assets</h3>
 				</div>
-
-				<hr class="border border-light my-8"/>
-
-				<VRow>
-					<VCol cols="12">
-						<h2 class="text-success">Add Stock</h2>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="4" lg="4">
-						<VTextField
-							v-model="symbol"
-							density="compact"
-							label="Stock Symbol"
-							variant="outlined"
-							class="text-light"
-						/>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="4" lg="4">
-						<VTextField
-							v-model="percentAllocation"
-							density="compact"
-							label="Target Allocation (0.01 - 100.00%)"
-							variant="outlined"
-							class="text-light"
-							type="number"
-							:min=".01"
-							:max="10000"
-							@input="validateAllocation"
-						/>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="4" lg="4">
-						<VBtn variant="flat" rounded color="success" class="w-100"
-							@click="addPortfolioAsset">
-							Add
-						</VBtn>
-					</VCol>
-				</VRow>
 			</VCardText>
 		</div>
 
