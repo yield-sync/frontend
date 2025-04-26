@@ -340,6 +340,8 @@
 			requestError.value = error.response.data;
 		}
 
+		symbol.value = "";
+
 		await getPortfolio();
 	};
 
