@@ -39,16 +39,15 @@
 
 					<VList
 						v-if="suggestions.length > 0 && isListVisible"
-						class="position-absolute w-100 text-light"
-						variant="dark"
-						bgColor="secondary"
+						class="position-absolute w-100 text-secondary"
+						bgColor="light"
 						rounded
-						style="z-index: 10; max-height: 200px; overflow-y: auto; color: black;"
+						style="z-index: 10; max-height: 200px; overflow-y: auto;"
 					>
 						<VListItem
 							v-for="(stock, i) in suggestions"
 							:key="stock.symbol"
-							:class="{ 'bg-light text-secondary': i === selectedIndex }"
+							:class="{ 'bg-secondary text-light': i === selectedIndex }"
 							@mousedown.prevent="viewStockProfile(stock.symbol)"
 						>
 							<VListItemTitle>{{ stock.symbol }} - {{ stock.name }}</VListItemTitle>
