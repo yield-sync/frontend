@@ -3,7 +3,7 @@
 		<VRow>
 			<VCol cols="12" md="3">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1>Yield Sync</h1>
+					<h1 class="text-bold">Yield Sync</h1>
 				</RouterLink>
 			</VCol>
 
@@ -24,13 +24,13 @@
 					<VTextField
 						v-model="query"
 						variant="outlined"
-						density="compact"
+						rounded
 						label="Ticker, Crypto, etc.."
 						append-inner-icon="mdi-magnify"
+						@keydown.esc.prevent="isListVisible = false"
 						@keydown.down.prevent="moveSelection(1)"
 						@keydown.up.prevent="moveSelection(-1)"
 						@keydown.enter.prevent="handleEnter"
-						@keydown.esc.prevent="isListVisible = false"
 						@input="fetchSuggestions"
 						@update:modelValue="fetchSuggestions"
 						ref="inputRef"
