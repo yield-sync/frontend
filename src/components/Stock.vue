@@ -59,7 +59,7 @@
 		? import.meta.env.VITE_DEV_SERVER_URL
 		: "";
 
-	const search = async () => 
+	const search = async () =>
 	{
 		try
 		{
@@ -79,10 +79,8 @@
 		}
 	};
 
-	onMounted(async () => 
+	onMounted(async () =>
 	{
-		if (!app.loggedIn) return;
-
 		requestError.value = null;
 		stockProfileResult.value = null;
 
@@ -91,11 +89,11 @@
 
 	// 🔁 Watch route change
 	watch(
-		() => 
+		() =>
 		{
 			return route.params.symbol;
 		},
-		async (newSymbol) => 
+		async (newSymbol) =>
 		{
 			symbol.value = newSymbol;
 
