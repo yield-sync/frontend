@@ -1,36 +1,15 @@
 <template>
 	<VContainer>
 		<VRow>
-			<VCol cols="12" sm="3">
+			<VCol cols="12" md="3">
 				<RouterLink to="/" class="text-decoration-none">
 					<h1>Yield Sync</h1>
 				</RouterLink>
 			</VCol>
 
-			<VCol cols="12" sm="6">
-				<VForm @submit.prevent="search" validate-on="submit lazy" ref="formRef">
-					<VAutocomplete
-						v-model="query"
-						:items="suggestions"
-						:loading="loading"
-						:rules="rules"
-						variant="outlined"
-						color="light"
-						density="compact"
-						label="Ticker, Crypto, etc.."
-						append-inner-icon="mdi-magnify"
-						@click:append-inner="search"
-						@update:search="fetchSuggestions"
-						class="text-light mx-auto"
-						style="max-width: 600px;"
-						hide-no-data
-						hide-details
-						no-filter
-					/>
-				</VForm>
-			</VCol>
+			<VCol cols="12" md="7" />
 
-			<VCol cols="12" sm="3">
+			<VCol cols="12" md="2">
 				<RouterLink v-if="!app.loggedIn" to="/login">
 					<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
 				</RouterLink>
@@ -39,33 +18,72 @@
 					Log out
 				</VBtn>
 			</VCol>
+
+			<VCol cols="12">
+				<div style="position: relative; max-width: 600px;" class="mx-auto">
+					<VTextField
+						v-model="query"
+						variant="outlined"
+						density="compact"
+						label="Ticker, Crypto, etc.."
+						append-inner-icon="mdi-magnify"
+						@keydown.down.prevent="moveSelection(1)"
+						@keydown.up.prevent="moveSelection(-1)"
+						@keydown.enter.prevent="handleEnter"
+						@input="fetchSuggestions"
+						@update:modelValue="fetchSuggestions"
+						ref="inputRef"
+						class="text-light"
+					/>
+
+					<VList
+						v-if="suggestions.length > 0"
+						class="position-absolute"
+						style="z-index: 10; background: white; width: 100%; max-height: 200px; overflow-y: auto; color: black;"
+					>
+						<VListItem
+							v-for="(stock, i) in suggestions"
+							:key="stock.symbol"
+							:class="{ 'bg-grey-lighten-3': i === selectedIndex }"
+							@mousedown.prevent="viewStockProfile(stock.symbol)"
+						>
+							<VListItemTitle>{{ stock.symbol }}</VListItemTitle>
+						</VListItem>
+					</VList>
+				</div>
+			</VCol>
 		</VRow>
 	</VContainer>
 </template>
 
 <script setup>
-	import { ref, watch } from "vue";
 	import axios from "axios";
+	import { ref, watch, onMounted } from "vue";
 	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
+
 
 	const app = useAppStore();
 
 	const router = useRouter();
 
-	const query = ref("");
-	const suggestions = ref([]);
 	const loading = ref(false);
+	const isFocused = ref(false);
+	const inputRef = ref(null);
 
-	const rules = [(value) => !!value || "Query name is required"];
+	const selectedIndex = ref(-1);
 
-	const URL = import.meta.env.MODE === "development"
-		? import.meta.env.VITE_DEV_SERVER_URL
-		: "";
+	const query = ref("");
 
-	const fetchSuggestions = async (input) => {
-		if (!input || input.length < 1) {
+	const suggestions = ref([]);
+
+	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+
+
+	const fetchSuggestions = async () => {
+		if (!query.value || query.value < 1)
+		{
 			suggestions.value = [];
 			return;
 		}
@@ -75,19 +93,15 @@
 		try {
 
 			const authAxios = axios.create({
-				baseURL: `${URL}/api`,
+				baseURL: `${apiUrl}/api`,
 				headers: {
 					authorization: `Bearer ${localStorage.getItem("authToken")}`,
 				},
 			});
 
-			const res = await authAxios.get(`/stock/search/${input}`);
+			const res = await authAxios.get(`/stock/search/${query.value}`);
 
-			console.log(res);
-
-			suggestions.value = res.data?.stocks?.map((item) => item.symbol) ?? [];
-
-
+			suggestions.value = res.data.stocks;
 		}
 		catch (err)
 		{
@@ -98,12 +112,59 @@
 		loading.value = false;
 	};
 
-	const search = async () => {
-		if (!query.value) return;
+	const moveSelection = (delta) => {
+		if (!suggestions.value.length) return;
 
-		router.push(`/query/${query.value}`);
+		const next = selectedIndex.value + delta;
+		if (next < 0)
+		{
+			selectedIndex.value = suggestions.value.length - 1;
+		}
+		else if (next >= suggestions.value.length)
+		{
+			selectedIndex.value = 0;
+		}
+		else
+		{
+			selectedIndex.value = next;
+		}
+	};
+
+	const handleEnter = () => {
+		if (selectedIndex.value !== -1)
+		{
+			const selected = suggestions.value[selectedIndex.value];
+
+			viewStockProfile(selected.symbol)
+			return;
+		}
+		else if (query.value)
+		{
+			for (let i = 0; i < suggestions.value.length; i++)
+			{
+				if (suggestions.value[i].symbol.toLowerCase() === query.value.toLowerCase())
+				{
+					viewStockProfile(suggestions.value[i].symbol);
+					return;
+				}
+			}
+
+			router.push(`/query/${query.value}`);
+
+			query.value = "";
+			suggestions.value = [];
+			selectedIndex.value = -1;
+		}
+	};
+
+	const viewStockProfile = (symbol) => {
+		router.push(`/stock/${symbol}`);
 
 		query.value = "";
+
+		suggestions.value = [];
+
+		selectedIndex.value = -1;
 	};
 
 	const logOut = async () =>
@@ -115,6 +176,7 @@
 		app.setLoggedIn(false);
 	};
 
+
 	watch(query, (newVal, oldVal) =>
 	{
 		if (newVal && suggestions.value.includes(newVal))
@@ -122,5 +184,14 @@
 			router.push(`/stock/${newVal}`);
 			query.value = "";
 		}
+	});
+
+	onMounted(() => {
+		inputRef.value?.$el?.addEventListener("focus", () => (isFocused.value = true));
+
+		inputRef.value?.$el?.addEventListener("blur", () => {
+			// Delay to allow item click
+			setTimeout(() => (isFocused.value = false), 150);
+		});
 	});
 </script>

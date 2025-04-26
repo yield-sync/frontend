@@ -38,7 +38,15 @@
 	const router = useRouter();
 	const app = useAppStore();
 
-	const query = ref(route.params.query);
+	const props = defineProps({
+		query: [
+			String,
+			Number,
+		]
+	});
+
+	const query = ref(props.query);
+
 	const queryResult = ref();
 	const requestError = ref("");
 	const loading = ref(false);
@@ -81,7 +89,7 @@
 
 	// 🔁 Watch route change
 	watch(
-		() => route.params.query,
+		() => query,
 		async (newQuery) => {
 			query.value = newQuery;
 

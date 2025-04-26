@@ -39,7 +39,14 @@
 	const route = useRoute();
 	const app = useAppStore();
 
-	const symbol = ref(route.params.symbol);
+	const props = defineProps({
+		symbol: [
+			String,
+			Number,
+		]
+	});
+
+	const symbol = ref(props.symbol);
 	const stockProfileResult = ref();
 	const requestError = ref("");
 	const loading = ref(false);
