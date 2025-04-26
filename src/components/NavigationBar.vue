@@ -160,6 +160,7 @@
 			const selected = suggestions.value[selectedIndex.value];
 
 			viewStockProfile(selected.symbol);
+
 			return;
 		}
 		else if (query.value)
@@ -173,11 +174,15 @@
 				}
 			}
 
+			router.push("/");
+
 			router.push(`/query/${query.value}`);
 
 			query.value = "";
+
 			suggestions.value = [
 			];
+
 			selectedIndex.value = -1;
 		}
 	};

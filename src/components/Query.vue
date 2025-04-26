@@ -1,6 +1,8 @@
 <template>
+	<h2 v-if="loading" class="text-center text-primary">Loading..</h2>
+
 	<div v-if="queryResult" class="mx-auto" style="max-width: 600px;">
-		<h1 class="text-light">Search results for: {{ query }}</h1>
+		<h1 class="text-light">Search results for: {{ props.query }}</h1>
 
 		<hr class="my-3 border border-light"/>
 
@@ -35,11 +37,9 @@
 	import axios from "axios";
 	import { ref, onMounted, watch } from "vue";
 	import { useRoute, useRouter } from "vue-router";
-	import useAppStore from "@/stores/App";
 
-	const route = useRoute();
+
 	const router = useRouter();
-	const app = useAppStore();
 
 	const props = defineProps({
 		query: [
@@ -47,8 +47,6 @@
 			Number,
 		]
 	});
-
-	const query = ref(props.query);
 
 	const queryResult = ref();
 	const requestError = ref("");
@@ -60,6 +58,8 @@
 
 	const search = async () =>
 	{
+		loading.value = true;
+
 		const authAxios = axios.create({
 			baseURL: `${URL}/api`,
 			headers: {
@@ -69,13 +69,16 @@
 
 		try
 		{
-			const response = await authAxios.get(`/stock/search-external/${query.value}`);
+			const response = await authAxios.get(`/stock/search-external/${props.query}`);
+
 			queryResult.value = response.data.stocks;
 		}
 		catch (error)
 		{
 			requestError.value = error.response.data;
 		}
+
+		loading.value = false;
 	};
 
 	const handleSelect = (q) =>
@@ -91,16 +94,14 @@
 		await search();
 	});
 
-	// 🔁 Watch route change
+	// 🔁 Watch props.query change
 	watch(
 		() =>
 		{
-			return query;
+			return props.query;
 		},
-		async (newQuery) =>
+		async () =>
 		{
-			query.value = newQuery;
-
 			requestError.value = null;
 			queryResult.value = null;
 
