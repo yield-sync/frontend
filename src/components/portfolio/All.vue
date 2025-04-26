@@ -50,6 +50,8 @@
 
 	onMounted(async () =>
 	{
+		if (!app.loggedIn) return;
+
 		try
 		{
 			await app.getPortfolios();
