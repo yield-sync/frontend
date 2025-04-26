@@ -41,65 +41,65 @@
 				<hr class="border border-light my-3"/>
 
 				<VRow>
-					<VCol cols="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<h3 class="text-primary">Stock</h3>
 					</VCol>
 
-					<VCol cols="3">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<h3 class="text-primary">Sector - Industry</h3>
 					</VCol>
 
-					<VCol cols="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<h3 class="text-primary">Target Allocation</h3>
 					</VCol>
 
-					<VCol cols="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<h3 class="text-primary">Allocation</h3>
 					</VCol>
 
-					<VCol cols="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<h3 class="text-primary">Balance</h3>
 					</VCol>
 
-					<VCol cols="1" />
+					<VCol cols="6" sm="6" md="4" lg="2"/>
 				</VRow>
 
 				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id" cols="12">
 					<VRow>
-						<VCol lg="2">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
 
 							<h5 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h5>
 						</VCol>
 
-						<VCol lg="3">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<h5 class="text-light">{{ a.sector }} - {{ a.industry }}</h5>
 						</VCol>
 
-						<VCol lg="2">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								% {{ a.percent_allocation / 100 }}
 							</VSheet>
 						</VCol>
 
-						<VCol lg="2">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								% {{ 0.00 }}
 							</VSheet>
 						</VCol>
 
-						<VCol lg="2">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
 								0.00
 							</VSheet>
 						</VCol>
 
-						<VCol cols="1">
+						<VCol cols="6" sm="6" md="4" lg="2">
 							<VBtn
 								@click="removePortfolioAsset(a.portfolio_asset_id)"
 								variant="flat"
 								rounded color="danger"
-								class=w-100
+								class="w-100"
 							>
 								✖
 							</VBtn>
@@ -114,7 +114,7 @@
 				<hr class="border border-light my-8"/>
 
 				<VRow>
-					<VCol lg="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<VTextField
 							v-model="symbol"
 							density="compact"
@@ -124,11 +124,11 @@
 						/>
 					</VCol>
 
-					<VCol lg="3">
-						<h3 class="text-light">Autofill Sector & Industry</h3>
+					<VCol cols="6" sm="6" md="4" lg="2">
+						<h4 class="text-light">Autofill Sector & Industry</h4>
 					</VCol>
 
-					<VCol lg="2">
+					<VCol cols="6" sm="6" md="4" lg="2">
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
@@ -142,11 +142,13 @@
 						/>
 					</VCol>
 
-					<VCol lg="4">
-					</VCol>
+					<VCol lg="4"/>
 
-					<VCol lg="1">
-						<VBtn variant="flat" rounded color="success" class=w-100 @click="addPortfolioAsset">Add</VBtn>
+					<VCol cols="6" sm="6" md="4" lg="2">
+						<VBtn variant="flat" rounded color="success" class="w-100"
+							@click="addPortfolioAsset">
+							Add
+						</VBtn>
 					</VCol>
 				</VRow>
 			</VCardText>
@@ -202,7 +204,7 @@
 	const confirmDelete = ref(false);
 	const portfolio = ref();
 	const portfolioAssets = ref([
-		]);
+	]);
 	const symbol = ref("");
 	const requestError = ref("");
 
@@ -214,7 +216,8 @@
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 
-	const validateAllocation = () => {
+	const validateAllocation = () =>
+	{
 		if (percentAllocation.value < .01) percentAllocation.value = 0.01;
 		if (percentAllocation.value > 100) percentAllocation.value = 100;
 	};
@@ -304,7 +307,8 @@
 		}
 	};
 
-	const addPortfolioAsset = async () => {
+	const addPortfolioAsset = async () =>
+	{
 		if (!app.loggedIn) return;
 
 		requestError.value = "";
@@ -331,7 +335,7 @@
 
 		try
 		{
-			await authAxios.post(`/portfolio-asset/create`, {
+			await authAxios.post("/portfolio-asset/create", {
 				load: {
 					portfolio_id: props.id,
 					stock_isin: stockIsin,
@@ -347,7 +351,8 @@
 		await getPortfolio();
 	};
 
-	const removePortfolioAsset = async (portfolio_asset_id) => {
+	const removePortfolioAsset = async (portfolio_asset_id) =>
+	{
 		if (!app.loggedIn) return;
 
 		requestError.value = "";

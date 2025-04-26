@@ -13,5 +13,8 @@
 	const route = useRoute();
 
 
-	const query = computed(() => route.params.query);
+	const query = computed(() => 
+	{
+		return route.params.query;
+	});
 </script>
