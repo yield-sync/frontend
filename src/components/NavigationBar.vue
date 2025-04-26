@@ -71,7 +71,7 @@
 
 <script setup>
 	import axios from "axios";
-	import { ref, watch, onMounted } from "vue";
+	import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
@@ -187,6 +187,25 @@
 		}
 	};
 
+	const handleClickOutside = (event) => 
+	{
+		if (!inputRef.value) return;
+
+		// Check if the click was inside the input or the list
+		const inputEl = inputRef.value?.$el || inputRef.value;
+		const listEl = inputEl?.nextElementSibling;
+
+		if (
+			inputEl &&
+			!inputEl.contains(event.target) &&
+			listEl &&
+			!listEl.contains(event.target)
+		) 
+		{
+			isListVisible.value = false;
+		}
+	};
+
 	const viewStockProfile = (symbol) =>
 	{
 		router.push(`/stock/${symbol}`);
@@ -218,8 +237,15 @@
 		}
 	});
 
+	onBeforeUnmount(() => 
+	{
+		document.removeEventListener("click", handleClickOutside);
+	});
+
 	onMounted(() =>
 	{
+		document.addEventListener("click", handleClickOutside);
+
 		inputRef.value?.$el?.addEventListener("focus", () =>
 		{
 			isListVisible.value = true;
