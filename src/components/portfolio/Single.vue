@@ -97,7 +97,7 @@
 						<VCol cols="1">
 							<VBtn
 								@click="removePortfolioAsset(a.portfolio_asset_id)"
-								variant="outlined"
+								variant="flat"
 								rounded color="danger"
 								class=w-100
 							>
