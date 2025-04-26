@@ -1,8 +1,8 @@
 <template>
-	<div v-if="queryResult" class=mx-auto style="max-width: 600px;">
+	<div v-if="queryResult" class="mx-auto" style="max-width: 600px;">
 		<h1 class="text-light">Search results for: {{ query }}</h1>
 
-		<hr class="my-3 border border-light">
+		<hr class="my-3 border border-light"/>
 
 		<div
 			v-for="q in queryResult"
@@ -13,13 +13,16 @@
 			<VRow>
 				<VCol cols="7">
 					<h3 class="text-primary">{{ q.symbol }}</h3>
+
 					<h5 class="text-light">{{ q.name }}</h5>
 				</VCol>
+
 				<VCol cols="3">
 					<h3 class="text-light">{{ q.exchange }}</h3>
 				</VCol>
+
 				<VCol cols="2">
-					<VBtn color="secondary" rounded class="w-100" @click=handleSelect(q)>View</VBtn>
+					<VBtn color="secondary" rounded class="w-100" @click="handleSelect(q)">View</VBtn>
 				</VCol>
 			</VRow>
 		</div>
@@ -55,7 +58,8 @@
 		? import.meta.env.VITE_DEV_SERVER_URL
 		: "";
 
-	const search = async () => {
+	const search = async () => 
+	{
 		try
 		{
 			const authAxios = axios.create({
@@ -74,11 +78,13 @@
 		}
 	};
 
-	const handleSelect = (q) => {
+	const handleSelect = (q) => 
+	{
 		router.push(`/stock/${q.symbol}`);
 	};
 
-	onMounted(async () => {
+	onMounted(async () => 
+	{
 		if (!app.loggedIn) return;
 
 		requestError.value = null;
@@ -89,8 +95,12 @@
 
 	// 🔁 Watch route change
 	watch(
-		() => query,
-		async (newQuery) => {
+		() => 
+		{
+			return query;
+		},
+		async (newQuery) => 
+		{
 			query.value = newQuery;
 
 			requestError.value = null;

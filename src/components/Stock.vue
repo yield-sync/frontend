@@ -1,5 +1,5 @@
 <template>
-	<VRow v-if="stockProfileResult" class=mx-auto style="max-width: 600px;">
+	<VRow v-if="stockProfileResult" class="mx-auto" style="max-width: 600px;">
 		<VCol cols="12">
 			<h1>{{ stockProfileResult.symbol }}</h1>
 
@@ -8,21 +8,25 @@
 
 		<VCol cols="6">
 			<h3 class="text-Primary">Exchange</h3>
+
 			<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
 		</VCol>
 
 		<VCol cols="6">
 			<h3 class="text-Primary">ISIN</h3>
+
 			<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
 		</VCol>
 
 		<VCol cols="6">
 			<h3 class="text-Primary">Sector</h3>
+
 			<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
 		</VCol>
 
 		<VCol cols="6">
 			<h3 class="text-Primary">Industry</h3>
+
 			<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
 		</VCol>
 	</VRow>
@@ -55,7 +59,8 @@
 		? import.meta.env.VITE_DEV_SERVER_URL
 		: "";
 
-	const search = async () => {
+	const search = async () => 
+	{
 		try
 		{
 			const authAxios = axios.create({
@@ -74,7 +79,8 @@
 		}
 	};
 
-	onMounted(async () => {
+	onMounted(async () => 
+	{
 		if (!app.loggedIn) return;
 
 		requestError.value = null;
@@ -85,8 +91,12 @@
 
 	// 🔁 Watch route change
 	watch(
-		() => route.params.symbol,
-		async (newSymbol) => {
+		() => 
+		{
+			return route.params.symbol;
+		},
+		async (newSymbol) => 
+		{
 			symbol.value = newSymbol;
 
 			requestError.value = null;

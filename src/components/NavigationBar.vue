@@ -7,14 +7,20 @@
 				</RouterLink>
 			</VCol>
 
-			<VCol cols="12" md="7" />
+			<VCol cols="12" md="7"/>
 
 			<VCol cols="12" md="2">
 				<RouterLink v-if="!app.loggedIn" to="/login">
 					<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
 				</RouterLink>
 
-				<VBtn v-else @click="logOut" rounded color="secondary" elevation="0" class="w-100">
+				<VBtn
+					v-else @click="logOut"
+					rounded
+					color="secondary"
+					elevation="0"
+					class="w-100"
+				>
 					Log out
 				</VBtn>
 			</VCol>
@@ -48,7 +54,7 @@
 							v-for="(stock, i) in suggestions"
 							:key="stock.symbol"
 							:class="{
-								'bg-secondary text-light': i === selectedIndex || i === hoveredIndex,
+								'bg-secondary text-light': i === selectedIndex || i === hoveredIndex
 							}"
 							@mouseenter="hoveredIndex = i"
 							@mouseleave="hoveredIndex = null"
@@ -84,15 +90,18 @@
 
 	const query = ref("");
 
-	const suggestions = ref([]);
+	const suggestions = ref([
+	]);
 
 	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 
-	const fetchSuggestions = async () => {
+	const fetchSuggestions = async () =>
+	{
 		if (!query.value || query.value < 1)
 		{
-			suggestions.value = [];
+			suggestions.value = [
+			];
 			return;
 		}
 
@@ -100,7 +109,8 @@
 
 		loading.value = true;
 
-		try {
+		try
+		{
 
 			const authAxios = axios.create({
 				baseURL: `${apiUrl}/api`,
@@ -116,18 +126,21 @@
 		catch (err)
 		{
 			console.error("Error fetching suggestions:", err);
-			suggestions.value = [];
+			suggestions.value = [
+			];
 		}
 
 		loading.value = false;
 	};
 
-	const moveSelection = (delta) => {
+	const moveSelection = (delta) =>
+	{
 		if (!suggestions.value.length) return;
 
 		const next = selectedIndex.value + delta;
 
-		if (next < 0) {
+		if (next < 0)
+		{
 			// Deselect list when moving up from first item
 			selectedIndex.value = -1;
 		}
@@ -141,12 +154,13 @@
 		}
 	};
 
-	const handleEnter = () => {
+	const handleEnter = () =>
+	{
 		if (selectedIndex.value !== -1)
 		{
 			const selected = suggestions.value[selectedIndex.value];
 
-			viewStockProfile(selected.symbol)
+			viewStockProfile(selected.symbol);
 			return;
 		}
 		else if (query.value)
@@ -163,17 +177,20 @@
 			router.push(`/query/${query.value}`);
 
 			query.value = "";
-			suggestions.value = [];
+			suggestions.value = [
+			];
 			selectedIndex.value = -1;
 		}
 	};
 
-	const viewStockProfile = (symbol) => {
+	const viewStockProfile = (symbol) =>
+	{
 		router.push(`/stock/${symbol}`);
 
 		query.value = "";
 
-		suggestions.value = [];
+		suggestions.value = [
+		];
 
 		selectedIndex.value = -1;
 	};
@@ -197,8 +214,10 @@
 		}
 	});
 
-	onMounted(() => {
-		inputRef.value?.$el?.addEventListener("focus", () => {
+	onMounted(() =>
+	{
+		inputRef.value?.$el?.addEventListener("focus", () =>
+		{
 			isListVisible.value = true;
 		});
 	});

@@ -58,11 +58,11 @@
 	const formRef = ref(null);
 
 	const rules = [
-		(value) => 
+		(value) =>
 		{
 			return !!value || "Portfolio name is required";
 		},
-		(value) => 
+		(value) =>
 		{
 			return value.length <= 100 || "Name must be under 100 characters";
 		},
@@ -70,8 +70,10 @@
 
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
-	const createPortfolio = async () => 
+	const createPortfolio = async () =>
 	{
+		if (!app.loggedIn) return;
+
 		requestError.value = "";
 		successMessage.value = "";
 

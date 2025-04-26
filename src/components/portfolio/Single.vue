@@ -234,10 +234,7 @@
 	{
 		try
 		{
-			if (!app.loggedIn)
-			{
-				return;
-			}
+			if (!app.loggedIn) return;
 
 			const authAxios = axios.create({
 				baseURL: `${URL}/api/portfolio/`,
