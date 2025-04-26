@@ -39,7 +39,7 @@
 
 					<VList
 						v-if="suggestions.length > 0 && isListVisible"
-						class="position-absolute w-100 text-secondary"
+						class="position-absolute w-100 text-secondary border border-dark"
 						bgColor="light"
 						rounded
 						style="z-index: 10; max-height: 200px; overflow-y: auto;"
@@ -47,7 +47,11 @@
 						<VListItem
 							v-for="(stock, i) in suggestions"
 							:key="stock.symbol"
-							:class="{ 'bg-secondary text-light': i === selectedIndex }"
+							:class="{
+								'bg-secondary text-light': i === selectedIndex || i === hoveredIndex,
+							}"
+							@mouseenter="hoveredIndex = i"
+							@mouseleave="hoveredIndex = null"
 							@mousedown.prevent="viewStockProfile(stock.symbol)"
 						>
 							<VListItemTitle>{{ stock.symbol }} - {{ stock.name }}</VListItemTitle>
@@ -74,6 +78,7 @@
 	const loading = ref(false);
 	const isListVisible = ref(true);
 	const inputRef = ref(null);
+	const hoveredIndex = ref(null);
 
 	const selectedIndex = ref(-1);
 
