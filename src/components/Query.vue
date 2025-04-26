@@ -58,7 +58,7 @@
 		? import.meta.env.VITE_DEV_SERVER_URL
 		: "";
 
-	const search = async () => 
+	const search = async () =>
 	{
 		try
 		{
@@ -78,15 +78,13 @@
 		}
 	};
 
-	const handleSelect = (q) => 
+	const handleSelect = (q) =>
 	{
 		router.push(`/stock/${q.symbol}`);
 	};
 
-	onMounted(async () => 
+	onMounted(async () =>
 	{
-		if (!app.loggedIn) return;
-
 		requestError.value = null;
 		queryResult.value = null;
 
@@ -95,11 +93,11 @@
 
 	// 🔁 Watch route change
 	watch(
-		() => 
+		() =>
 		{
 			return query;
 		},
-		async (newQuery) => 
+		async (newQuery) =>
 		{
 			query.value = newQuery;
 
