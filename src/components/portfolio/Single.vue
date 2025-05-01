@@ -38,20 +38,40 @@
 					@cancel="updatePortfolioToggle = false"
 				/>
 
-				<hr class="border border-light my-8"/>
+				<hr class="border border-secondary my-8"/>
 
 				<VRow>
-					<VCol cols="12" sm="6" md="4" lg="4">
+					<VCol cols="12" md="3">
+						<v-btn-toggle
+							v-model="addAssetType"
+							color="primary"
+							variant="outlined"
+							divided
+							mandatory
+							class="w-100 text-light"
+						>
+							<v-btn class="w-50">
+							Stock
+							</v-btn>
+
+							<v-btn class="w-50">
+							Crypto
+							</v-btn>
+						</v-btn-toggle>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="3">
 						<VTextField
 							v-model="symbol"
+							color="primary"
 							density="compact"
-							label="Stock Symbol"
+							label="Symbol"
 							variant="outlined"
 							class="text-light"
 						/>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="4" lg="4">
+					<VCol cols="12" sm="6" md="3">
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
@@ -65,7 +85,7 @@
 						/>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="4" lg="4">
+					<VCol cols="12" md="3">
 						<VBtn variant="outlined" rounded color="success" class="w-100"
 							@click="addPortfolioAsset">
 							+ Add Stock
@@ -73,71 +93,71 @@
 					</VCol>
 				</VRow>
 
-				<VRow>
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h3 class="text-primary">Stock</h3>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h3 class="text-primary">Sector - Industry</h3>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h3 class="text-primary">Target Allocation</h3>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h3 class="text-primary">Allocation</h3>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2">
-						<h3 class="text-primary">Balance</h3>
-					</VCol>
-
-					<VCol cols="6" sm="6" md="4" lg="2"/>
-				</VRow>
+				<hr class="border border-secondary my-8"/>
 
 				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id">
 					<VRow>
-						<VCol cols="6" sm="6" md="4" lg="2">
-							<h3 class="text-light">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h3>
-
-							<h5 class="text-light">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h5>
+						<VCol cols="2" sm="2" md="2" lg="1">
+							<h4 class="mb-1 text-light">Symbol</h4>
+							<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="4" lg="2">
-							<h5 class="text-light">{{ a.sector }} - {{ a.industry }}</h5>
+						<VCol cols="4" sm="4" md="4" lg="2">
+							<h4 class="mb-1 text-light">Company</h4>
+							<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="4" lg="2">
-							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
-								% {{ a.percent_allocation / 100 }}
+						<VCol cols="6" sm="6" md="6" lg="3">
+							<h4 class="mb-1 text-light">Sector - Industry</h4>
+							<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
+						</VCol>
+
+						<VCol cols="12" lg="1">
+							<h4 class="mb-1 text-light">Target Pct.</h4>
+							<VSheet color="light" rounded class="px-2 py-2">
+								<h3 class="text-dark">% {{ a.percent_allocation / 100 }}</h3>
 							</VSheet>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="4" lg="2">
-							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
-								% {{ 0.00 }}
+						<VCol cols="12" lg="1">
+							<h4 class="mb-1 text-light">Pct.</h4>
+							<VSheet color="light" rounded class="px-2 py-2 text-dark">
+								<h3 class="text-dark">% {{ 0.00 }}</h3>
 							</VSheet>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="4" lg="2">
-							<VSheet color="secondary" rounded class="px-2 py-2 text-white">
+						<VCol cols="12" lg="2">
+							<h4 class="mb-1 text-light">Balance</h4>
+							<VSheet color="secondary" rounded class="px-2 py-2 text-light">
 								0.00
 							</VSheet>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="4" lg="2">
+						<VCol cols="6" sm="6" lg="1">
+							<VBtn
+								variant="outlined"
+								color="warning"
+								rounded
+								class="w-100 mt-6"
+							>
+								Update
+							</VBtn>
+						</VCol>
+
+						<VCol cols="6" sm="6" lg="1">
 							<VBtn
 								@click="removePortfolioAsset(a.portfolio_asset_id)"
-								variant="flat"
-								rounded color="danger"
-								class="w-100"
+								variant="outlined"
+								color="danger"
+								rounded
+								class="w-100 mt-6"
 							>
 								✖
 							</VBtn>
 						</VCol>
 					</VRow>
+
+					<hr class="border border-secondary my-5"/>
 				</div>
 
 				<div v-else class="py-8">
@@ -194,6 +214,7 @@
 	const loading = ref(false);
 	const updatePortfolioToggle = ref(false);
 	const confirmDelete = ref(false);
+	const addAssetType = ref(0);
 	const portfolio = ref();
 	const portfolioAssets = ref([
 	]);
@@ -384,3 +405,14 @@
 		}
 	});
 </script>
+
+<style scoped>
+.switch-danger .v-selection-control__track {
+	background-color: #dc3545 !important; /* Bootstrap 'danger' red */
+	border-color: #dc3545 !important;
+}
+
+.switch-danger .v-selection-control__thumb {
+	background-color: white !important;
+}
+</style>
