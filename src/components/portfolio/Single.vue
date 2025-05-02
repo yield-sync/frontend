@@ -122,7 +122,7 @@
 								</VCol>
 							</VRow>
 						</VCol>
-						<VCol cols="12" xl="2">
+						<VCol cols="12" sm="6" md="3" xl="2">
 							<h4 class="mb-1 text-light">Target Pct. (100 = 1%)</h4>
 							<VTextField
 								v-model="a.percent_allocation"
@@ -135,7 +135,7 @@
 							></VTextField>
 						</VCol>
 
-						<VCol cols="12" xl="2">
+						<VCol cols="12" sm="6" md="3" xl="2">
 							<h4 class="mb-1 text-light">Balance</h4>
 							<VTextField
 								v-model="a.balance"
@@ -148,7 +148,7 @@
 							></VTextField>
 						</VCol>
 
-						<VCol cols="6" xl="1">
+						<VCol cols="6" md="3" xl="1">
 							<VBtn
 								variant="flat"
 								rounded="lg"
@@ -159,7 +159,7 @@
 							</VBtn>
 						</VCol>
 
-						<VCol cols="6" xl="1">
+						<VCol cols="6" md="3" xl="1">
 							<VBtn
 								@click="() => {
 									confirmDeletePortfolioAsset = true;
