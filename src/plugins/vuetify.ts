@@ -19,6 +19,7 @@ export const colors = {
 	warning: "rgb(251, 140, 0)0",
 	light: "rgb(200, 200, 200)",
 	dark: "rgb(38, 43, 46)",
+	"dark-light": "rgb(45, 51, 54)",
 	danger: "rgb(255, 82, 82)",
 };
 

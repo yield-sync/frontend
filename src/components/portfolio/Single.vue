@@ -38,9 +38,7 @@
 					@cancel="updatePortfolioToggle = false"
 				/>
 
-				<hr class="border border-secondary my-8"/>
-
-				<VRow>
+				<VRow class="mt-4 mb-8">
 					<VCol cols="12" md="3">
 						<v-btn-toggle
 							v-model="addAssetType"
@@ -87,7 +85,7 @@
 					<VCol cols="12" md="3">
 						<VBtn
 							rounded="lg"
-							variant="outlined"
+							variant="flat"
 							color="success"
 							class="w-100"
 							@click="addPortfolioAsset"
@@ -97,30 +95,28 @@
 					</VCol>
 				</VRow>
 
-				<hr class="border border-secondary my-3"/>
-
-				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id">
-					<VRow>
+				<div v-if="portfolioAssets.length > 0" v-for="(a, i) in portfolioAssets" :key="a.portfolio_asset_id">
+					<VRow class="rounded-xl my-1 px-1 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
 						<VCol cols="12" xl="6">
 							<VRow>
-								<VCol cols="2">
+								<VCol cols="3" sm="2" lg="2" xl="2">
 									<h4 class="mb-1 text-light">Symbol</h4>
 									<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
 								</VCol>
 
-								<VCol cols="3">
+								<VCol cols="9" sm="5" lg="3" xl="4">
 									<h4 class="mb-1 text-light">Company</h4>
-									<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
+									<h4 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h4>
 								</VCol>
 
-								<VCol cols="5">
+								<VCol cols="12" sm="4" lg="4" xl="4">
 									<h4 class="mb-1 text-light">Sector - Industry</h4>
-									<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
+									<h4 class="text-primary">{{ a.sector }} - {{ a.industry }}</h4>
 								</VCol>
 
-								<VCol cols="2">
-									<h4 class="mb-1 text-light">Pct.</h4>
-									<VSheet color="secondary" rounded class="px-2 py-2 text-dark">
+								<VCol cols="12" lg="3" xl="2">
+									<h4 class="mb-1 text-light">Portfolio Pct.</h4>
+									<VSheet color="secondary" rounded="lg" class="px-2 py-2 text-dark">
 										<h3 class="text-light">% {{ 0.00 }}</h3>
 									</VSheet>
 								</VCol>
@@ -154,7 +150,7 @@
 
 						<VCol cols="6" xl="1">
 							<VBtn
-								variant="outlined"
+								variant="flat"
 								rounded="lg"
 								color="warning"
 								class="w-100 mt-6"
@@ -169,7 +165,7 @@
 									confirmDeletePortfolioAsset = true;
 									assetToDeleteId = a.portfolio_asset_id
 								}"
-								variant="outlined"
+								variant="flat"
 								rounded="lg"
 								color="danger"
 								class="w-100 mt-6"
@@ -178,8 +174,6 @@
 							</VBtn>
 						</VCol>
 					</VRow>
-
-					<hr class="border border-secondary my-4"/>
 				</div>
 
 				<div v-else class="py-8">

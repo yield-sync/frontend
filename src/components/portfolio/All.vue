@@ -5,9 +5,9 @@
 
 			<VRow v-if="!requestError">
 				<VCol v-if="app.portfolios.length > 0" v-for="p in app.portfolios" :key="p.id" cols="12">
-					<VCard @click="router.push(`/portfolio/${p.id}`)" color="light" elevation="0">
+					<VCard @click="router.push(`/portfolio/${p.id}`)" color="dark-light" elevation="0">
 						<VCardTitle class="py-6 text-center">
-							<h3 class="text-center text-uppercase text-secondary text-bold">{{ p.name }}</h3>
+							<h3 class="text-center text-uppercase text-light text-bold">{{ p.name }}</h3>
 						</VCardTitle>
 					</VCard>
 				</VCol>

@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-	import { onMounted } from "vue";
 	import { RouterView } from "vue-router";
 
 	import NavigationBar from "@/components/NavigationBar.vue";
