@@ -12,6 +12,7 @@
 							<VTextField
 								v-model="portfolioName"
 								:rules="rules"
+								rounded="lg"
 								variant="outlined"
 								color="success"
 								label="Portfolio Name"
@@ -21,6 +22,7 @@
 						<VCol cols="3">
 							<VBtn
 								:loading="loading"
+								rounded="lg"
 								color="success"
 								variant="outlined"
 								type="submit"

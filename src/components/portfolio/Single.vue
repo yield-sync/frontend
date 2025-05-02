@@ -48,15 +48,12 @@
 							variant="outlined"
 							divided
 							mandatory
+							rounded="lg"
 							class="w-100 text-light"
+							border="light"
 						>
-							<v-btn class="w-50">
-							Stock
-							</v-btn>
-
-							<v-btn class="w-50">
-							Crypto
-							</v-btn>
+							<v-btn class="w-50">Stock</v-btn>
+							<v-btn class="w-50">Crypto</v-btn>
 						</v-btn-toggle>
 					</VCol>
 
@@ -65,7 +62,8 @@
 							v-model="symbol"
 							color="primary"
 							density="compact"
-							label="Symbol"
+							rounded="lg"
+							:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
 							variant="outlined"
 							class="text-light"
 						/>
@@ -75,9 +73,10 @@
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
-							label="Target Allocation (0.01 - 100.00%)"
+							label="Target Pct. (0.01 - 100.00%)"
 							variant="outlined"
 							class="text-light"
+							rounded="lg"
 							type="number"
 							:min=".01"
 							:max="10000"
@@ -86,8 +85,13 @@
 					</VCol>
 
 					<VCol cols="12" md="3">
-						<VBtn variant="outlined" color="success" class="w-100"
-							@click="addPortfolioAsset">
+						<VBtn
+							rounded="lg"
+							variant="outlined"
+							color="success"
+							class="w-100"
+							@click="addPortfolioAsset"
+						>
 							+ Add Stock
 						</VBtn>
 					</VCol>
@@ -107,7 +111,7 @@
 							<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
 						</VCol>
 
-						<VCol cols="6" xl="3">
+						<VCol cols="6" xl="2">
 							<h4 class="mb-1 text-light">Sector - Industry</h4>
 							<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
 						</VCol>
@@ -119,10 +123,11 @@
 							</VSheet>
 						</VCol>
 
-						<VCol cols="12" xl="1">
-							<h4 class="mb-1 text-light">Target Pct.</h4>
+						<VCol cols="12" xl="2">
+							<h4 class="mb-1 text-light">Target Pct. (100 = 1%)</h4>
 							<VTextField
 								v-model="a.percent_allocation"
+								rounded="lg"
 								variant="outlined"
 								color="light"
 								class="text-light"
@@ -135,6 +140,7 @@
 							<h4 class="mb-1 text-light">Balance</h4>
 							<VTextField
 								v-model="a.balance"
+								rounded="lg"
 								variant="outlined"
 								color="light"
 								class="text-light"
@@ -146,6 +152,7 @@
 						<VCol cols="6" xl="1">
 							<VBtn
 								variant="outlined"
+								rounded="lg"
 								color="warning"
 								class="w-100 mt-6"
 							>
@@ -157,6 +164,7 @@
 							<VBtn
 								@click="removePortfolioAsset(a.portfolio_asset_id)"
 								variant="outlined"
+								rounded="lg"
 								color="danger"
 								class="w-100 mt-6"
 							>
