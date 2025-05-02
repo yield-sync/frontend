@@ -18,7 +18,7 @@
 									<VListItemTitle>Update Name</VListItemTitle>
 								</VListItem>
 
-								<VListItem @click="confirmDelete = true">
+								<VListItem @click="confirmDeletePortfolio = true">
 									<VListItemTitle class="text-error">Delete</VListItemTitle>
 								</VListItem>
 							</VList>
@@ -101,28 +101,31 @@
 
 				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id">
 					<VRow>
-						<VCol cols="2" xl="1">
-							<h4 class="mb-1 text-light">Symbol</h4>
-							<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
-						</VCol>
+						<VCol cols="12" xl="6">
+							<VRow>
+								<VCol cols="2">
+									<h4 class="mb-1 text-light">Symbol</h4>
+									<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
+								</VCol>
 
-						<VCol cols="4" xl="2">
-							<h4 class="mb-1 text-light">Company</h4>
-							<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
-						</VCol>
+								<VCol cols="3">
+									<h4 class="mb-1 text-light">Company</h4>
+									<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
+								</VCol>
 
-						<VCol cols="6" xl="2">
-							<h4 class="mb-1 text-light">Sector - Industry</h4>
-							<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
-						</VCol>
+								<VCol cols="5">
+									<h4 class="mb-1 text-light">Sector - Industry</h4>
+									<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
+								</VCol>
 
-						<VCol cols="12" xl="1">
-							<h4 class="mb-1 text-light">Pct.</h4>
-							<VSheet color="secondary" rounded class="px-2 py-2 text-dark">
-								<h3 class="text-light">% {{ 0.00 }}</h3>
-							</VSheet>
+								<VCol cols="2">
+									<h4 class="mb-1 text-light">Pct.</h4>
+									<VSheet color="secondary" rounded class="px-2 py-2 text-dark">
+										<h3 class="text-light">% {{ 0.00 }}</h3>
+									</VSheet>
+								</VCol>
+							</VRow>
 						</VCol>
-
 						<VCol cols="12" xl="2">
 							<h4 class="mb-1 text-light">Target Pct. (100 = 1%)</h4>
 							<VTextField
@@ -162,7 +165,10 @@
 
 						<VCol cols="6" xl="1">
 							<VBtn
-								@click="removePortfolioAsset(a.portfolio_asset_id)"
+								@click="() => {
+									confirmDeletePortfolioAsset = true;
+									assetToDeleteId = a.portfolio_asset_id
+								}"
 								variant="outlined"
 								rounded="lg"
 								color="danger"
@@ -184,7 +190,8 @@
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
-		<VDialog v-model="confirmDelete" max-width="400">
+		<!-- Confirm delete portfolio -->
+		<VDialog v-model="confirmDeletePortfolio" max-width="400">
 			<VCard color="dark">
 				<VCardTitle class="text-center">
 					Are you sure?
@@ -199,7 +206,35 @@
 						Cancel
 					</VBtn>
 
-					<VBtn color="danger" variant="flat" @click="onConfirmDelete">
+					<VBtn color="danger" variant="flat" @click="onConfirmDeletePortfolio">
+						Yes, Delete
+					</VBtn>
+				</VCardActions>
+			</VCard>
+		</VDialog>
+
+		<!-- Confirm delete portfolio asset -->
+		<VDialog v-model="confirmDeletePortfolioAsset" max-width="400">
+			<VCard color="dark">
+				<VCardTitle class="text-center">
+					Delete Asset?
+				</VCardTitle>
+
+				<VCardText class="text-center">
+					<p>This asset will be removed from the portfolio.</p>
+					<p class="text-error">This action cannot be undone.</p>
+				</VCardText>
+
+				<VCardActions class="justify-center">
+					<VBtn color="light" variant="outlined" @click="confirmDeletePortfolioAsset = false">
+						Cancel
+					</VBtn>
+
+					<VBtn
+						color="danger"
+						variant="flat"
+						@click="onConfirmDeletePortfolioAsset"
+					>
 						Yes, Delete
 					</VBtn>
 				</VCardActions>
@@ -228,12 +263,16 @@
 	const percentAllocation = ref(10);
 
 	const loading = ref(false);
+
+	const confirmDeletePortfolioAsset = ref(false);
+	const assetToDeleteId = ref(null);
+
 	const updatePortfolioToggle = ref(false);
-	const confirmDelete = ref(false);
+	const confirmDeletePortfolio = ref(false);
 	const addAssetType = ref(0);
 	const portfolio = ref();
 	const portfolioAssets = ref([
-	]);
+		]);
 	const symbol = ref("");
 	const requestError = ref("");
 
@@ -251,10 +290,20 @@
 		if (percentAllocation.value > 100) percentAllocation.value = 100;
 	};
 
-	const onConfirmDelete = async () =>
+	const onConfirmDeletePortfolio = async () =>
 	{
-		confirmDelete.value = false;
+		confirmDeletePortfolio.value = false;
 		await deletePortfolio();
+	};
+
+	const onConfirmDeletePortfolioAsset = async () =>
+	{
+		if (!assetToDeleteId.value) return;
+
+		await deletePortfolioAsset(assetToDeleteId.value);
+
+		confirmDeletePortfolioAsset.value = false;
+		assetToDeleteId.value = null;
 	};
 
 	const getPortfolio = async () =>
@@ -382,7 +431,7 @@
 		await getPortfolio();
 	};
 
-	const removePortfolioAsset = async (portfolio_asset_id) =>
+	const deletePortfolioAsset = async (portfolio_asset_id) =>
 	{
 		if (!app.loggedIn) return;
 
