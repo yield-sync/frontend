@@ -40,7 +40,7 @@
 
 				<VRow class="mt-4 mb-8">
 					<VCol cols="12" md="3">
-						<v-btn-toggle
+						<VBtnToggle
 							v-model="addAssetType"
 							color="primary"
 							variant="outlined"
@@ -50,9 +50,10 @@
 							class="w-100 text-light"
 							border="light"
 						>
-							<v-btn class="w-50">Stock</v-btn>
-							<v-btn class="w-50">Crypto</v-btn>
-						</v-btn-toggle>
+							<VBtn class="w-50">Stock</VBtn>
+
+							<VBtn class="w-50">Crypto</VBtn>
+						</VBtnToggle>
 					</VCol>
 
 					<VCol cols="12" sm="6" md="3">
@@ -96,56 +97,77 @@
 				</VRow>
 
 				<div v-if="portfolioAssets.length > 0" v-for="(a, i) in portfolioAssets" :key="a.portfolio_asset_id">
-					<VRow class="rounded-xl my-1 px-1 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
+					<VRow class="rounded-lg mb-3 px-3 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
 						<VCol cols="12" xl="6">
 							<VRow>
-								<VCol cols="3" sm="2" lg="2" xl="2">
+								<VCol cols="12" sm="6" md="3" lg="2"
+									xl="1">
 									<h4 class="mb-1 text-light">Symbol</h4>
+
 									<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
 								</VCol>
 
-								<VCol cols="9" sm="5" lg="3" xl="4">
+								<VCol cols="12" sm="6" md="9" lg="3"
+									xl="3">
 									<h4 class="mb-1 text-light">Company</h4>
+
 									<h4 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h4>
 								</VCol>
 
-								<VCol cols="12" sm="4" lg="4" xl="4">
-									<h4 class="mb-1 text-light">Sector - Industry</h4>
-									<h4 class="text-primary">{{ a.sector }} - {{ a.industry }}</h4>
+								<VCol cols="12" sm="6" md="6" lg="2"
+									xl="3">
+									<h4 class="mb-1 text-light">Sector</h4>
+
+									<h4 class="text-primary">{{ a.sector }}</h4>
 								</VCol>
 
-								<VCol cols="12" lg="3" xl="2">
+								<VCol cols="12" sm="6" md="6" lg="2"
+									xl="3">
+									<h4 class="mb-1 text-light">Industry</h4>
+
+									<h4 class="text-primary">{{ a.industry }}</h4>
+								</VCol>
+
+								<VCol cols="12" sm="12" md="12" lg="3"
+									xl="2">
 									<h4 class="mb-1 text-light">Portfolio Pct.</h4>
+
 									<VSheet color="secondary" rounded="lg" class="px-2 py-2 text-dark">
 										<h3 class="text-light">% {{ 0.00 }}</h3>
 									</VSheet>
 								</VCol>
 							</VRow>
 						</VCol>
+
 						<VCol cols="12" sm="6" md="3" xl="2">
-							<h4 class="mb-1 text-light">Target Pct. (100 = 1%)</h4>
 							<VTextField
-								v-model="a.percent_allocation"
+								:model-value="a.percent_allocation / 100"
+								@update:model-value="(val) => a.percent_allocation = val * 100"
+								@blur="() => {
+									if (a.percent_allocation < 1) a.percent_allocation = 1;
+									if (a.percent_allocation > 10000) a.percent_allocation = 10000;
+								}"
 								rounded="lg"
+								label="Target In Percent. (0.01 - 100.00%)"
 								variant="outlined"
 								color="light"
-								class="text-light"
+								class="mt-6 text-light"
 								type="number"
 								density="compact"
-							></VTextField>
+							/>
 						</VCol>
 
 						<VCol cols="12" sm="6" md="3" xl="2">
-							<h4 class="mb-1 text-light">Balance</h4>
 							<VTextField
 								v-model="a.balance"
 								rounded="lg"
 								variant="outlined"
+								label="Balance"
 								color="light"
-								class="text-light"
+								class="mt-6 text-light"
 								type="number"
 								density="compact"
-							></VTextField>
+							/>
 						</VCol>
 
 						<VCol cols="6" md="3" xl="1">
@@ -216,6 +238,7 @@
 
 				<VCardText class="text-center">
 					<p>This asset will be removed from the portfolio.</p>
+
 					<p class="text-error">This action cannot be undone.</p>
 				</VCardText>
 
@@ -266,7 +289,7 @@
 	const addAssetType = ref(0);
 	const portfolio = ref();
 	const portfolioAssets = ref([
-		]);
+	]);
 	const symbol = ref("");
 	const requestError = ref("");
 
