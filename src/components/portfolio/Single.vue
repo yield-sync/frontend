@@ -86,70 +86,78 @@
 					</VCol>
 
 					<VCol cols="12" md="3">
-						<VBtn variant="outlined" rounded color="success" class="w-100"
+						<VBtn variant="outlined" color="success" class="w-100"
 							@click="addPortfolioAsset">
 							+ Add Stock
 						</VBtn>
 					</VCol>
 				</VRow>
 
-				<hr class="border border-secondary my-8"/>
+				<hr class="border border-secondary my-3"/>
 
 				<div v-if="portfolioAssets.length > 0" v-for="a in portfolioAssets" :key="a.portfolio_asset_id">
 					<VRow>
-						<VCol cols="2" sm="2" md="2" lg="1">
+						<VCol cols="2" xl="1">
 							<h4 class="mb-1 text-light">Symbol</h4>
 							<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
 						</VCol>
 
-						<VCol cols="4" sm="4" md="4" lg="2">
+						<VCol cols="4" xl="2">
 							<h4 class="mb-1 text-light">Company</h4>
 							<h3 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h3>
 						</VCol>
 
-						<VCol cols="6" sm="6" md="6" lg="3">
+						<VCol cols="6" xl="3">
 							<h4 class="mb-1 text-light">Sector - Industry</h4>
 							<h3 class="text-primary">{{ a.sector }} - {{ a.industry }}</h3>
 						</VCol>
 
-						<VCol cols="12" lg="1">
-							<h4 class="mb-1 text-light">Target Pct.</h4>
-							<VSheet color="light" rounded class="px-2 py-2">
-								<h3 class="text-dark">% {{ a.percent_allocation / 100 }}</h3>
-							</VSheet>
-						</VCol>
-
-						<VCol cols="12" lg="1">
+						<VCol cols="12" xl="1">
 							<h4 class="mb-1 text-light">Pct.</h4>
-							<VSheet color="light" rounded class="px-2 py-2 text-dark">
-								<h3 class="text-dark">% {{ 0.00 }}</h3>
+							<VSheet color="secondary" rounded class="px-2 py-2 text-dark">
+								<h3 class="text-light">% {{ 0.00 }}</h3>
 							</VSheet>
 						</VCol>
 
-						<VCol cols="12" lg="2">
+						<VCol cols="12" xl="1">
+							<h4 class="mb-1 text-light">Target Pct.</h4>
+							<VTextField
+								v-model="a.percent_allocation"
+								variant="outlined"
+								color="light"
+								class="text-light"
+								type="number"
+								density="compact"
+							></VTextField>
+						</VCol>
+
+						<VCol cols="12" xl="2">
 							<h4 class="mb-1 text-light">Balance</h4>
-							<VSheet color="secondary" rounded class="px-2 py-2 text-light">
-								0.00
-							</VSheet>
+							<VTextField
+								v-model="a.balance"
+								variant="outlined"
+								color="light"
+								class="text-light"
+								type="number"
+								density="compact"
+							></VTextField>
 						</VCol>
 
-						<VCol cols="6" sm="6" lg="1">
+						<VCol cols="6" xl="1">
 							<VBtn
 								variant="outlined"
 								color="warning"
-								rounded
 								class="w-100 mt-6"
 							>
 								Update
 							</VBtn>
 						</VCol>
 
-						<VCol cols="6" sm="6" lg="1">
+						<VCol cols="6" xl="1">
 							<VBtn
 								@click="removePortfolioAsset(a.portfolio_asset_id)"
 								variant="outlined"
 								color="danger"
-								rounded
 								class="w-100 mt-6"
 							>
 								✖
@@ -157,7 +165,7 @@
 						</VCol>
 					</VRow>
 
-					<hr class="border border-secondary my-5"/>
+					<hr class="border border-secondary my-4"/>
 				</div>
 
 				<div v-else class="py-8">
