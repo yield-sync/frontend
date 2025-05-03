@@ -459,13 +459,14 @@
 					percent_allocation: percentAllocation.value * 100,
 				}
 			});
+
+			symbol.value = "";
+
 		}
 		catch (error)
 		{
 			requestError.value = error.response?.data.message || error.message;
 		}
-
-		symbol.value = "";
 
 		await getPortfolio();
 	};
