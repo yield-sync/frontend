@@ -76,7 +76,7 @@
 		}
 		catch (error)
 		{
-			requestError.value = error.response.data;
+			requestError.value = error.response?.data.message || error.message;
 		}
 	};
 
