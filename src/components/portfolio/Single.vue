@@ -81,7 +81,7 @@
 
 								<VCol cols="12" sm="12" md="12" lg="3"
 									xl="2">
-									<h4 class="mb-1 text-light">Portfolio Pct.</h4>
+									<h4 class="mb-1 text-light">Pct.</h4>
 
 									<VSheet color="secondary" rounded="lg" class="px-2 py-2 text-dark">
 										<h3 class="text-light">% {{ 0.00 }}</h3>
@@ -92,20 +92,23 @@
 
 						<VCol cols="12" sm="6" md="3" xl="2">
 							<VTextField
-								:model-value="a.percent_allocation / 100"
-								@update:model-value="(val) => a.percent_allocation = val * 100"
+								v-model="a.percent_allocation"
 								@blur="() => {
 									if (a.percent_allocation < 0) a.percent_allocation = 0;
-									if (a.percent_allocation > 10000) a.percent_allocation = 10000;
+									if (a.percent_allocation > 100) a.percent_allocation = 100;
 								}"
 								rounded="lg"
-								label="Target In Percent. (0.00 - 100.00%)"
+								label="Target (0.00 - 100%)"
 								variant="outlined"
 								color="light"
 								class="mt-6 text-light"
 								type="number"
 								density="compact"
-							/>
+							>
+								<template #prepend-inner>
+									%
+								</template>
+							</VTextField>
 						</VCol>
 
 						<VCol cols="12" sm="6" md="3" xl="2">
@@ -193,8 +196,8 @@
 							class="text-light"
 							rounded="lg"
 							type="number"
-							:min=".00"
-							:max="10000"
+							:min="0"
+							:max="100"
 							@input="validateAllocation"
 						/>
 					</VCol>
@@ -473,7 +476,7 @@
 				load: {
 					portfolio_id: props.id,
 					stock_isin: stockIsin,
-					percent_allocation: percentAllocation.value * 100,
+					percent_allocation: percentAllocation.value,
 					balance: balance.value,
 				}
 			});
