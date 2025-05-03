@@ -1,6 +1,8 @@
 <template>
 	<VContainer>
-		<div v-if="portfolio">
+		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
+
+		<div v-if="portfolio && !loading">
 			<VCardTitle v-if="!updatePortfolioToggle">
 				<VRow>
 					<VCol cols="10">
@@ -72,12 +74,12 @@
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
-							label="Target Pct. (0.01 - 100.00%)"
+							label="Target Pct. (0.00 - 100.00%)"
 							variant="outlined"
 							class="text-light"
 							rounded="lg"
 							type="number"
-							:min=".01"
+							:min=".00"
 							:max="10000"
 							@input="validateAllocation"
 						/>
@@ -87,6 +89,7 @@
 						<VBtn
 							rounded="lg"
 							variant="flat"
+							:loading="loading"
 							color="success"
 							class="w-100"
 							@click="addPortfolioAsset"
@@ -100,14 +103,14 @@
 					<VRow class="rounded-lg mb-3 px-3 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
 						<VCol cols="12" xl="6">
 							<VRow>
-								<VCol cols="12" sm="6" md="3" lg="2"
+								<VCol cols="12" sm="6" md="6" lg="2"
 									xl="1">
 									<h4 class="mb-1 text-light">Symbol</h4>
 
 									<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
 								</VCol>
 
-								<VCol cols="12" sm="6" md="9" lg="3"
+								<VCol cols="12" sm="6" md="6" lg="3"
 									xl="3">
 									<h4 class="mb-1 text-light">Company</h4>
 
@@ -144,11 +147,11 @@
 								:model-value="a.percent_allocation / 100"
 								@update:model-value="(val) => a.percent_allocation = val * 100"
 								@blur="() => {
-									if (a.percent_allocation < 1) a.percent_allocation = 1;
+									if (a.percent_allocation < 0) a.percent_allocation = 0;
 									if (a.percent_allocation > 10000) a.percent_allocation = 10000;
 								}"
 								rounded="lg"
-								label="Target In Percent. (0.01 - 100.00%)"
+								label="Target In Percent. (0.00 - 100.00%)"
 								variant="outlined"
 								color="light"
 								class="mt-6 text-light"
@@ -172,6 +175,7 @@
 
 						<VCol cols="6" md="3" xl="1">
 							<VBtn
+								@click="updatePorfolioAsset(i)"
 								variant="flat"
 								rounded="lg"
 								color="warning"
@@ -203,8 +207,6 @@
 				</div>
 			</VCardText>
 		</div>
-
-		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
 		<!-- Confirm delete portfolio -->
 		<VDialog v-model="confirmDeletePortfolio" max-width="400">
@@ -303,7 +305,7 @@
 
 	const validateAllocation = () =>
 	{
-		if (percentAllocation.value < .01) percentAllocation.value = 0.01;
+		if (percentAllocation.value < .00) percentAllocation.value = 0.00;
 		if (percentAllocation.value > 100) percentAllocation.value = 100;
 	};
 
@@ -325,6 +327,8 @@
 
 	const getPortfolio = async () =>
 	{
+		loading.value = true;
+
 		const authAxios = axios.create({
 			baseURL: `${URL}/api/portfolio/`,
 			headers: {
@@ -337,6 +341,8 @@
 		portfolio.value = response.data.portfolio;
 
 		portfolioAssets.value = response.data.portfolioAssets;
+
+		loading.value = false;
 	};
 
 	const onPortfolioNameUpdate = async (newName) =>
@@ -379,6 +385,8 @@
 	{
 		if (!app.loggedIn) return;
 
+		requestError.value = "";
+
 		const authAxios = axios.create({
 			baseURL: `${URL}/api/portfolio/`,
 			headers: {
@@ -405,6 +413,13 @@
 	const addPortfolioAsset = async () =>
 	{
 		if (!app.loggedIn) return;
+
+		if (!symbol.value)
+		{
+			requestError.value = "No symbol provided!"
+
+			return;
+		}
 
 		requestError.value = "";
 
@@ -464,6 +479,39 @@
 		try
 		{
 			await authAxios.delete(`/${portfolio_asset_id}`);
+		}
+		catch (error)
+		{
+			requestError.value = error.response.data.message;
+		}
+
+		await getPortfolio();
+	};
+
+	const updatePorfolioAsset = async (portfolioAssetsIndex) =>
+	{
+		if (!app.loggedIn) return;
+
+		requestError.value = "";
+
+		const authAxios = axios.create({
+			baseURL: `${URL}/api/portfolio-asset`,
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("authToken")}`,
+			},
+		});
+
+		try
+		{
+			await authAxios.put(
+				`/update/${portfolioAssets.value[portfolioAssetsIndex].portfolio_asset_id}`,
+				{
+					load: {
+						balance: portfolioAssets.value[portfolioAssetsIndex].balance,
+						percent_allocation: portfolioAssets.value[portfolioAssetsIndex].percent_allocation,
+					}
+				}
+			);
 		}
 		catch (error)
 		{
