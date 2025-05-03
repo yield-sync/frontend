@@ -155,7 +155,7 @@
 				</div>
 
 				<VRow>
-					<VCol cols="12" md="3">
+					<VCol cols="12" md="2">
 						<VBtnToggle
 							v-model="addAssetType"
 							color="primary"
@@ -172,7 +172,7 @@
 						</VBtnToggle>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="3">
+					<VCol cols="12" sm="6" md="2">
 						<VTextField
 							v-model="symbol"
 							color="primary"
@@ -199,7 +199,20 @@
 						/>
 					</VCol>
 
-					<VCol cols="12" md="3">
+					<VCol cols="12" sm="6" md="3">
+						<VTextField
+							v-model="balance"
+							density="compact"
+							label="Balance"
+							variant="outlined"
+							class="text-light"
+							type="number"
+							rounded="lg"
+							:min="0"
+						/>
+					</VCol>
+
+					<VCol cols="12" md="2">
 						<VBtn
 							rounded="lg"
 							variant="flat"
@@ -286,22 +299,26 @@
 
 	const id = ref(props.id);
 
-	const percentAllocation = ref(10);
-
+	// UI
 	const loading = ref(false);
-
-	const confirmDeletePortfolioAsset = ref(false);
-	const assetToDeleteId = ref(null);
-
+	const requestError = ref("");
 	const updatePortfolioToggle = ref(false);
-	const confirmDeletePortfolio = ref(false);
-	const addAssetType = ref(0);
+
+	// Portfolio
 	const portfolio = ref();
 	const portfolioAssets = ref([
 	]);
-	const symbol = ref("");
-	const requestError = ref("");
 
+	// Add Portfolio Asset
+	const addAssetType = ref(0);
+	const symbol = ref("");
+	const percentAllocation = ref(10);
+	const balance = ref(0);
+
+	// Deleetion stuff
+	const assetToDeleteId = ref(null);
+	const confirmDeletePortfolioAsset = ref(false);
+	const confirmDeletePortfolio = ref(false);
 
 	const router = useRouter();
 	const app = useAppStore();
@@ -457,10 +474,12 @@
 					portfolio_id: props.id,
 					stock_isin: stockIsin,
 					percent_allocation: percentAllocation.value * 100,
+					balance: balance.value,
 				}
 			});
 
 			symbol.value = "";
+			balance.value = 0;
 
 		}
 		catch (error)
