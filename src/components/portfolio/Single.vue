@@ -40,66 +40,12 @@
 					@cancel="updatePortfolioToggle = false"
 				/>
 
-				<VRow class="mt-4 mb-8">
-					<VCol cols="12" md="3">
-						<VBtnToggle
-							v-model="addAssetType"
-							color="primary"
-							variant="outlined"
-							divided
-							mandatory
-							rounded="lg"
-							class="w-100 text-light"
-							border="light"
-						>
-							<VBtn class="w-50">Stock</VBtn>
-
-							<VBtn class="w-50">Crypto</VBtn>
-						</VBtnToggle>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="3">
-						<VTextField
-							v-model="symbol"
-							color="primary"
-							density="compact"
-							rounded="lg"
-							:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
-							variant="outlined"
-							class="text-light"
-						/>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="3">
-						<VTextField
-							v-model="percentAllocation"
-							density="compact"
-							label="Target Pct. (0.00 - 100.00%)"
-							variant="outlined"
-							class="text-light"
-							rounded="lg"
-							type="number"
-							:min=".00"
-							:max="10000"
-							@input="validateAllocation"
-						/>
-					</VCol>
-
-					<VCol cols="12" md="3">
-						<VBtn
-							rounded="lg"
-							variant="flat"
-							:loading="loading"
-							color="success"
-							class="w-100"
-							@click="addPortfolioAsset"
-						>
-							+ Add Stock
-						</VBtn>
-					</VCol>
-				</VRow>
-
-				<div v-if="portfolioAssets.length > 0" v-for="(a, i) in portfolioAssets" :key="a.portfolio_asset_id">
+				<div
+					v-if="portfolioAssets.length > 0"
+					v-for="(a, i) in portfolioAssets"
+					:key="a.portfolio_asset_id"
+					class="mt-4 mb-8"
+				>
 					<VRow class="rounded-lg mb-3 px-3 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
 						<VCol cols="12" xl="6">
 							<VRow>
@@ -202,9 +148,68 @@
 					</VRow>
 				</div>
 
-				<div v-else class="py-8">
-					<h3 class="text-center text-light">No portfolio assets</h3>
+				<div v-else class="py-12">
+					<h3 class="text-center text-light">No assets in portfolio</h3>
 				</div>
+
+				<VRow>
+					<VCol cols="12" md="3">
+						<VBtnToggle
+							v-model="addAssetType"
+							color="primary"
+							variant="outlined"
+							divided
+							mandatory
+							rounded="lg"
+							class="w-100 text-light"
+							border="light"
+						>
+							<VBtn class="w-50">Stock</VBtn>
+
+							<VBtn class="w-50">Crypto</VBtn>
+						</VBtnToggle>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="3">
+						<VTextField
+							v-model="symbol"
+							color="primary"
+							density="compact"
+							rounded="lg"
+							:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
+							variant="outlined"
+							class="text-light"
+						/>
+					</VCol>
+
+					<VCol cols="12" sm="6" md="3">
+						<VTextField
+							v-model="percentAllocation"
+							density="compact"
+							label="Target Pct. (0.00 - 100.00%)"
+							variant="outlined"
+							class="text-light"
+							rounded="lg"
+							type="number"
+							:min=".00"
+							:max="10000"
+							@input="validateAllocation"
+						/>
+					</VCol>
+
+					<VCol cols="12" md="3">
+						<VBtn
+							rounded="lg"
+							variant="flat"
+							:loading="loading"
+							color="success"
+							class="w-100"
+							@click="addPortfolioAsset"
+						>
+							+ Add Stock
+						</VBtn>
+					</VCol>
+				</VRow>
 			</VCardText>
 		</div>
 
