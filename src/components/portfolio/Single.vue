@@ -1,5 +1,7 @@
 <template>
 	<VContainer>
+		<h3 v-if="loading" class="text-center text-primary">Loading..</h3>
+
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
 		<div v-if="portfolio && !loading">
@@ -445,7 +447,7 @@
 		}
 		catch (error)
 		{
-			requestError.value = error;
+			requestError.value = error.response?.data.message || error.message;
 		}
 
 		try
@@ -460,7 +462,7 @@
 		}
 		catch (error)
 		{
-			requestError.value = error.response.data;
+			requestError.value = error.response?.data.message || error.message;
 		}
 
 		symbol.value = "";
@@ -487,7 +489,7 @@
 		}
 		catch (error)
 		{
-			requestError.value = error.response.data.message;
+			requestError.value = error.response?.data.message || error.message;
 		}
 
 		await getPortfolio();
@@ -520,7 +522,7 @@
 		}
 		catch (error)
 		{
-			requestError.value = error.response.data.message;
+			requestError.value = error.response?.data.message || error.message;
 		}
 
 		await getPortfolio();
