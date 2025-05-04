@@ -2,7 +2,7 @@
 	<VTextField
 		v-model="query"
 		variant="outlined"
-		rounded="lg"
+		rounded="xl"
 		label="Stock or Crypto Symbol"
 		append-inner-icon="mdi-magnify"
 		@keydown.esc.prevent="isListVisible = false"
@@ -13,7 +13,6 @@
 		@update:modelValue="fetchSuggestions"
 		ref="inputRef"
 		class="text-light"
-		density="compact"
 	/>
 
 	<VList
