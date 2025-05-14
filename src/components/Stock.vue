@@ -70,7 +70,7 @@
 
 		try
 		{
-			const response = await authAxios.get(`/stock/profile/${symbol.value}`);
+			const response = await authAxios.get(`/stock/read/${symbol.value}`);
 
 			stockProfileResult.value = response.data.stock;
 		}

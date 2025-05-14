@@ -1,16 +1,16 @@
 <template>
 	<VTextField
 		v-model="query"
-		variant="outlined"
-		rounded="xl"
-		label="Stock or Crypto Symbol"
-		append-inner-icon="mdi-magnify"
 		@keydown.esc.prevent="isListVisible = false"
 		@keydown.down.prevent="moveSelection(1)"
 		@keydown.up.prevent="moveSelection(-1)"
 		@keydown.enter.prevent="handleEnter"
 		@input="fetchSuggestions"
 		@update:modelValue="fetchSuggestions"
+		variant="outlined"
+		rounded="xl"
+		label="Stock or Crypto Symbol"
+		append-inner-icon="mdi-magnify"
 		ref="inputRef"
 		class="text-light"
 	/>
@@ -24,7 +24,7 @@
 	>
 		<VListItem
 			v-for="(stock, i) in suggestions"
-			:key="stock.symbol"
+			:key="stock.isin"
 			:class="{
 				'bg-secondary text-light': i === selectedIndex || i === hoveredIndex
 			}"
@@ -32,7 +32,7 @@
 			@mouseleave="hoveredIndex = null"
 			@mousedown.prevent="viewStockProfile(stock.symbol)"
 		>
-			<VListItemTitle>{{ stock.symbol }} - {{ stock.name }}</VListItemTitle>
+			<VListItemTitle>{{ stock.symbol }} - {{ stock.name }} [{{ stock.isin }}]</VListItemTitle>
 		</VListItem>
 	</VList>
 </template>
@@ -63,6 +63,13 @@
 
 	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
+	const authAxios = axios.create({
+		baseURL: `${apiUrl}/api`,
+		headers: {
+			authorization: `Bearer ${localStorage.getItem("authToken")}`,
+		},
+	});
+
 
 	const fetchSuggestions = async () =>
 	{
@@ -76,13 +83,6 @@
 		isListVisible.value = true;
 
 		loading.value = true;
-
-		const authAxios = axios.create({
-			baseURL: `${apiUrl}/api`,
-			headers: {
-				authorization: `Bearer ${localStorage.getItem("authToken")}`,
-			},
-		});
 
 		try
 		{
@@ -121,13 +121,13 @@
 		}
 	};
 
-	const handleEnter = () =>
+	const handleEnter = async () =>
 	{
 		if (selectedIndex.value !== -1)
 		{
 			const selected = suggestions.value[selectedIndex.value];
 
-			viewStockProfile(selected.symbol);
+			viewStockProfile(selected.isin);
 
 			return;
 		}
@@ -137,14 +137,29 @@
 			{
 				if (suggestions.value[i].symbol.toLowerCase() === query.value.toLowerCase())
 				{
-					viewStockProfile(suggestions.value[i].symbol);
+					viewStockProfile(suggestions.value[i].isin);
 					return;
 				}
 			}
 
-			router.push("/");
+			try
+			{
+				const response = await authAxios.post("/stock/create-by-symbol", {
+					load: {
+						symbol: query.value
+					}
+				});
 
-			router.push(`/query/${query.value}`);
+				if (response.status == 201)
+				{
+					viewStockProfile(response.data.createdStock.isin);
+				}
+
+			}
+			catch (error)
+			{
+				console.error("Error creating stock by symbol:", error);
+			}
 
 			query.value = "";
 
@@ -174,9 +189,9 @@
 		}
 	};
 
-	const viewStockProfile = (symbol) =>
+	const viewStockProfile = (isin) =>
 	{
-		router.push(`/stock/${symbol}`);
+		router.push(`/stock/${isin}`);
 
 		query.value = "";
 
