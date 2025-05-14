@@ -98,7 +98,7 @@
 									if (a.percent_allocation > 100) a.percent_allocation = 100;
 								}"
 								rounded="lg"
-								label="Target (0.00 - 100%)"
+								label="Target % (0.00 - 100)"
 								variant="outlined"
 								color="light"
 								class="mt-6 text-light"
@@ -158,7 +158,7 @@
 				</div>
 
 				<VRow>
-					<VCol cols="12" md="2">
+					<VCol cols="12" lg="3">
 						<VBtnToggle
 							v-model="addAssetType"
 							color="primary"
@@ -166,7 +166,7 @@
 							divided
 							mandatory
 							rounded="lg"
-							class="w-100 text-light"
+							class="w-100 mb-6 text-light"
 							border="light"
 						>
 							<VBtn class="w-50">Stock</VBtn>
@@ -175,23 +175,43 @@
 						</VBtnToggle>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="2">
+					<VCol cols="12" lg="3">
 						<VTextField
 							v-model="symbol"
+							@input="fetchSuggestions"
+							@update:modelValue="fetchSuggestions"
 							color="primary"
 							density="compact"
 							rounded="lg"
-							:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
+							:label="addAssetType == 0 ? 'Stock Symbol (Select Below)' : 'Crypto Symbol'"
 							variant="outlined"
 							class="text-light"
 						/>
+
+						<div class="asset-list-wrapper custom-scrollbar py-1 pl-1 bg-dark-light rounded-lg">
+							<div
+								v-if="queryResultStocks.length > 0"
+								v-for="(a, i) in queryResultStocks"
+								:key="a.isin"
+								class="py-1 px-2 rounded cursor-pointer"
+								:class="selectedqueryResultStockstockIsin === a.isin ? 'bg-primary text-dark' : 'text-light'"
+								@click="selectedqueryResultStockstockIsin = a.isin"
+							>
+								<span class="h3 mx-0 my-0">{{ a.symbol }} - {{ a.name }}</span>
+							</div>
+
+							<div v-else>
+								<h3 class="my-7 text-center text-light">No stocks found</h3>
+							</div>
+						</div>
+						<h5 class="text-center text-light"></h5>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="3">
+					<VCol cols="12" md="6" lg="2">
 						<VTextField
 							v-model="percentAllocation"
 							density="compact"
-							label="Target Pct. (0.00 - 100.00%)"
+							label="Target % (0.00 - 100)"
 							variant="outlined"
 							class="text-light"
 							rounded="lg"
@@ -202,7 +222,7 @@
 						/>
 					</VCol>
 
-					<VCol cols="12" sm="6" md="3">
+					<VCol cols="12" md="6" lg="2">
 						<VTextField
 							v-model="balance"
 							density="compact"
@@ -215,7 +235,7 @@
 						/>
 					</VCol>
 
-					<VCol cols="12" md="2">
+					<VCol cols="12" lg="2">
 						<VBtn
 							rounded="lg"
 							variant="flat"
@@ -317,6 +337,8 @@
 	const symbol = ref("");
 	const percentAllocation = ref(10);
 	const balance = ref(0);
+	const queryResultStocks = ref([]);
+	const selectedqueryResultStockstockIsin = ref(null);
 
 	// Deleetion stuff
 	const assetToDeleteId = ref(null);
@@ -441,19 +463,17 @@
 	{
 		if (!app.loggedIn) return;
 
-		if (!symbol.value)
+		if (!selectedqueryResultStockstockIsin.value)
 		{
-			requestError.value = "No symbol provided!"
+			requestError.value = "No selection made!"
 
 			return;
 		}
 
 		requestError.value = "";
 
-		let stockIsin = null;
-
 		const authAxios = axios.create({
-			baseURL: `${URL}/api`,
+			baseURL: `${URL}/api/portfolio-asset`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},
@@ -461,27 +481,18 @@
 
 		try
 		{
-			const response = await authAxios.get(`/stock/profile/${symbol.value}`);
-
-			stockIsin = response.data.stock.isin;
-		}
-		catch (error)
-		{
-			requestError.value = error.response?.data.message || error.message;
-		}
-
-		try
-		{
-			await authAxios.post("/portfolio-asset/create", {
+			await authAxios.post("/create", {
 				load: {
 					portfolio_id: props.id,
-					stock_isin: stockIsin,
+					stock_isin: selectedqueryResultStockstockIsin.value,
 					percent_allocation: percentAllocation.value,
 					balance: balance.value,
 				}
 			});
 
 			symbol.value = "";
+			selectedqueryResultStockstockIsin.value = null;
+			queryResultStocks.value = []
 			balance.value = 0;
 
 		}
@@ -551,6 +562,38 @@
 		await getPortfolio();
 	};
 
+	const fetchSuggestions = async () =>
+	{
+		selectedqueryResultStockstockIsin.value = null;
+
+		if (!symbol.value || symbol.value < 1)
+		{
+			queryResultStocks.value = [
+			];
+			return;
+		}
+
+		try
+		{
+			const authAxios = axios.create({
+				baseURL: `${URL}/api`,
+				headers: {
+					authorization: `Bearer ${localStorage.getItem("authToken")}`,
+				},
+			});
+
+			const res = await authAxios.get(`/stock/search/${symbol.value}`);
+
+			queryResultStocks.value = res.data.stocks;
+		}
+		catch (err)
+		{
+			console.error("Error fetching suggestions:", err);
+			queryResultStocks.value = [
+			];
+		}
+	};
+
 	onMounted(async () =>
 	{
 		if (!app.loggedIn) return;
@@ -574,5 +617,41 @@
 
 .switch-danger .v-selection-control__thumb {
 	background-color: white !important;
+}
+
+.asset-list-wrapper {
+	height: 90px; /* You can adjust this height */
+	overflow-y: scroll;
+}
+
+.custom-scrollbar {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+/* Scrollbar styles for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: #2a2a2a;
+	border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background-color: #888;
+	border-radius: 8px;
+	border: 2px solid #2a2a2a;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background-color: #aaa;
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #888 #2a2a2a;
 }
 </style>
