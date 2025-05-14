@@ -30,7 +30,7 @@
 			}"
 			@mouseenter="hoveredIndex = i"
 			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="viewStockProfile(stock.symbol)"
+			@mousedown.prevent="viewStockProfile(stock.isin)"
 		>
 			<VListItemTitle>{{ stock.symbol }} - {{ stock.name }} [{{ stock.isin }}]</VListItemTitle>
 		</VListItem>
