@@ -15,14 +15,12 @@
 		class="text-light"
 	/>
 
-	<VList
+	<div
 		v-if="suggestions.length > 0 && isListVisible"
-		class="position-absolute w-100 text-light border border-dark"
-		bgColor="dark-light"
-		rounded
+		class="position-absolute w-100 px-3 py-3 text-light border border-light bg-dark-light rounded"
 		style="z-index: 10; max-height: 200px; overflow-y: auto;"
 	>
-		<VListItem
+		<VRow
 			v-for="(stock, i) in suggestions"
 			:key="stock.isin"
 			:class="{
@@ -32,9 +30,10 @@
 			@mouseleave="hoveredIndex = null"
 			@mousedown.prevent="viewStockProfile(stock.isin)"
 		>
-			<VListItemTitle>{{ stock.symbol }} - {{ stock.name }} [{{ stock.isin }}]</VListItemTitle>
-		</VListItem>
-	</VList>
+			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ stock.symbol }}</span></VCol>
+			<VCol sm="8" md="9" lg="10">{{ stock.name }}</VCol>
+		</VRow>
+	</div>
 </template>
 
 <script setup>

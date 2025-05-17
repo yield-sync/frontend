@@ -5,7 +5,7 @@
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
 		<div v-if="portfolio && !loading">
-			<VCardTitle v-if="!updatePortfolioToggle">
+			<div v-if="!updatePortfolioToggle">
 				<VRow>
 					<VCol cols="10">
 						<h2 class="text-light">{{ portfolio.name }}</h2>
@@ -29,9 +29,9 @@
 						</VMenu>
 					</VCol>
 				</VRow>
-			</VCardTitle>
+			</div>
 
-			<VCardText>
+			<div style="max-width: 300px;">
 				<UpdateName
 					v-if="updatePortfolioToggle"
 					:id="id"
@@ -41,6 +41,112 @@
 					@submit="onPortfolioNameUpdate"
 					@cancel="updatePortfolioToggle = false"
 				/>
+			</div>
+
+			<div>
+				<VRow>
+					<VCol cols="12">
+						<h1>Add Assets to Portfolio</h1>
+					</VCol>
+
+					<VCol cols="12" lg="3">
+						<VBtnToggle
+							v-model="addAssetType"
+							color="primary"
+							variant="outlined"
+							divided
+							mandatory
+							rounded="lg"
+							class="w-100 mb-6 text-light"
+							border="light"
+						>
+							<VBtn class="w-50">Stock</VBtn>
+
+							<VBtn class="w-50">Crypto</VBtn>
+						</VBtnToggle>
+
+						<VTextField
+							v-model="symbol"
+							@input="fetchSuggestions"
+							@update:modelValue="fetchSuggestions"
+							color="primary"
+							density="compact"
+							rounded="lg"
+							:label="addAssetType == 0 ? 'Stock Symbol (Select Below)' : 'Crypto Symbol'"
+							variant="outlined"
+							class="text-light"
+						/>
+					</VCol>
+
+					<VCol cols="12" lg="3">
+						<div class="asset-list-wrapper custom-scrollbar bg-dark-light">
+							<VRow
+								v-if="queryResultStocks.length > 0"
+								v-for="(a, i) in queryResultStocks"
+								:key="a.isin"
+								class="w-100 cursor-pointer my-0"
+								:class="selectedqueryResultStockstockIsin === a.isin ? 'bg-primary text-dark' : 'text-light'"
+								@click="selectedqueryResultStockstockIsin = a.isin"
+							>
+								<VCol sm="3" md="2" class="">
+									<span
+										class="h4 ml-2"
+										:class="selectedqueryResultStockstockIsin === a.isin ? 'text-dark' : 'text-primary'"
+									>{{ a.symbol }}</span>
+								</VCol>
+								<VCol sm="9" md="10" class="">
+									<span class="h4">{{ a.name }}</span>
+								</VCol>
+							</VRow>
+
+							<div v-else>
+								<h3 class="my-7 text-center text-light">No stocks found</h3>
+							</div>
+						</div>
+						<h5 class="text-center text-light"></h5>
+					</VCol>
+
+					<VCol cols="12" md="6" lg="2">
+						<VTextField
+							v-model="percentAllocation"
+							density="compact"
+							label="Target % (0.00 - 100)"
+							variant="outlined"
+							class="text-light"
+							rounded="lg"
+							type="number"
+							:min="0"
+							:max="100"
+							@input="validateAllocation"
+						/>
+					</VCol>
+
+					<VCol cols="12" md="6" lg="2">
+						<VTextField
+							v-model="balance"
+							density="compact"
+							label="Balance"
+							variant="outlined"
+							class="text-light"
+							type="number"
+							rounded="lg"
+							:min="0"
+						/>
+					</VCol>
+
+					<VCol cols="12" lg="2">
+						<VBtn
+							rounded="lg"
+							variant="flat"
+							:loading="loading"
+							color="success"
+							class="w-100"
+							@click="addPortfolioAsset"
+						>
+							+ Add Stock
+						</VBtn>
+					</VCol>
+				</VRow>
 
 				<div
 					v-if="portfolioAssets.length > 0"
@@ -156,99 +262,7 @@
 				<div v-else class="py-12">
 					<h3 class="text-center text-light">No assets in portfolio</h3>
 				</div>
-
-				<VRow>
-					<VCol cols="12" lg="3">
-						<VBtnToggle
-							v-model="addAssetType"
-							color="primary"
-							variant="outlined"
-							divided
-							mandatory
-							rounded="lg"
-							class="w-100 mb-6 text-light"
-							border="light"
-						>
-							<VBtn class="w-50">Stock</VBtn>
-
-							<VBtn class="w-50">Crypto</VBtn>
-						</VBtnToggle>
-					</VCol>
-
-					<VCol cols="12" lg="3">
-						<VTextField
-							v-model="symbol"
-							@input="fetchSuggestions"
-							@update:modelValue="fetchSuggestions"
-							color="primary"
-							density="compact"
-							rounded="lg"
-							:label="addAssetType == 0 ? 'Stock Symbol (Select Below)' : 'Crypto Symbol'"
-							variant="outlined"
-							class="text-light"
-						/>
-
-						<div class="asset-list-wrapper custom-scrollbar py-1 pl-1 bg-dark-light rounded-lg">
-							<div
-								v-if="queryResultStocks.length > 0"
-								v-for="(a, i) in queryResultStocks"
-								:key="a.isin"
-								class="py-1 px-2 rounded cursor-pointer"
-								:class="selectedqueryResultStockstockIsin === a.isin ? 'bg-primary text-dark' : 'text-light'"
-								@click="selectedqueryResultStockstockIsin = a.isin"
-							>
-								<span class="h3 mx-0 my-0">{{ a.symbol }} - {{ a.name }}</span>
-							</div>
-
-							<div v-else>
-								<h3 class="my-7 text-center text-light">No stocks found</h3>
-							</div>
-						</div>
-						<h5 class="text-center text-light"></h5>
-					</VCol>
-
-					<VCol cols="12" md="6" lg="2">
-						<VTextField
-							v-model="percentAllocation"
-							density="compact"
-							label="Target % (0.00 - 100)"
-							variant="outlined"
-							class="text-light"
-							rounded="lg"
-							type="number"
-							:min="0"
-							:max="100"
-							@input="validateAllocation"
-						/>
-					</VCol>
-
-					<VCol cols="12" md="6" lg="2">
-						<VTextField
-							v-model="balance"
-							density="compact"
-							label="Balance"
-							variant="outlined"
-							class="text-light"
-							type="number"
-							rounded="lg"
-							:min="0"
-						/>
-					</VCol>
-
-					<VCol cols="12" lg="2">
-						<VBtn
-							rounded="lg"
-							variant="flat"
-							:loading="loading"
-							color="success"
-							class="w-100"
-							@click="addPortfolioAsset"
-						>
-							+ Add Stock
-						</VBtn>
-					</VCol>
-				</VRow>
-			</VCardText>
+			</div>
 		</div>
 
 		<!-- Confirm delete portfolio -->
@@ -620,7 +634,7 @@
 }
 
 .asset-list-wrapper {
-	height: 90px; /* You can adjust this height */
+	height: 115px; /* You can adjust this height */
 	overflow-y: scroll;
 }
 
