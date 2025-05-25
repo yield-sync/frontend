@@ -156,7 +156,7 @@
 		{
 			const selected = suggestions.value[selectedIndex.value];
 
-			viewAssetProfile(selected.isin);
+			viewAssetProfile(searchAssetType.value == 0 ? selected.isin : selected.id);
 
 			return;
 		}
