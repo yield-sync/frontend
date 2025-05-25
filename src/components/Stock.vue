@@ -1,35 +1,45 @@
 <template>
-	<VRow v-if="stockProfileResult" class="mx-auto" style="max-width: 600px;">
-		<VCol cols="12">
-			<h1>{{ stockProfileResult.symbol }}</h1>
+	<div v-if="!loading">
+		<VRow v-if="stockProfileResult" class="mx-auto" style="max-width: 600px;">
+			<VCol cols="12">
+				<h1>{{ stockProfileResult.symbol }}</h1>
 
-			<h2 class="text-light">{{ stockProfileResult.name }}</h2>
-		</VCol>
+				<h2 class="text-light">{{ stockProfileResult.name }}</h2>
+			</VCol>
 
-		<VCol cols="6">
-			<h3 class="text-Primary">Exchange</h3>
+			<VCol cols="6">
+				<h3 class="text-Primary">Exchange</h3>
 
-			<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
-		</VCol>
+				<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
+			</VCol>
 
-		<VCol cols="6">
-			<h3 class="text-Primary">ISIN</h3>
+			<VCol cols="6">
+				<h3 class="text-Primary">ISIN</h3>
 
-			<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
-		</VCol>
+				<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
+			</VCol>
 
-		<VCol cols="6">
-			<h3 class="text-Primary">Sector</h3>
+			<VCol cols="6">
+				<h3 class="text-Primary">Sector</h3>
 
-			<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
-		</VCol>
+				<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
+			</VCol>
 
-		<VCol cols="6">
-			<h3 class="text-Primary">Industry</h3>
+			<VCol cols="6">
+				<h3 class="text-Primary">Industry</h3>
 
-			<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
-		</VCol>
-	</VRow>
+				<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
+			</VCol>
+		</VRow>
+
+		<div v-else>
+			<h2 class="text-center text-danger">Something went wrong with viewing stock</h2>
+		</div>
+	</div>
+
+	<div v-else>
+		<h2 class="text-center text-warning">Loading..</h2>
+	</div>
 
 	<h2 class="text-center text-error">{{ requestError }}</h2>
 </template>
@@ -53,7 +63,7 @@
 	const symbol = ref(props.symbol);
 	const stockProfileResult = ref();
 	const requestError = ref("");
-	const loading = ref(false);
+	const loading = ref(true);
 
 	const URL = import.meta.env.MODE === "development"
 		? import.meta.env.VITE_DEV_SERVER_URL
@@ -61,6 +71,8 @@
 
 	const search = async () =>
 	{
+		loading.value = true
+
 		const authAxios = axios.create({
 			baseURL: `${URL}/api`,
 			headers: {
@@ -72,12 +84,16 @@
 		{
 			const response = await authAxios.get(`/stock/read/${symbol.value}`);
 
+			console.log(response);
+
 			stockProfileResult.value = response.data.stock;
 		}
 		catch (error)
 		{
 			requestError.value = error.response?.data.message || error.message;
 		}
+
+		loading.value = false
 	};
 
 	onMounted(async () =>
