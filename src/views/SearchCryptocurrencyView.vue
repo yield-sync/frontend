@@ -1,13 +1,13 @@
 <template>
 	<VContainer>
-		<Query :query="query"/>
+		<SearchCryptocurrency :query="query"/>
 	</VContainer>
 </template>
 
 <script lang="ts" setup>
 	import { computed } from "vue";
 	import { useRoute } from "vue-router";
-	import Query from "@/components/Query.vue";
+	import SearchCryptocurrency from "@/components/SearchCryptocurrency.vue";
 
 
 	const route = useRoute();

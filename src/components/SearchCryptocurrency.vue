@@ -52,9 +52,7 @@
 	const requestError = ref("");
 	const loading = ref(false);
 
-	const URL = import.meta.env.MODE === "development"
-		? import.meta.env.VITE_DEV_SERVER_URL
-		: "";
+	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const search = async () =>
 	{
@@ -69,9 +67,16 @@
 
 		try
 		{
-			const response = await authAxios.get(`/stock/search-external/${props.query}`);
+			const response = await authAxios.post(
+				"/cryptocurrency/search",
+				{
+					load: {
+						query: props.query
+					}
+				}
+			);
 
-			queryResult.value = response.data.stocks;
+			queryResult.value = response.data.cryptocurrencies;
 		}
 		catch (error)
 		{
@@ -83,7 +88,7 @@
 
 	const handleSelect = (q) =>
 	{
-		router.push(`/stock/${q.symbol}`);
+		router.push(`/cryptocurrency/${q.symbol}`);
 	};
 
 	onMounted(async () =>

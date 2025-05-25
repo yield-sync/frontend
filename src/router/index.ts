@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import PortfolioView from "@/views/PortfolioView.vue";
-import QueryView from "@/views/QueryView.vue";
+import SearchCryptocurrencyView from "@/views/SearchCryptocurrencyView.vue";
 import StockView from "@/views/StockView.vue";
 
 
@@ -31,9 +31,9 @@ export default createRouter({
 			component: StockView,
 		},
 		{
-			path: "/query/:query",
-			name: "query",
-			component: QueryView,
+			path: "/search-cryptocurrency/:query",
+			name: "search-cryptocurrency",
+			component: SearchCryptocurrencyView,
 		},
 	]
 });
