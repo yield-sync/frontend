@@ -56,29 +56,18 @@
 	import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 	import { useRouter } from "vue-router";
 
-	import useAppStore from "@/stores/App";
-
-
-	const app = useAppStore();
-
 	const router = useRouter();
 
 	const searchAssetType = ref(0);
-
-	const loading = ref(false);
 	const isListVisible = ref(true);
 	const inputRef = ref(null);
 	const hoveredIndex = ref(null);
-
 	const selectedIndex = ref(-1);
-
 	const query = ref("");
-
 	const suggestions = ref([
 	]);
 
 	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
-
 	const authAxios = axios.create({
 		baseURL: `${apiUrl}/api`,
 		headers: {
@@ -98,8 +87,6 @@
 
 		isListVisible.value = true;
 
-		loading.value = true;
-
 		try
 		{
 			const res = await authAxios.get(`/stock/search/${query.value}`);
@@ -112,8 +99,6 @@
 			suggestions.value = [
 			];
 		}
-
-		loading.value = false;
 	};
 
 	const moveSelection = (delta) =>
