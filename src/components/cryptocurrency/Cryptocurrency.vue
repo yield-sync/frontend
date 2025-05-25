@@ -1,46 +1,21 @@
 <template>
 	<div v-if="!loading">
-		<VRow v-if="stockProfileResult" class="mx-auto" style="max-width: 600px;">
+		<VRow v-if="cryptocurrencyProfileResult" class="mx-auto" style="max-width: 600px;">
 			<VCol cols="12">
-				<h1>{{ stockProfileResult.symbol }}</h1>
+				<h1>{{ cryptocurrencyProfileResult.symbol }}</h1>
 
-				<h2 class="text-light">{{ stockProfileResult.name }}</h2>
+				<h2 class="text-light">{{ cryptocurrencyProfileResult.name }}</h2>
 			</VCol>
 
 			<VCol cols="6">
-				<h3 class="text-Primary">Exchange</h3>
+				<h3 class="text-Primary">ID</h3>
 
-				<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
-			</VCol>
-
-			<VCol cols="6">
-				<h3 class="text-Primary">ISIN</h3>
-
-				<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
-			</VCol>
-
-			<VCol cols="6">
-				<h3 class="text-Primary">Sector</h3>
-
-				<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
-			</VCol>
-
-			<VCol cols="6">
-				<h3 class="text-Primary">Industry</h3>
-
-				<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
-			</VCol>
-
-			<VCol v-if="stockProfileResult.refreshed" cols="12">
-				<h6 class="text-success">Refreshed</h6>
-			</VCol>
-			<VCol v-else cols="12">
-				<h6 class="text-light">Not Refreshed</h6>
+				<h3 class="text-light">{{ cryptocurrencyProfileResult.id }}</h3>
 			</VCol>
 		</VRow>
 
 		<div v-else>
-			<h2 class="text-center text-danger">Something went wrong with viewing stock</h2>
+			<h2 class="text-center text-danger">Something went wrong with viewing cryptocurrency</h2>
 		</div>
 	</div>
 
@@ -68,7 +43,7 @@
 	});
 
 	const symbol = ref(props.symbol);
-	const stockProfileResult = ref();
+	const cryptocurrencyProfileResult = ref();
 	const requestError = ref("");
 	const loading = ref(true);
 
@@ -89,12 +64,11 @@
 
 		try
 		{
-			const response = await authAxios.get(`/stock/read/${symbol.value}`);
+			const response = await authAxios.get(`/cryptocurrency/read/${symbol.value}`);
 
 			console.log(response);
 
-			stockProfileResult.value = response.data.stock;
-			stockProfileResult.value.refreshed = response.data.refreshed;
+			cryptocurrencyProfileResult.value = response.data.cryptocurrency;
 		}
 		catch (error)
 		{
@@ -107,7 +81,7 @@
 	onMounted(async () =>
 	{
 		requestError.value = null;
-		stockProfileResult.value = null;
+		cryptocurrencyProfileResult.value = null;
 
 		await search();
 	});
@@ -123,7 +97,7 @@
 			symbol.value = newSymbol;
 
 			requestError.value = null;
-			stockProfileResult.value = null;
+			cryptocurrencyProfileResult.value = null;
 
 			await search();
 		}

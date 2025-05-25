@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import CryptocurrencyView from "@/views/CryptocurrencyView.vue";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import PortfolioView from "@/views/PortfolioView.vue";
@@ -14,6 +15,11 @@ export default createRouter({
 			path: "/",
 			name: "home",
 			component: HomeView
+		},
+		{
+			path: "/cryptocurrency/:symbol",
+			name: "cryptocurrency",
+			component: CryptocurrencyView,
 		},
 		{
 			path: "/login",

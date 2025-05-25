@@ -23,11 +23,13 @@
 		@update:modelValue="fetchSuggestions"
 		variant="outlined"
 		rounded="xl"
-		label="Stock or Crypto Symbol"
+		:label="searchAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
 		append-inner-icon="mdi-magnify"
 		ref="inputRef"
 		class="text-light"
 	/>
+
+	<h6 class="text-center text-danger">{{ searchError }}</h6>
 
 	<div
 		v-if="suggestions.length > 0 && isListVisible"
@@ -42,7 +44,7 @@
 			}"
 			@mouseenter="hoveredIndex = i"
 			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="viewStockProfile(stock.isin)"
+			@mousedown.prevent="searchAssetType == 0 ? viewAssetProfile(stock.isin) : viewAssetProfile(stock.id)"
 		>
 			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ stock.symbol }}</span></VCol>
 			<VCol sm="8" md="9" lg="10">{{ stock.name }}</VCol>
@@ -63,6 +65,8 @@
 	const hoveredIndex = ref(null);
 	const selectedIndex = ref(-1);
 	const query = ref("");
+	const searchError = ref("");
+
 	const suggestions = ref([
 	]);
 
@@ -77,6 +81,8 @@
 
 	const fetchSuggestions = async () =>
 	{
+		searchError.value = "";
+
 		if (!query.value || query.value < 1)
 		{
 			suggestions.value = [
@@ -88,23 +94,36 @@
 
 		try
 		{
-			if (searchAssetType.value == 0)
+			let res;
+
+			switch (searchAssetType.value)
 			{
-				const res = await authAxios.get(`/stock/search/${query.value}`);
-	
-				suggestions.value = res.data.stocks;
-			}
-			else
-			{
-				const res = await authAxios.get(`/cryptocurrency/search/${query.value}`);
-	
-				suggestions.value = res.data.cryptocurrencies;
+				case 0:
+					res = await authAxios.get(`/stock/search/${query.value}`);
+
+					suggestions.value = res.data.stocks;
+
+					break;
+
+				case 1:
+					res = await authAxios.get(`/cryptocurrency/search/${query.value}`);
+
+					suggestions.value = res.data.cryptocurrencies;
+
+					break;
+
+				default:
+					searchError.value = "Invalid asset type"
+
+					break;
 			}
 
 		}
 		catch (err)
 		{
 			console.error("Error fetching suggestions:", err);
+			searchError.value = error.response.data.message
+
 			suggestions.value = [
 			];
 		}
@@ -137,7 +156,7 @@
 		{
 			const selected = suggestions.value[selectedIndex.value];
 
-			viewStockProfile(selected.isin);
+			viewAssetProfile(selected.isin);
 
 			return;
 		}
@@ -145,30 +164,36 @@
 		{
 			for (let i = 0; i < suggestions.value.length; i++)
 			{
-				if (suggestions.value[i].symbol.toLowerCase() === query.value.toLowerCase())
-				{
-					viewStockProfile(suggestions.value[i].isin);
-					return;
-				}
+				viewAssetProfile(searchAssetType.value == 0 ? suggestions.value[i].isin : suggestions.value[i].id);
+
+				return;
 			}
 
 			try
 			{
-				const response = await authAxios.post("/stock/create-by-symbol", {
-					load: {
-						symbol: query.value
-					}
-				});
-
-				if (response.status == 201)
+				switch (searchAssetType.value)
 				{
-					viewStockProfile(response.data.createdStock.isin);
-				}
+					case 0:
+						const response = await authAxios.post("/stock/create-by-symbol", {
+							load: {
+								symbol: query.value
+							}
+						});
 
+						if (response.status == 201)
+						{
+							viewAssetProfile(response.data.createdStock.isin);
+							return;
+						}
+						break;
+					default:
+						break;
+				}
 			}
 			catch (error)
 			{
 				console.error("Error creating stock by symbol:", error);
+				searchError.value = error.response.data.message
 			}
 
 			query.value = "";
@@ -199,9 +224,20 @@
 		}
 	};
 
-	const viewStockProfile = (isin) =>
+	const viewAssetProfile = (identifier) =>
 	{
-		router.push(`/stock/${isin}`);
+		switch (searchAssetType.value) {
+			case 0:
+				router.push(`/stock/${identifier}`);
+				break;
+
+			case 1:
+				router.push(`/cryptocurrency/${identifier}`);
+				break;
+			default:
+				break;
+		}
+
 
 		query.value = "";
 
