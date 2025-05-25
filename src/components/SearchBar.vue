@@ -1,4 +1,19 @@
 <template>
+	<VBtnToggle
+		v-model="searchAssetType"
+		color="primary"
+		variant="outlined"
+		divided
+		mandatory
+		rounded="lg"
+		class="w-100 mb-6 text-light"
+		border="light"
+	>
+		<VBtn class="w-50">Stock</VBtn>
+
+		<VBtn class="w-50">Crypto</VBtn>
+	</VBtnToggle>
+
 	<VTextField
 		v-model="query"
 		@keydown.esc.prevent="isListVisible = false"
@@ -47,6 +62,8 @@
 	const app = useAppStore();
 
 	const router = useRouter();
+
+	const searchAssetType = ref(0);
 
 	const loading = ref(false);
 	const isListVisible = ref(true);
