@@ -10,7 +10,6 @@
 		border="light"
 	>
 		<VBtn class="w-50">Stock</VBtn>
-
 		<VBtn class="w-50">Crypto</VBtn>
 	</VBtnToggle>
 
@@ -89,9 +88,19 @@
 
 		try
 		{
-			const res = await authAxios.get(`/stock/search/${query.value}`);
+			if (searchAssetType.value == 0)
+			{
+				const res = await authAxios.get(`/stock/search/${query.value}`);
+	
+				suggestions.value = res.data.stocks;
+			}
+			else
+			{
+				const res = await authAxios.get(`/cryptocurrency/search/${query.value}`);
+	
+				suggestions.value = res.data.cryptocurrencies;
+			}
 
-			suggestions.value = res.data.stocks;
 		}
 		catch (err)
 		{

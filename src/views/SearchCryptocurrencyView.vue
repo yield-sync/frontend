@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 	import { computed } from "vue";
 	import { useRoute } from "vue-router";
-	import SearchCryptocurrency from "@/components/SearchCryptocurrency.vue";
+	import SearchCryptocurrency from "@/components/cryptocurrency/SearchCryptocurrency.vue";
 
 
 	const route = useRoute();
