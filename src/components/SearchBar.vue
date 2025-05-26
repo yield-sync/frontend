@@ -10,6 +10,7 @@
 		border="light"
 	>
 		<VBtn class="w-50">Stock</VBtn>
+
 		<VBtn class="w-50">Crypto</VBtn>
 	</VBtnToggle>
 
@@ -37,17 +38,20 @@
 		style="z-index: 10; max-height: 200px; overflow-y: auto;"
 	>
 		<VRow
-			v-for="(stock, i) in suggestions"
-			:key="stock.isin"
+			v-for="(a, i) in suggestions"
+			:key="a.isin"
 			:class="{
 				'bg-secondary text-light': i === selectedIndex || i === hoveredIndex
 			}"
 			@mouseenter="hoveredIndex = i"
 			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="searchAssetType == 0 ? viewAssetProfile(stock.isin) : viewAssetProfile(stock.id)"
+			@mousedown.prevent="
+				searchAssetType == 0 ? router.push(`/stock/${a.isin}`) : router.push(`/cryptocurrency/${a.id}`)
+			"
 		>
-			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ stock.symbol }}</span></VCol>
-			<VCol sm="8" md="9" lg="10">{{ stock.name }}</VCol>
+			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ a.symbol }}</span></VCol>
+
+			<VCol sm="8" md="9" lg="10">{{ a.name }}</VCol>
 		</VRow>
 	</div>
 </template>
@@ -113,7 +117,7 @@
 					break;
 
 				default:
-					searchError.value = "Invalid asset type"
+					searchError.value = "Invalid asset type";
 
 					break;
 			}
@@ -122,7 +126,7 @@
 		catch (err)
 		{
 			console.error("Error fetching suggestions:", err);
-			searchError.value = error.response.data.message
+			searchError.value = error.response.data.message;
 
 			suggestions.value = [
 			];
@@ -160,11 +164,11 @@
 		selectedIndex.value = -1;
 
 		isListVisible.value = false;
-	}
+	};
 
 	const handleEnter = async () =>
 	{
-		console.log(`SelectionIndex is ${selectedIndex.value}`)
+		console.log(`SelectionIndex is ${selectedIndex.value}`);
 
 		switch (searchAssetType.value)
 		{
@@ -173,7 +177,7 @@
 				{
 					for (let i = 0; i < suggestions.value.length; i++)
 					{
-						viewAssetProfile(suggestions.value[i].isin);
+						router.push(`/stock/${suggestions.value[i].isin}`)
 
 						clearSearch();
 
@@ -190,7 +194,7 @@
 
 						if (response.status == 201)
 						{
-							viewAssetProfile(response.data.createdStock.isin);
+							router.push(`/stock/${response.data.createdStock.isin}`)
 
 							clearSearch();
 
@@ -200,23 +204,25 @@
 					catch (error)
 					{
 						console.error("Error creating stock by symbol:", error);
-						searchError.value = error.response.data.message
+						searchError.value = error.response.data.message;
 					}
 				}
 				else if (query.value)
 				{
 					const selected = suggestions.value[selectedIndex.value];
 
-					viewAssetProfile(selected.isin);
+					router.push(`/stock/${selected.isin}`)
 
 					clearSearch();
+
+					return;
 				}
 				break;
 
 			case 1:
 				if (selectedIndex.value === -1)
 				{
-					console.log(`SelectionIndex is ${selectedIndex.value}`)
+					console.log(`SelectionIndex is ${selectedIndex.value}`);
 
 
 					console.log("Crypo selected so not going to search suggestion list for match to query");
@@ -232,7 +238,7 @@
 					catch (error)
 					{
 						console.error("Error creating stock by symbol:", error);
-						searchError.value = error.response.data.message
+						searchError.value = error.response.data.message;
 					}
 				}
 				else if (query.value)
@@ -270,22 +276,6 @@
 			isListVisible.value = false;
 		}
 	};
-
-	const viewAssetProfile = (identifier) =>
-	{
-		switch (searchAssetType.value) {
-			case 0:
-				router.push(`/stock/${identifier}`);
-				break;
-
-			case 1:
-				router.push(`/cryptocurrency/${identifier}`);
-				break;
-			default:
-				break;
-		}
-	};
-
 
 	watch(query, (newVal, oldVal) =>
 	{
