@@ -92,8 +92,11 @@
 									<span
 										class="h4 ml-2"
 										:class="selectedqueryResultStockstockIsin === a.isin ? 'text-dark' : 'text-primary'"
-									>{{ a.symbol }}</span>
+									>
+										{{ a.symbol }}
+									</span>
 								</VCol>
+
 								<VCol sm="9" md="10" class="">
 									<span class="h4">{{ a.name }}</span>
 								</VCol>
@@ -103,6 +106,7 @@
 								<h3 class="my-7 text-center text-light">No stocks found</h3>
 							</div>
 						</div>
+
 						<h5 class="text-center text-light"></h5>
 					</VCol>
 
@@ -351,7 +355,8 @@
 	const symbol = ref("");
 	const percentAllocation = ref(10);
 	const balance = ref(0);
-	const queryResultStocks = ref([]);
+	const queryResultStocks = ref([
+	]);
 	const selectedqueryResultStockstockIsin = ref(null);
 
 	// Deleetion stuff
@@ -479,7 +484,7 @@
 
 		if (!selectedqueryResultStockstockIsin.value)
 		{
-			requestError.value = "No selection made!"
+			requestError.value = "No selection made!";
 
 			return;
 		}
@@ -506,7 +511,8 @@
 
 			symbol.value = "";
 			selectedqueryResultStockstockIsin.value = null;
-			queryResultStocks.value = []
+			queryResultStocks.value = [
+			];
 			balance.value = 0;
 
 		}

@@ -9,7 +9,7 @@
 
 			<VCol cols="12" md="8" lg="8">
 				<div style="position: relative; max-width: 600px;" class="mx-auto">
-					<SearchBar />
+					<SearchBar/>
 				</div>
 			</VCol>
 

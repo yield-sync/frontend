@@ -53,7 +53,7 @@
 
 	const search = async () =>
 	{
-		loading.value = true
+		loading.value = true;
 
 		const authAxios = axios.create({
 			baseURL: `${URL}/api`,
@@ -75,7 +75,7 @@
 			requestError.value = error.response?.data.message || error.message;
 		}
 
-		loading.value = false
+		loading.value = false;
 	};
 
 	onMounted(async () =>

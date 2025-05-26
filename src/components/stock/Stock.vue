@@ -34,6 +34,7 @@
 			<VCol v-if="stockProfileResult.refreshed" cols="12">
 				<h6 class="text-success">Refreshed</h6>
 			</VCol>
+
 			<VCol v-else cols="12">
 				<h6 class="text-light">Not Refreshed</h6>
 			</VCol>
@@ -78,7 +79,7 @@
 
 	const search = async () =>
 	{
-		loading.value = true
+		loading.value = true;
 
 		const authAxios = axios.create({
 			baseURL: `${URL}/api`,
@@ -101,7 +102,7 @@
 			requestError.value = error.response?.data.message || error.message;
 		}
 
-		loading.value = false
+		loading.value = false;
 	};
 
 	onMounted(async () =>
