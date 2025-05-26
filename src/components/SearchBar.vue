@@ -150,30 +150,38 @@
 		}
 	};
 
+	const clearSearch = () =>
+	{
+		query.value = "";
+
+		suggestions.value = [
+		];
+
+		selectedIndex.value = -1;
+
+		isListVisible.value = false;
+	}
+
 	const handleEnter = async () =>
 	{
-		if (selectedIndex.value !== -1)
+		console.log(`SelectionIndex is ${selectedIndex.value}`)
+
+		switch (searchAssetType.value)
 		{
-			const selected = suggestions.value[selectedIndex.value];
-
-			viewAssetProfile(searchAssetType.value == 0 ? selected.isin : selected.id);
-
-			return;
-		}
-		else if (query.value)
-		{
-			for (let i = 0; i < suggestions.value.length; i++)
-			{
-				viewAssetProfile(searchAssetType.value == 0 ? suggestions.value[i].isin : suggestions.value[i].id);
-
-				return;
-			}
-
-			try
-			{
-				switch (searchAssetType.value)
+			case 0:
+				if (selectedIndex.value === -1)
 				{
-					case 0:
+					for (let i = 0; i < suggestions.value.length; i++)
+					{
+						viewAssetProfile(suggestions.value[i].isin);
+
+						clearSearch();
+
+						return;
+					}
+
+					try
+					{
 						const response = await authAxios.post("/stock/create-by-symbol", {
 							load: {
 								symbol: query.value
@@ -183,25 +191,64 @@
 						if (response.status == 201)
 						{
 							viewAssetProfile(response.data.createdStock.isin);
+
+							clearSearch();
+
 							return;
 						}
-						break;
-					default:
-						break;
+					}
+					catch (error)
+					{
+						console.error("Error creating stock by symbol:", error);
+						searchError.value = error.response.data.message
+					}
 				}
-			}
-			catch (error)
-			{
-				console.error("Error creating stock by symbol:", error);
-				searchError.value = error.response.data.message
-			}
+				else if (query.value)
+				{
+					const selected = suggestions.value[selectedIndex.value];
 
-			query.value = "";
+					viewAssetProfile(selected.isin);
 
-			suggestions.value = [
-			];
+					clearSearch();
+				}
+				break;
 
-			selectedIndex.value = -1;
+			case 1:
+				if (selectedIndex.value === -1)
+				{
+					console.log(`SelectionIndex is ${selectedIndex.value}`)
+
+
+					console.log("Crypo selected so not going to search suggestion list for match to query");
+
+					try
+					{
+						console.log(`Search cryptocurrency redirect for query ${query.value}..`);
+
+						router.push(`/search-cryptocurrency/${query.value}`);
+
+						clearSearch();
+					}
+					catch (error)
+					{
+						console.error("Error creating stock by symbol:", error);
+						searchError.value = error.response.data.message
+					}
+				}
+				else if (query.value)
+				{
+					const selected = suggestions.value[selectedIndex.value];
+
+					console.log(`Selection is ${selected.id} searching for query ${query.value}`);
+
+					router.push(`/cryptocurrency/${selected.id}`);
+
+					clearSearch();
+				}
+				break;
+
+			default:
+				break;
 		}
 	};
 
@@ -237,14 +284,6 @@
 			default:
 				break;
 		}
-
-
-		query.value = "";
-
-		suggestions.value = [
-		];
-
-		selectedIndex.value = -1;
 	};
 
 

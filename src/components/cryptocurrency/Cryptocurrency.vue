@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!loading">
 		<VRow v-if="cryptocurrencyProfileResult" class="mx-auto" style="max-width: 600px;">
-			<VCol cols="12">
+			<VCol cols="6">
 				<h1>{{ cryptocurrencyProfileResult.symbol }}</h1>
 
 				<h2 class="text-light">{{ cryptocurrencyProfileResult.name }}</h2>

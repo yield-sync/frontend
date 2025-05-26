@@ -88,7 +88,7 @@
 
 	const handleSelect = (q) =>
 	{
-		router.push(`/cryptocurrency/${q.symbol}`);
+		router.push(`/cryptocurrency/${q.id}`);
 	};
 
 	onMounted(async () =>

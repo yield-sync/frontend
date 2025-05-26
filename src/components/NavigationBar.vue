@@ -13,20 +13,24 @@
 				</div>
 			</VCol>
 
-			<VCol cols="12" md="2" lg="2">
-				<RouterLink v-if="!app.loggedIn" to="/login">
-					<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
-				</RouterLink>
+			<VCol cols="12" md="2" lg="2" class="text-center">
+				<div v-if="!app.loggedIn" class="mx-auto">
+					<RouterLink to="/login">
+						<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
+					</RouterLink>
+				</div>
 
-				<VBtn
-					v-else @click="logOut"
-					rounded
-					color="secondary"
-					elevation="0"
-					class="w-100"
-				>
-					Log out
-				</VBtn>
+				<div v-else class="w-100 mx-auto-md">
+					<VBtn
+						@click="logOut"
+						rounded
+						color="secondary"
+						elevation="0"
+						class="w-100"
+					>
+						Log out
+					</VBtn>
+				</div>
 			</VCol>
 		</VRow>
 	</VContainer>
