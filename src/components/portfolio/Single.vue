@@ -57,9 +57,9 @@
 					class="w-100 mb-6 text-light"
 					border="light"
 				>
-					<VBtn class="w-50">Stock</VBtn>
+					<VBtn @click="fetchSuggestions" class="w-50">Stock</VBtn>
 
-					<VBtn class="w-50">Crypto</VBtn>
+					<VBtn @click="fetchSuggestions" class="w-50">Crypto</VBtn>
 				</VBtnToggle>
 
 				<VTextField
