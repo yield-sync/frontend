@@ -2,7 +2,7 @@
 	<VContainer v-if="app.loggedIn">
 		<VRow v-if="!requestError">
 			<VCol cols="12">
-				<h4 class="text-center text-light">Your Portfolios</h4>
+				<h4 class="text-center text-secondary">Your Portfolios</h4>
 			</VCol>
 
 			<VCol v-if="app.portfolios.length > 0" v-for="p in app.portfolios" :key="p.id" cols="12">
