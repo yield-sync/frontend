@@ -1,7 +1,7 @@
 <template>
 	<VTextField
 		v-model="query"
-		@keydown.esc.prevent="isListVisible = false"
+		@keydown.esc.prevent="hideSuggestions"
 		@keydown.down.prevent="moveSelection(1)"
 		@keydown.up.prevent="moveSelection(-1)"
 		@keydown.enter.prevent="handleEnter"
@@ -18,7 +18,7 @@
 	<h5 class="text-center text-danger">{{ searchError }}</h5>
 
 	<div
-		v-if="suggestions.length > 0 && isListVisible"
+		v-if="suggestions.length && isListVisible"
 		class="position-absolute w-100 px-3 py-3 text-light border border-light bg-dark-light rounded"
 		style="z-index: 10; max-height: 200px; overflow-y: auto;"
 	>
@@ -30,11 +30,15 @@
 			}"
 			@mouseenter="hoveredIndex = i"
 			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="router.push(`/stock/${a.isin}`)"
+			@mousedown.prevent="navigateToStock(a.isin)"
 		>
-			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ a.symbol }}</span></VCol>
+			<VCol sm="4" md="3" lg="2">
+				<span class="text-primary">{{ a.symbol }}</span>
+			</VCol>
 
-			<VCol sm="8" md="9" lg="10">{{ a.name }}</VCol>
+			<VCol sm="8" md="9" lg="10">
+				{{ a.name }}
+			</VCol>
 		</VRow>
 	</div>
 </template>
@@ -46,17 +50,18 @@
 
 	const router = useRouter();
 
-	const isListVisible = ref(true);
-	const inputRef = ref(null);
-	const hoveredIndex = ref(null);
-	const selectedIndex = ref(-1);
 	const query = ref("");
-	const searchError = ref("");
-
 	const suggestions = ref([
 	]);
+	const searchError = ref("");
+
+	const isListVisible = ref(true);
+	const selectedIndex = ref(-1);
+	const hoveredIndex = ref(null);
+	const inputRef = ref(null);
 
 	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+
 	const authAxios = axios.create({
 		baseURL: `${apiUrl}/api/stock`,
 		headers: {
@@ -64,12 +69,31 @@
 		},
 	});
 
+	function hideSuggestions()
+	{
+		isListVisible.value = false;
+	}
 
-	const fetchSuggestions = async () =>
+	function clearSearch()
+	{
+		query.value = "";
+		suggestions.value = [
+		];
+		selectedIndex.value = -1;
+		hideSuggestions();
+	}
+
+	function navigateToStock(isin)
+	{
+		router.push(`/stock/${isin}`);
+		clearSearch();
+	}
+
+	async function fetchSuggestions()
 	{
 		searchError.value = "";
 
-		if (!query.value || query.value < 1)
+		if (!query.value || query.value.length < 1)
 		{
 			suggestions.value = [
 			];
@@ -81,106 +105,72 @@
 		try
 		{
 			const res = await authAxios.get(`/search/${query.value}`);
-
 			suggestions.value = res.data.stocks;
 		}
-		catch (err)
+		catch (error)
 		{
-			searchError.value = error.response.data.message;
-
+			searchError.value = error?.response?.data?.message || "Failed to fetch suggestions.";
 			suggestions.value = [
 			];
 		}
-	};
+	}
 
-	const moveSelection = (delta) =>
+	function moveSelection(delta)
 	{
 		if (!suggestions.value.length) return;
 
-		const next = selectedIndex.value + delta;
+		const nextIndex = selectedIndex.value + delta;
 
-		if (next < 0)
+		if (nextIndex < 0)
 		{
-			// Deselect list when moving up from first item
 			selectedIndex.value = -1;
-		}
-		else if (next >= suggestions.value.length)
-		{
-			selectedIndex.value = 0;
 		}
 		else
 		{
-			selectedIndex.value = next;
+			selectedIndex.value = nextIndex % suggestions.value.length;
 		}
-	};
+	}
 
-	const clearSearch = () =>
+	async function handleEnter()
 	{
-		query.value = "";
-
-		suggestions.value = [
-		];
-
-		selectedIndex.value = -1;
-
-		isListVisible.value = false;
-	};
-
-	const handleEnter = async () =>
-	{
-		console.log(`SelectionIndex is ${selectedIndex.value}`);
+		if (!query.value) return;
 
 		if (selectedIndex.value === -1)
 		{
-			for (let i = 0; i < suggestions.value.length; i++)
+			if (suggestions.value.length)
 			{
-				router.push(`/stock/${suggestions.value[i].isin}`);
-
-				clearSearch();
-
+				navigateToStock(suggestions.value[0].isin);
 				return;
 			}
 
 			try
 			{
-				const response = await authAxios.post("/create-by-symbol", {
+				const res = await authAxios.post("/create-by-symbol", {
 					load: {
 						symbol: query.value
-					}
+					},
 				});
 
-				if (response.status == 201)
+				if (res.status === 201)
 				{
-					router.push(`/stock/${response.data.createdStock.isin}`);
-
-					clearSearch();
-
-					return;
+					navigateToStock(res.data.createdStock.isin);
 				}
 			}
 			catch (error)
 			{
 				console.error("Error creating stock by symbol:", error);
-				searchError.value = error.response.data.message;
+				searchError.value = error?.response?.data?.message || "Creation failed.";
 			}
 		}
-		else if (query.value)
+		else
 		{
 			const selected = suggestions.value[selectedIndex.value];
-
-			router.push(`/stock/${selected.isin}`);
-
-			clearSearch();
-
-			return;
+			if (selected) navigateToStock(selected.isin);
 		}
-	};
+	}
 
-	const handleClickOutside = (event) =>
+	function handleClickOutside(event)
 	{
-		if (!inputRef.value) return;
-
-		// Check if the click was inside the input or the list
 		const inputEl = inputRef.value?.$el || inputRef.value;
 		const listEl = inputEl?.nextElementSibling;
 
@@ -191,23 +181,21 @@
 			!listEl.contains(event.target)
 		)
 		{
-			isListVisible.value = false;
+			hideSuggestions();
 		}
-	};
+	}
 
-	watch(query, (newVal, oldVal) =>
+	watch(query, (newVal) =>
 	{
-		if (newVal && suggestions.value.includes(newVal))
+		const match = suggestions.value.find((s) =>
 		{
-			router.push(`/stock/${newVal}`);
+			return s.symbol === newVal;
+		});
 
-			query.value = "";
+		if (match)
+		{
+			navigateToStock(match.isin);
 		}
-	});
-
-	onBeforeUnmount(() =>
-	{
-		document.removeEventListener("click", handleClickOutside);
 	});
 
 	onMounted(() =>
@@ -218,5 +206,10 @@
 		{
 			isListVisible.value = true;
 		});
+	});
+
+	onBeforeUnmount(() =>
+	{
+		document.removeEventListener("click", handleClickOutside);
 	});
 </script>

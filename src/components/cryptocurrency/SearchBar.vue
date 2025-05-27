@@ -18,45 +18,49 @@
 	<h6 class="text-center text-danger">{{ searchError }}</h6>
 
 	<div
-		v-if="suggestions.length > 0 && isListVisible"
+		v-if="suggestions.length && isListVisible"
 		class="position-absolute w-100 px-3 py-3 text-light border border-light bg-dark-light rounded"
 		style="z-index: 10; max-height: 200px; overflow-y: auto;"
 	>
 		<VRow
-			v-for="(a, i) in suggestions"
-			:key="a.isin"
+			v-for="(item, index) in suggestions"
+			:key="item.id"
 			:class="{
-				'bg-secondary text-light': i === selectedIndex || i === hoveredIndex
+				'bg-secondary text-light': index === selectedIndex || index === hoveredIndex
 			}"
-			@mouseenter="hoveredIndex = i"
+			@mouseenter="hoveredIndex = index"
 			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="router.push(`/cryptocurrency/${a.id}`)"
+			@mousedown.prevent="navigateTo(`/cryptocurrency/${item.id}`)"
 		>
-			<VCol sm="4" md="3" lg="2"><span class="text-primary">{{ a.symbol }}</span></VCol>
+			<VCol sm="4" md="3" lg="2">
+				<span class="text-primary">{{ item.symbol }}</span>
+			</VCol>
 
-			<VCol sm="8" md="9" lg="10">{{ a.name }}</VCol>
+			<VCol sm="8" md="9" lg="10">{{ item.name }}</VCol>
 		</VRow>
 	</div>
 </template>
 
 <script setup>
-	import axios from "axios";
 	import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 	import { useRouter } from "vue-router";
+	import axios from "axios";
 
 	const router = useRouter();
 
-	const isListVisible = ref(true);
-	const inputRef = ref(null);
-	const hoveredIndex = ref(null);
-	const selectedIndex = ref(-1);
 	const query = ref("");
-	const searchError = ref("");
-
 	const suggestions = ref([
 	]);
 
-	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const searchError = ref("");
+	const selectedIndex = ref(-1);
+	const hoveredIndex = ref(null);
+	const isListVisible = ref(true);
+	const inputRef = ref(null);
+
+	const apiUrl =
+		import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+
 	const authAxios = axios.create({
 		baseURL: `${apiUrl}/api/cryptocurrency`,
 		headers: {
@@ -64,12 +68,20 @@
 		},
 	});
 
+	const clearSearch = () =>
+	{
+		query.value = "";
+		suggestions.value = [
+		];
+		selectedIndex.value = -1;
+		isListVisible.value = false;
+	};
 
 	const fetchSuggestions = async () =>
 	{
 		searchError.value = "";
 
-		if (!query.value || query.value < 1)
+		if (!query.value?.length)
 		{
 			suggestions.value = [
 			];
@@ -80,15 +92,13 @@
 
 		try
 		{
-			const res = await authAxios.get(`/search/${query.value}`);
-
-			suggestions.value = res.data.cryptocurrencies;
+			const { data } = await authAxios.get(`/search/${query.value}`);
+			suggestions.value = data.cryptocurrencies;
 		}
 		catch (err)
 		{
 			console.error("Error fetching suggestions:", err);
-			searchError.value = error.response.data.message;
-
+			searchError.value = err?.response?.data?.message || "Something went wrong.";
 			suggestions.value = [
 			];
 		}
@@ -98,73 +108,51 @@
 	{
 		if (!suggestions.value.length) return;
 
-		const next = selectedIndex.value + delta;
+		const nextIndex = selectedIndex.value + delta;
 
-		if (next < 0)
+		if (nextIndex < 0)
 		{
-			// Deselect list when moving up from first item
 			selectedIndex.value = -1;
 		}
-		else if (next >= suggestions.value.length)
+		else if (nextIndex >= suggestions.value.length)
 		{
 			selectedIndex.value = 0;
 		}
 		else
 		{
-			selectedIndex.value = next;
+			selectedIndex.value = nextIndex;
 		}
 	};
 
-	const clearSearch = () =>
+	const navigateTo = (path) =>
 	{
-		query.value = "";
-
-		suggestions.value = [
-		];
-
-		selectedIndex.value = -1;
-
-		isListVisible.value = false;
+		router.push(path);
+		clearSearch();
 	};
 
-	const handleEnter = async () =>
+	const handleEnter = () =>
 	{
-		console.log(`SelectionIndex is ${selectedIndex.value}`);
-
 		if (selectedIndex.value === -1)
 		{
-			console.log("Crypo selected so not going to search suggestion list for match to query");
-
-			try
+			// No selection; go to search page for raw query
+			if (query.value.trim())
 			{
-				console.log(`Search cryptocurrency redirect for query ${query.value}..`);
-
-				router.push(`/search-cryptocurrency/${query.value}`);
-
-				clearSearch();
-			}
-			catch (error)
-			{
-				searchError.value = error.response.data.message;
+				navigateTo(`/search-cryptocurrency/${query.value.trim()}`);
 			}
 		}
-		else if (query.value)
+		else
 		{
+			// Navigate to selected cryptocurrency
 			const selected = suggestions.value[selectedIndex.value];
-
-			console.log(`Selection is ${selected.id} searching for query ${query.value}`);
-
-			router.push(`/cryptocurrency/${selected.id}`);
-
-			clearSearch();
+			if (selected)
+			{
+				navigateTo(`/cryptocurrency/${selected.id}`);
+			}
 		}
 	};
 
 	const handleClickOutside = (event) =>
 	{
-		if (!inputRef.value) return;
-
-		// Check if the click was inside the input or the list
 		const inputEl = inputRef.value?.$el || inputRef.value;
 		const listEl = inputEl?.nextElementSibling;
 
@@ -179,28 +167,29 @@
 		}
 	};
 
-	watch(query, (newVal, oldVal) =>
+	watch(query, (newVal) =>
 	{
-		if (newVal && suggestions.value.includes(newVal))
+		const match = suggestions.value.find((item) =>
 		{
-			router.push(`/cryptocurrency/${newVal}`);
-
-			query.value = "";
+			return item.symbol === newVal;
+		});
+		if (match)
+		{
+			navigateTo(`/cryptocurrency/${match.id}`);
 		}
-	});
-
-	onBeforeUnmount(() =>
-	{
-		document.removeEventListener("click", handleClickOutside);
 	});
 
 	onMounted(() =>
 	{
 		document.addEventListener("click", handleClickOutside);
-
 		inputRef.value?.$el?.addEventListener("focus", () =>
 		{
 			isListVisible.value = true;
 		});
+	});
+
+	onBeforeUnmount(() =>
+	{
+		document.removeEventListener("click", handleClickOutside);
 	});
 </script>
