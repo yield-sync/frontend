@@ -58,8 +58,7 @@
 	const isListVisible = ref(true);
 	const inputRef = ref(null);
 
-	const apiUrl =
-		import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const authAxios = axios.create({
 		baseURL: `${apiUrl}/api/cryptocurrency`,
@@ -68,16 +67,16 @@
 		},
 	});
 
-	const clearSearch = () =>
+	function clearSearch()
 	{
 		query.value = "";
 		suggestions.value = [
 		];
 		selectedIndex.value = -1;
-		isListVisible.value = false;
-	};
+		hideSuggestions();
+	}
 
-	const fetchSuggestions = async () =>
+	async function fetchSuggestions()
 	{
 		searchError.value = "";
 
@@ -104,7 +103,7 @@
 		}
 	};
 
-	const moveSelection = (delta) =>
+	function moveSelection(delta)
 	{
 		if (!suggestions.value.length) return;
 
@@ -114,23 +113,19 @@
 		{
 			selectedIndex.value = -1;
 		}
-		else if (nextIndex >= suggestions.value.length)
-		{
-			selectedIndex.value = 0;
-		}
 		else
 		{
-			selectedIndex.value = nextIndex;
+			selectedIndex.value = nextIndex % suggestions.value.length;
 		}
-	};
+	}
 
-	const navigateTo = (path) =>
+	function navigateTo(isin)
 	{
 		router.push(path);
 		clearSearch();
-	};
+	}
 
-	const handleEnter = () =>
+	async function handleEnter()
 	{
 		if (selectedIndex.value === -1)
 		{
@@ -151,7 +146,7 @@
 		}
 	};
 
-	const handleClickOutside = (event) =>
+	function handleClickOutside(event)
 	{
 		const inputEl = inputRef.value?.$el || inputRef.value;
 		const listEl = inputEl?.nextElementSibling;
