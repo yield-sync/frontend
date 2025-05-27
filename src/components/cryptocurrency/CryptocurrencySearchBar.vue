@@ -162,18 +162,6 @@
 		}
 	};
 
-	watch(query, (newVal) =>
-	{
-		const match = suggestions.value.find((item) =>
-		{
-			return item.symbol === newVal;
-		});
-		if (match)
-		{
-			navigateTo(`/cryptocurrency/${match.id}`);
-		}
-	});
-
 	onMounted(() =>
 	{
 		document.addEventListener("click", handleClickOutside);

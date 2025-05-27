@@ -185,19 +185,6 @@
 		}
 	}
 
-	watch(query, (newVal) =>
-	{
-		const match = suggestions.value.find((s) =>
-		{
-			return s.symbol === newVal;
-		});
-
-		if (match)
-		{
-			navigateToStock(match.isin);
-		}
-	});
-
 	onMounted(() =>
 	{
 		document.addEventListener("click", handleClickOutside);
