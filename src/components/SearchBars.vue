@@ -14,9 +14,9 @@
 		<VBtn class="w-50">Crypto</VBtn>
 	</VBtnToggle>
 
-	<StockSearchBar v-if="searchAssetType === 0" />
+	<StockSearchBar v-if="searchAssetType === 0"/>
 
-	<CryptoSearchBar v-if="searchAssetType === 1" />
+	<CryptoSearchBar v-if="searchAssetType === 1"/>
 </template>
 
 <script setup>

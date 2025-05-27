@@ -9,7 +9,7 @@
 		@update:modelValue="fetchSuggestions"
 		variant="outlined"
 		rounded="xl"
-		:label="'Stock Symbol'"
+		label="Stock Symbol"
 		append-inner-icon="mdi-magnify"
 		ref="inputRef"
 		class="text-light"
@@ -80,7 +80,7 @@
 
 		try
 		{
-			let res = await authAxios.get(`/search/${query.value}`);
+			const res = await authAxios.get(`/search/${query.value}`);
 
 			suggestions.value = res.data.stocks;
 		}
@@ -134,7 +134,7 @@
 		{
 			for (let i = 0; i < suggestions.value.length; i++)
 			{
-				router.push(`/stock/${suggestions.value[i].isin}`)
+				router.push(`/stock/${suggestions.value[i].isin}`);
 
 				clearSearch();
 
@@ -151,7 +151,7 @@
 
 				if (response.status == 201)
 				{
-					router.push(`/stock/${response.data.createdStock.isin}`)
+					router.push(`/stock/${response.data.createdStock.isin}`);
 
 					clearSearch();
 
@@ -168,7 +168,7 @@
 		{
 			const selected = suggestions.value[selectedIndex.value];
 
-			router.push(`/stock/${selected.isin}`)
+			router.push(`/stock/${selected.isin}`);
 
 			clearSearch();
 

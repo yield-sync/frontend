@@ -9,7 +9,7 @@
 
 			<VCol cols="12" md="8" lg="8">
 				<div style="position: relative; max-width: 600px;" class="mx-auto">
-					<SearchBar/>
+					<SearchBars/>
 				</div>
 			</VCol>
 
@@ -40,7 +40,7 @@
 	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
-	import SearchBar from "./SearchBar.vue";
+	import SearchBars from "./SearchBars.vue";
 
 
 	const app = useAppStore();
