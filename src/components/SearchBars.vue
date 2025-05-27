@@ -5,7 +5,7 @@
 		variant="outlined"
 		divided
 		mandatory
-		rounded="lg"
+		rounded="xl"
 		class="w-100 mb-6 text-light"
 		border="light"
 	>
