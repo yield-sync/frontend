@@ -3,7 +3,11 @@
 		<VRow>
 			<VCol cols="12" md="2" lg="2">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1 class="text-bold">YS</h1>
+					<h1 class="text-bold">
+						<span>
+							<img src="../../public/favicon.png" style="height: 22px; margin-right: 8px;">
+						</span>YS
+					</h1>
 				</RouterLink>
 			</VCol>
 
