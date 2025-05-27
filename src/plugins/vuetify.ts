@@ -11,8 +11,8 @@ import { createVuetify } from "vuetify";
 export const colors = {
 	background: "rgb(255, 255, 255)",
 	surface: "rgb(255, 255, 255)",
-	primary: "rgb(98, 224, 176)",
-	secondary: "rgb(63, 87, 86)",
+	primary: "rgb(156, 113, 255)",
+	secondary: "rgb(78, 63, 87)",
 	error: "rgb(255, 82, 82)",
 	info: "rgb(33, 150, 243)",
 	success: "rgb(11, 175, 16)",
