@@ -3,7 +3,7 @@
 		<VRow>
 			<VCol cols="12" md="2" lg="2">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1 class="text-bold">Yield Sync</h1>
+					<h1 class="text-bold">YS</h1>
 				</RouterLink>
 			</VCol>
 
