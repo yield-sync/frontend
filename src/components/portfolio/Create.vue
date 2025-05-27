@@ -18,8 +18,9 @@
 						:loading="loading"
 						rounded="lg"
 						color="success"
-						variant="outlined"
+						variant="flat"
 						type="submit"
+						elevation=0
 						class="w-100"
 						style="height: 56px;"
 					>
