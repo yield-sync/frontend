@@ -1,48 +1,39 @@
 <template>
-	<VRow v-if="app.loggedIn">
-		<VCol cols="12">
-			<h2 class="text-center text-light">Create Portfolio</h2>
-		</VCol>
+	<VSheet v-if="app.loggedIn" class="text-center" color="dark">
+		<VForm @submit.prevent="createPortfolio" validate-on="submit lazy" ref="formRef">
+			<VRow>
+				<VCol cols="8">
+					<VTextField
+						v-model="portfolioName"
+						:rules="rules"
+						rounded="lg"
+						variant="outlined"
+						color="success"
+						label="Portfolio Name"
+					/>
+				</VCol>
 
-		<VCol cols="12">
-			<VSheet class="text-center" color="dark">
-				<VForm @submit.prevent="createPortfolio" validate-on="submit lazy" ref="formRef">
-					<VRow>
-						<VCol cols="9">
-							<VTextField
-								v-model="portfolioName"
-								:rules="rules"
-								rounded="lg"
-								variant="outlined"
-								color="success"
-								label="Portfolio Name"
-							/>
-						</VCol>
+				<VCol cols="4">
+					<VBtn
+						:loading="loading"
+						rounded="lg"
+						color="success"
+						variant="outlined"
+						type="submit"
+						class="w-100"
+						style="height: 56px;"
+					>
+						Create Portfolio
+					</VBtn>
+				</VCol>
+			</VRow>
+		</VForm>
+	</VSheet>
 
-						<VCol cols="3">
-							<VBtn
-								:loading="loading"
-								rounded="lg"
-								color="success"
-								variant="outlined"
-								type="submit"
-								class="w-100"
-								style="height: 56px;"
-							>
-								+ Create
-							</VBtn>
-						</VCol>
-					</VRow>
-				</VForm>
-			</VSheet>
-		</VCol>
+	<h3 class="text-center text-error">{{ requestError }}</h3>
 
-		<VCol cols="12">
-			<h3 class="text-center text-error">{{ requestError }}</h3>
+	<h3 class="text-center text-success" v-if="successMessage">{{ successMessage }}</h3>
 
-			<h3 class="text-center text-success" v-if="successMessage">{{ successMessage }}</h3>
-		</VCol>
-	</VRow>
 </template>
 
 <script setup>
