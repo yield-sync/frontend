@@ -7,7 +7,7 @@
 		<div v-if="portfolio && !loading">
 			<VRow v-if="!updatePortfolioToggle">
 				<VCol cols="10">
-					<h2 class="text-light">{{ portfolio.name }}</h2>
+					<h2 class="text-primary">{{ portfolio.name }}</h2>
 				</VCol>
 
 				<VCol cols="2" class="d-flex justify-end">
@@ -42,10 +42,6 @@
 			</div>
 
 			<VRow>
-				<VCol cols="12">
-					<h1>Add Assets to Portfolio</h1>
-				</VCol>
-
 				<VCol cols="12" lg="3">
 					<VBtnToggle
 						v-model="addAssetType"
@@ -142,7 +138,7 @@
 						class="w-100"
 						@click="addPortfolioAsset"
 					>
-						+ Add Stock
+						+ Add Portfolio Asset
 					</VBtn>
 				</VCol>
 			</VRow>

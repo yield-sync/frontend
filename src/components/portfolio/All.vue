@@ -1,25 +1,23 @@
 <template>
 	<VContainer v-if="app.loggedIn">
-		<h4 class="mb-6 text-center text-light">Your Portfolios</h4>
-
 		<VRow v-if="!requestError">
+			<VCol cols="12">
+				<h4 class="text-center text-light">Your Portfolios</h4>
+			</VCol>
+
 			<VCol v-if="app.portfolios.length > 0" v-for="p in app.portfolios" :key="p.id" cols="12">
-				<VCard @click="router.push(`/portfolio/${p.id}`)" color="dark-light" elevation="0">
+				<VCard @click="router.push(`/portfolio/${p.id}`)" color="dark-light" elevation="0" class="rounded-xl">
 					<VCardTitle class="py-6 text-center">
-						<h3 class="text-center text-uppercase text-primary text-bold">{{ p.name }}</h3>
+						<h3 class="text-center text-uppercase text-primary">{{ p.name }}</h3>
 					</VCardTitle>
 				</VCard>
 			</VCol>
 
 			<VCol v-else cols="12">
-				<h3 class="text-center text-light">You do not have any portfolios</h3>
+				<h4 class="text-center text-secondary">You do not have any portfolios</h4>
 			</VCol>
 
-			<VCol cols="12">
-				<hr class="border border-secondary"/>
-			</VCol>
-
-			<VCol cols="12">
+			<VCol cols="12" class="mt-6">
 				<PortfolioCreate/>
 			</VCol>
 		</VRow>
