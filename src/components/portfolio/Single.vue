@@ -96,7 +96,7 @@
 						</VRow>
 
 						<div v-else>
-							<h3 class="my-7 text-center text-light">No assets found</h3>
+							<h3 class="my-7 text-center text-light">Selection List Empty</h3>
 						</div>
 					</div>
 				</VCol>
