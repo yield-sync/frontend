@@ -22,8 +22,8 @@
 <script setup>
 	import { ref } from "vue";
 
-	import CryptoSearchBar from "@/components/cryptocurrency/SearchBar.vue";
-	import StockSearchBar from "@/components/stock/SearchBar.vue";
+	import CryptoSearchBar from "@/components/cryptocurrency/CryptocurrencySearchBar.vue";
+	import StockSearchBar from "@/components/stock/StockSearchBar.vue";
 
 	const searchAssetType = ref(0);
 </script>
