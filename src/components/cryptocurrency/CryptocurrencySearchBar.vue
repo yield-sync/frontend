@@ -67,12 +67,18 @@
 		},
 	});
 
+	function hideSuggestions()
+	{
+		isListVisible.value = false;
+	}
+
 	function clearSearch()
 	{
 		query.value = "";
 		suggestions.value = [
 		];
 		selectedIndex.value = -1;
+
 		hideSuggestions();
 	}
 
@@ -119,7 +125,7 @@
 		}
 	}
 
-	function navigateTo(isin)
+	function navigateTo(path)
 	{
 		router.push(path);
 		clearSearch();

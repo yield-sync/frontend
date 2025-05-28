@@ -28,7 +28,9 @@
 					</VMenu>
 				</VCol>
 			</VRow>
+		</div>
 
+		<div v-if="portfolio && !loading">
 			<div style="max-width: 300px;">
 				<UpdateName
 					v-if="updatePortfolioToggle"
