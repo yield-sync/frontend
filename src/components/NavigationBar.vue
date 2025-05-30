@@ -1,7 +1,7 @@
 <template>
 	<VContainer>
 		<VRow>
-			<VCol cols="12" md="2" lg="2">
+			<VCol cols="12" md="2">
 				<RouterLink to="/" class="text-decoration-none">
 					<h1 class="text-bold">
 						<span>
@@ -11,20 +11,20 @@
 				</RouterLink>
 			</VCol>
 
-			<VCol cols="12" md="8" lg="8">
+			<VCol cols="12" md="8">
 				<div style="position: relative; max-width: 600px;" class="mx-auto">
 					<SearchBars/>
 				</div>
 			</VCol>
 
-			<VCol cols="12" md="2" lg="2" class="text-center">
-				<div v-if="!app.loggedIn" class="mx-auto">
+			<VCol cols="12" md="2" class="logout-col">
+				<div v-if="!app.loggedIn" class="logout-container">
 					<RouterLink to="/login">
 						<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
 					</RouterLink>
 				</div>
 
-				<div v-else class="w-100 mx-auto-md">
+				<div v-else class="logout-container">
 					<VBtn
 						@click="logOut"
 						rounded
@@ -60,3 +60,22 @@
 		app.setLoggedIn(false);
 	};
 </script>
+
+<style scoped>
+	.logout-col {
+		text-align: right;
+	}
+
+	.logout-container {
+		display: inline-block;
+		width: 100%;
+		max-width: 600px;
+	}
+
+	/* Center when column is full width (mobile) */
+	@media (max-width: 959px) {
+		.logout-col {
+			text-align: center;
+		}
+	}
+</style>
