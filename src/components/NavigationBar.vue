@@ -5,7 +5,7 @@
 				<RouterLink to="/" class="text-decoration-none">
 					<h1 class="text-bold">
 						<span>
-							<img src="../../public/favicon.png" style="height: 22px; margin-right: 8px;">
+							<img src="../../public/favicon.png" style="height: 22px; margin-right: 8px;"/>
 						</span>YS
 					</h1>
 				</RouterLink>

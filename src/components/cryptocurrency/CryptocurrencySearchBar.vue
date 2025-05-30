@@ -107,7 +107,7 @@
 			suggestions.value = [
 			];
 		}
-	};
+	}
 
 	function moveSelection(delta)
 	{
@@ -150,7 +150,7 @@
 				navigateTo(`/cryptocurrency/${selected.id}`);
 			}
 		}
-	};
+	}
 
 	function handleClickOutside(event)
 	{
@@ -166,7 +166,7 @@
 		{
 			isListVisible.value = false;
 		}
-	};
+	}
 
 	onMounted(() =>
 	{

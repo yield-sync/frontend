@@ -1,96 +1,105 @@
 <template>
-<VCard v-if="!loading" color=dark-light class="mx-auto" style="max-width: 600px;" rounded=xl elevation=0>
-	<VCardText>
-		<VRow v-if="stockProfile">
-			<VCol cols="12">
-				<div class="text-center" style="font-size: 1.5rem;">
-					<span>
-						<span class="text-primary">{{ stockProfile.symbol }}</span> •
-						<a :href="stockProfile.website" target="_blank" style="text-underline-offset: 8px;">
-							<span class="text-light">
-							{{ stockProfile.name }}
-							</span>
-						</a>
-					</span>
-				</div>
-				<hr class="mt-5 border border-primary">
-			</VCol>
+	<VCard v-if="!loading" color="dark-light" class="mx-auto" style="max-width: 600px;"
+		rounded="xl" elevation="0">
+		<VCardText>
+			<VRow v-if="stockProfile">
+				<VCol cols="12">
+					<div class="text-center" style="font-size: 1.5rem;">
+						<span>
+							<span class="text-primary">{{ stockProfile.symbol }}</span>
+							•
+							<a :href="stockProfile.website" target="_blank" style="text-underline-offset: 8px;">
+								<span class="text-light">
+									{{ stockProfile.name }}
+								</span>
+							</a>
+						</span>
+					</div>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">ISIN</h3>
+					<hr class="mt-5 border border-primary"/>
+				</VCol>
 
-				<h3 class="text-light">{{ stockProfile.isin }}</h3>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">ISIN</h3>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">Exchange</h3>
+					<h3 class="text-light">{{ stockProfile.isin }}</h3>
+				</VCol>
 
-				<h3 class="text-light">{{ stockProfile.exchange.toUpperCase() }}</h3>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">Exchange</h3>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">Sector</h3>
+					<h3 class="text-light">{{ stockProfile.exchange.toUpperCase() }}</h3>
+				</VCol>
 
-				<h3 class="text-light">{{ stockProfile.sector }}</h3>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">Sector</h3>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">Industry</h3>
+					<h3 class="text-light">{{ stockProfile.sector }}</h3>
+				</VCol>
 
-				<h3 class="text-light">{{ stockProfile.industry }}</h3>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">Industry</h3>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">CEO</h3>
-				<p>{{ stockProfile.ceo }}</p>
-			</VCol>
+					<h3 class="text-light">{{ stockProfile.industry }}</h3>
+				</VCol>
 
-			<VCol cols="6">
-				<h3 class="text-Primary">Full Tile Employee</h3>
-				<p>{{ stockProfile.full_time_employees }}</p>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">CEO</h3>
 
-			<VCol cols="6">
-				<h3>Address</h3>
-				<p>
-					{{ stockProfile.address }}, {{ stockProfile.city }}<br>
-					{{ stockProfile.state }} {{ stockProfile.zip }}<br>
-					{{ stockProfile.country }}
-				</p>
-			</VCol>
+					<p>{{ stockProfile.ceo }}</p>
+				</VCol>
 
-			<VCol cols="6">
-				<h3>IPO Date</h3>
-				<p>
-					{{ stockProfile.ipo_date }}
-				</p>
-			</VCol>
+				<VCol cols="6">
+					<h3 class="text-Primary">Full Tile Employee</h3>
 
-			<VCol cols="12">
-				<h3 class="text-Primary">Description</h3>
-				<p>{{ stockProfile.description }}</p>
-			</VCol>
+					<p>{{ stockProfile.full_time_employees }}</p>
+				</VCol>
 
-			<VCol v-if="stockProfile.refreshed" cols="12">
-				<h6 class="text-success">Refreshed</h6>
-			</VCol>
+				<VCol cols="6">
+					<h3>Address</h3>
 
-			<VCol v-else cols="12">
-				<h6 class="text-light">Not Refreshed</h6>
-			</VCol>
-		</VRow>
+					<p>
+						{{ stockProfile.address }}, {{ stockProfile.city }}<br/>
 
-		<div v-else>
-			<h2 class="text-center text-danger">Something went wrong with viewing stock</h2>
-		</div>
-	</VCardText>
-</VCard>
+						{{ stockProfile.state }} {{ stockProfile.zip }}<br/>
+						{{ stockProfile.country }}
+					</p>
+				</VCol>
 
-<div v-else>
-	<h2 class="text-center text-warning">Loading..</h2>
-</div>
+				<VCol cols="6">
+					<h3>IPO Date</h3>
 
-<h2 class="text-center text-error">{{ requestError }}</h2>
+					<p>
+						{{ stockProfile.ipo_date }}
+					</p>
+				</VCol>
+
+				<VCol cols="12">
+					<h3 class="text-Primary">Description</h3>
+
+					<p>{{ stockProfile.description }}</p>
+				</VCol>
+
+				<VCol v-if="stockProfile.refreshed" cols="12">
+					<h6 class="text-success">Refreshed</h6>
+				</VCol>
+
+				<VCol v-else cols="12">
+					<h6 class="text-light">Not Refreshed</h6>
+				</VCol>
+			</VRow>
+
+			<div v-else>
+				<h2 class="text-center text-danger">Something went wrong with viewing stock</h2>
+			</div>
+		</VCardText>
+	</VCard>
+
+	<div v-else>
+		<h2 class="text-center text-warning">Loading..</h2>
+	</div>
+
+	<h2 class="text-center text-error">{{ requestError }}</h2>
 </template>
 
 <script setup>
