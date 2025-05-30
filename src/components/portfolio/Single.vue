@@ -4,34 +4,32 @@
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
 
-		<div v-if="portfolio && !loading">
-			<VRow v-if="!updatePortfolioToggle">
-				<VCol cols="10">
-					<h2 class="text-primary">{{ portfolio.name }}</h2>
-				</VCol>
+		<VCard v-if="portfolio && !loading" color="dark-light" elevation="0" rounded="xl">
+			<VCardText>
+				<VRow v-if="!updatePortfolioToggle">
+					<VCol cols="10">
+						<h1 class="text-primary">{{ portfolio.name }}</h1>
+					</VCol>
 
-				<VCol cols="2" class="d-flex justify-end">
-					<VMenu location="bottom right">
-						<template #activator="{ props }">
-							<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light"/>
-						</template>
+					<VCol cols="2" class="d-flex justify-end">
+						<VMenu location="bottom right">
+							<template #activator="{ props }">
+								<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light"/>
+							</template>
 
-						<VList bg-color="dark">
-							<VListItem @click="updatePortfolioToggle = true">
-								<VListItemTitle>Update Name</VListItemTitle>
-							</VListItem>
+							<VList bg-color="dark">
+								<VListItem @click="updatePortfolioToggle = true">
+									<VListItemTitle>Update Name</VListItemTitle>
+								</VListItem>
 
-							<VListItem @click="confirmDeletePortfolio = true">
-								<VListItemTitle class="text-error">Delete</VListItemTitle>
-							</VListItem>
-						</VList>
-					</VMenu>
-				</VCol>
-			</VRow>
-		</div>
+								<VListItem @click="confirmDeletePortfolio = true">
+									<VListItemTitle class="text-error">Delete</VListItemTitle>
+								</VListItem>
+							</VList>
+						</VMenu>
+					</VCol>
+				</VRow>
 
-		<div v-if="portfolio && !loading">
-			<div style="max-width: 300px;">
 				<UpdateName
 					v-if="updatePortfolioToggle"
 					:id="id"
@@ -40,226 +38,230 @@
 					:loading="loading"
 					@submit="onPortfolioNameUpdate"
 					@cancel="updatePortfolioToggle = false"
+					class="mb-3"
 				/>
-			</div>
 
-			<VRow>
-				<VCol cols="12" lg="3">
-					<VBtnToggle
-						v-model="addAssetType"
-						color="primary"
-						variant="outlined"
-						divided
-						mandatory
-						rounded="lg"
-						class="w-100 mb-6 text-light"
-						border="light"
-					>
-						<VBtn @click="fetchSuggestions" class="w-50">Stock</VBtn>
-
-						<VBtn @click="fetchSuggestions" class="w-50">Crypto</VBtn>
-					</VBtnToggle>
-
-					<VTextField
-						v-model="symbol"
-						@input="fetchSuggestions"
-						@update:modelValue="fetchSuggestions"
-						color="primary"
-						density="compact"
-						rounded="lg"
-						:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
-						variant="outlined"
-						class="text-light"
-					/>
-				</VCol>
-
-				<VCol cols="12" lg="3">
-					<div class="asset-list-wrapper custom-scrollbar bg-dark-light">
-						<VRow
-							v-if="queryResult.length > 0"
-							v-for="(a, i) in queryResult"
-							:key="a.isin"
-							class="w-100 cursor-pointer my-0"
-							:class="selectedSuggestionIndex === i ? 'bg-primary text-dark' : 'text-light'"
-							@click="selectedSuggestionIndex = i"
-						>
-							<VCol sm="3">
-								<span
-									class="h4 ml-2"
-									:class="selectedSuggestionIndex === i ? 'text-dark' : 'text-primary'"
-								>
-									{{ a.symbol }}
-								</span>
-							</VCol>
-
-							<VCol sm="9">
-								<span class="h4">{{ a.name }}</span>
-							</VCol>
-						</VRow>
-
-						<div v-else>
-							<h3 class="my-7 text-center text-light">Selection List Empty</h3>
-						</div>
-					</div>
-				</VCol>
-
-				<VCol cols="12" md="6" lg="2">
-					<VTextField
-						v-model="percentAllocation"
-						density="compact"
-						label="Target % (0.00 - 100)"
-						variant="outlined"
-						class="text-light"
-						rounded="lg"
-						type="number"
-						:min="0"
-						:max="100"
-						@input="validateAllocation"
-					/>
-				</VCol>
-
-				<VCol cols="12" md="6" lg="2">
-					<VTextField
-						v-model="balance"
-						density="compact"
-						label="Balance"
-						variant="outlined"
-						class="text-light"
-						type="number"
-						rounded="lg"
-						:min="0"
-					/>
-				</VCol>
-
-				<VCol cols="12" lg="2">
-					<VBtn
-						rounded="lg"
-						variant="flat"
-						:loading="loading"
-						color="success"
-						class="w-100"
-						@click="addPortfolioAsset"
-					>
-						+ Add Portfolio Asset
-					</VBtn>
-				</VCol>
-			</VRow>
-
-			<div
-				v-if="portfolioAssets.length > 0"
-				v-for="(a, i) in portfolioAssets"
-				:key="a.portfolio_asset_id"
-				class="mt-4 mb-8"
-			>
-				<VRow class="rounded-lg mb-3 px-3 py-1" :class="i % 2 === 0 ? 'bg-dark-light' : ''">
-					<VCol cols="12" xl="6">
-						<VRow>
-							<VCol cols="12" sm="6" md="6" lg="2"
-								xl="1">
-								<h4 class="mb-1 text-light">Symbol</h4>
-
-								<h2 class="text-primary">{{ a.stock_symbol }}{{ a.cryptocurrency_symbol }}</h2>
-							</VCol>
-
-							<VCol cols="12" sm="6" md="6" lg="3"
-								xl="3">
-								<h4 class="mb-1 text-light">{{  a?.isin ? "Company" : "Crypto" }}</h4>
-
-								<h4 class="text-primary">{{ a.stock_name }}{{ a.cryptocurrency_name }}</h4>
-							</VCol>
-
-							<VCol cols="12" sm="6" md="6" lg="2"
-								xl="3">
-								<h4 class="mb-1 text-light">Sector</h4>
-
-								<h4 class="text-primary">{{ a.sector }}</h4>
-							</VCol>
-
-							<VCol cols="12" sm="6" md="6" lg="2"
-								xl="3">
-								<h4 class="mb-1 text-light">Industry</h4>
-
-								<h4 class="text-primary">{{ a.industry }}</h4>
-							</VCol>
-
-							<VCol cols="12" sm="12" md="12" lg="3"
-								xl="2">
-								<h4 class="mb-1 text-light">Pct.</h4>
-
-								<VSheet color="secondary" rounded="lg" class="px-2 py-2 text-dark">
-									<h3 class="text-light">% {{ 0.00 }}</h3>
-								</VSheet>
-							</VCol>
-						</VRow>
-					</VCol>
-
-					<VCol cols="12" sm="6" md="3" xl="2">
-						<VTextField
-							v-model="a.percent_allocation"
-							@blur="() => {
-								if (a.percent_allocation < 0) a.percent_allocation = 0;
-								if (a.percent_allocation > 100) a.percent_allocation = 100;
-							}"
-							rounded="lg"
-							label="Target % (0.00 - 100)"
+				<VRow>
+					<VCol cols="12" lg="3">
+						<VBtnToggle
+							v-model="addAssetType"
+							color="primary"
 							variant="outlined"
-							color="light"
-							class="mt-6 text-light"
-							type="number"
-							density="compact"
+							divided
+							mandatory
+							rounded="xl"
+							class="w-100 mb-6 text-light"
+							border="light"
 						>
-							<template #prepend-inner>
-								%
-							</template>
-						</VTextField>
-					</VCol>
+							<VBtn @click="fetchSuggestions" class="w-50">Stock</VBtn>
 
-					<VCol cols="12" sm="6" md="3" xl="2">
+							<VBtn @click="fetchSuggestions" class="w-50">Crypto</VBtn>
+						</VBtnToggle>
+
 						<VTextField
-							v-model="a.balance"
-							rounded="lg"
-							variant="outlined"
-							label="Balance"
-							color="light"
-							class="mt-6 text-light"
-							type="number"
+							v-model="symbol"
+							@input="fetchSuggestions"
+							@update:modelValue="fetchSuggestions"
+							color="primary"
 							density="compact"
+							rounded="xl"
+							:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
+							variant="outlined"
+							class="text-light"
 						/>
 					</VCol>
 
-					<VCol cols="6" md="3" xl="1">
-						<VBtn
-							@click="updatePorfolioAsset(i)"
-							variant="flat"
-							rounded="lg"
-							color="warning"
-							class="w-100 mt-6"
-						>
-							Update
-						</VBtn>
+					<VCol cols="12" lg="3">
+						<div class="asset-list-wrapper custom-scrollbar bg-dark">
+							<VRow
+								v-if="queryResult.length > 0"
+								v-for="(a, i) in queryResult"
+								:key="a.isin"
+								class="w-100 cursor-pointer my-0"
+								:class="selectedSuggestionIndex === i ? 'bg-primary text-dark' : 'text-light'"
+								@click="selectedSuggestionIndex = i"
+							>
+								<VCol sm="3">
+									<span
+										class="h4 ml-2"
+										:class="selectedSuggestionIndex === i ? 'text-dark' : 'text-primary'"
+									>
+										{{ a.symbol }}
+									</span>
+								</VCol>
+
+								<VCol sm="9">
+									<span class="h4">{{ a.name }}</span>
+								</VCol>
+							</VRow>
+
+							<div v-else>
+								<h3 class="my-7 text-center text-light">Selection List Empty</h3>
+							</div>
+						</div>
 					</VCol>
 
-					<VCol cols="6" md="3" xl="1">
+					<VCol cols="12" md="6" lg="2">
+						<VTextField
+							v-model="percentAllocation"
+							density="compact"
+							label="Target % (0.00 - 100)"
+							variant="outlined"
+							class="text-light"
+							rounded="xl"
+							type="number"
+							:min="0"
+							:max="100"
+							@input="validateAllocation"
+						/>
+					</VCol>
+
+					<VCol cols="12" md="6" lg="2">
+						<VTextField
+							v-model="balance"
+							density="compact"
+							label="Balance"
+							variant="outlined"
+							class="text-light"
+							type="number"
+							rounded="xl"
+							:min="0"
+						/>
+					</VCol>
+
+					<VCol cols="12" lg="2">
 						<VBtn
-							@click="() => {
-								confirmDeletePortfolioAsset = true;
-								assetToDeleteId = a.portfolio_asset_id
-							}"
-							variant="flat"
-							rounded="lg"
-							color="danger"
-							class="w-100 mt-6"
+							:disabled="selectedSuggestionIndex == -1"
+							rounded="xl"
+							variant="outlined"
+							:loading="loading"
+							color="success"
+							class="w-100"
+							@click="addPortfolioAsset"
 						>
-							✖
+							+ Add Asset
 						</VBtn>
 					</VCol>
 				</VRow>
-			</div>
 
-			<div v-else class="py-12">
-				<h3 class="text-center text-light">No assets in portfolio</h3>
-			</div>
-		</div>
+				<h3 v-if="portfolioAssets.length == 0" class="py-12 text-center text-light">No assets in portfolio</h3>
+
+				<div
+					v-if="portfolioAssets.length > 0"
+					v-for="(a, i) in portfolioAssets"
+					:key="a.portfolio_asset_id"
+					class="mt-4 mb-8 px-3 rounded-xl"
+					:class="i % 2 === 0 ? 'bg-dark' : ''"
+				>
+					<VRow class="mb-3 px-3 py-1">
+						<VCol cols="12" xl="6">
+							<VRow>
+								<VCol cols="12" sm="6" md="6" lg="2" xl="1">
+									<h4 class="mb-1 text-light">Symbol</h4>
+
+									<RouterLink v-if="a.isin" :to="`/stock/${a.isin}`">
+										<h2 class="text-primary">{{ a.stock_symbol }}</h2>
+									</RouterLink>
+
+									<RouterLink v-else :to="`/cryptocurrency/${a.id}`">
+										<h2 class="text-primary">{{ a.cryptocurrency_symbol }}</h2>
+									</RouterLink>
+								</VCol>
+
+								<VCol cols="12" sm="6" md="6" lg="3" xl="3">
+									<h4 class="mb-1 text-light">{{  a?.isin ? "Company" : "Crypto" }}</h4>
+
+									<h4 v-if="a.isin" class="text-primary">{{ a.stock_name }}</h4>
+
+									<h4 v-else class="text-primary">{{ a.cryptocurrency_name }}</h4>
+								</VCol>
+
+								<VCol cols="12" sm="6" md="6" lg="2" xl="3">
+									<h4 class="mb-1 text-light">Sector</h4>
+
+									<h4 class="text-primary">{{ a.sector }}</h4>
+								</VCol>
+
+								<VCol cols="12" sm="6" md="6" lg="2" xl="3">
+									<h4 class="mb-1 text-light">Industry</h4>
+
+									<h4 class="text-primary">{{ a.industry }}</h4>
+								</VCol>
+
+								<VCol cols="12" sm="12" md="12" lg="3" xl="2">
+									<h4 class="mb-1 text-light">Pct.</h4>
+
+									<VSheet color="secondary" rounded="xl" class="px-2 py-2 text-dark">
+										<h3 class="text-center text-light">% {{ 0.00 }}</h3>
+									</VSheet>
+								</VCol>
+							</VRow>
+						</VCol>
+
+						<VCol cols="12" sm="6" md="3" xl="2">
+							<VTextField
+								v-model="a.percent_allocation"
+								@blur="() => {
+									if (a.percent_allocation < 0) a.percent_allocation = 0;
+									if (a.percent_allocation > 100) a.percent_allocation = 100;
+								}"
+								rounded="xl"
+								label="Target % (0.00 - 100)"
+								variant="outlined"
+								color="light"
+								class="mt-6 text-light"
+								type="number"
+								density="compact"
+							>
+								<template #prepend-inner>
+									%
+								</template>
+							</VTextField>
+						</VCol>
+
+						<VCol cols="12" sm="6" md="3" xl="2">
+							<VTextField
+								v-model="a.balance"
+								rounded="xl"
+								variant="outlined"
+								label="Balance"
+								color="light"
+								class="mt-6 text-light"
+								type="number"
+								density="compact"
+							/>
+						</VCol>
+
+						<VCol cols="6" md="3" xl="1">
+							<VBtn
+								@click="updatePorfolioAsset(i)"
+								variant="flat"
+								rounded="xl"
+								color="warning"
+								class="w-100 mt-6"
+							>
+								Update
+							</VBtn>
+						</VCol>
+
+						<VCol cols="6" md="3" xl="1">
+							<VBtn
+								@click="() => {
+									confirmDeletePortfolioAsset = true;
+									assetToDeleteId = a.portfolio_asset_id
+								}"
+								variant="flat"
+								rounded="xl"
+								color="danger"
+								class="w-100 mt-6"
+							>
+								✖
+							</VBtn>
+						</VCol>
+					</VRow>
+				</div>
+			</VCardText>
+		</VCard>
 
 		<!-- Confirm delete portfolio -->
 		<VDialog v-model="confirmDeletePortfolio" max-width="400">

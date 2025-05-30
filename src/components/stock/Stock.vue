@@ -59,9 +59,10 @@
 					<h3>Address</h3>
 
 					<p>
-						{{ stockProfile.address }}, {{ stockProfile.city }}<br/>
-
-						{{ stockProfile.state }} {{ stockProfile.zip }}<br/>
+						{{ stockProfile.address }}
+						{{ stockProfile.city }},
+						{{ stockProfile.state }}
+						{{ stockProfile.zip }}
 						{{ stockProfile.country }}
 					</p>
 				</VCol>
