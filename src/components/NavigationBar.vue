@@ -12,20 +12,23 @@
 			</VCol>
 
 			<VCol cols="12" md="8">
-				<div style="position: relative; max-width: 600px;" class="mx-auto">
+				<div class="mx-auto" style="position: relative; max-width: 600px;">
 					<SearchBars/>
 				</div>
 			</VCol>
 
-			<VCol cols="12" md="2" class="logout-col">
-				<div v-if="!app.loggedIn" class="logout-container">
-					<RouterLink to="/login">
+			<VCol
+				cols="12"
+				md="2"
+				class="text-center text-md-right"
+			>
+				<div class="mx-auto" style="max-width: 600px;">
+					<RouterLink v-if="!app.loggedIn" to="/login">
 						<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
 					</RouterLink>
-				</div>
 
-				<div v-else class="logout-container">
 					<VBtn
+						v-else
 						@click="logOut"
 						rounded
 						color="secondary"
@@ -60,22 +63,3 @@
 		app.setLoggedIn(false);
 	};
 </script>
-
-<style scoped>
-	.logout-col {
-		text-align: right;
-	}
-
-	.logout-container {
-		display: inline-block;
-		width: 100%;
-		max-width: 600px;
-	}
-
-	/* Center when column is full width (mobile) */
-	@media (max-width: 959px) {
-		.logout-col {
-			text-align: center;
-		}
-	}
-</style>
