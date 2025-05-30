@@ -1,54 +1,55 @@
 <template>
-<div class="position-relative" ref="wrapperRef">
-	<VTextField
-		v-model="query"
-		@keydown.esc.prevent="isListVisible = false"
-		@keydown.down.prevent="moveSelection(1)"
-		@keydown.up.prevent="moveSelection(-1)"
-		@keydown.enter.prevent="handleEnter"
-		@input="fetchSuggestions"
-		@update:modelValue="fetchSuggestions"
-		variant="outlined"
-		rounded="xl"
-		label="Crypto Symbol"
-		append-inner-icon="mdi-magnify"
-		ref="inputRef"
-		class="text-light"
-	/>
+	<div class="position-relative" ref="wrapperRef">
+		<VTextField
+			v-model="query"
+			@keydown.esc.prevent="isListVisible = false"
+			@keydown.down.prevent="moveSelection(1)"
+			@keydown.up.prevent="moveSelection(-1)"
+			@keydown.enter.prevent="handleEnter"
+			@input="fetchSuggestions"
+			@update:modelValue="fetchSuggestions"
+			variant="outlined"
+			rounded="xl"
+			label="Crypto Symbol"
+			append-inner-icon="mdi-magnify"
+			ref="inputRef"
+			class="text-light"
+		/>
 
-	<h6 class="text-center text-danger">{{ searchError }}</h6>
+		<h6 class="text-center text-danger">{{ searchError }}</h6>
 
-	<div
-		v-if="suggestions.length && isListVisible"
-		class="w-100 position-absolute bg-dark-light border border-light rounded text-light py-2"
-		:style="{
-			zIndex: 10,
-			maxHeight: '200px',
-			overflowY: 'auto',
-			top: `${inputHeight}px`
-		}"
-	>
-		<VRow
-			v-for="(item, index) in suggestions"
-			:key="item.id"
-			class="w-100"
-			:class="{
-				'bg-secondary text-light': index === selectedIndex || index === hoveredIndex
+		<div
+			v-if="suggestions.length && isListVisible"
+			class="position-absolute w-100 bg-dark-light rounded text-light elevation-5"
+			:style="{
+				zIndex: 10,
+				maxHeight: '200px',
+				overflowY: 'auto',
+				top: `${inputHeight}px`
 			}"
-			@mouseenter="hoveredIndex = index"
-			@mouseleave="hoveredIndex = null"
-			@mousedown.prevent="navigateTo(`/cryptocurrency/${item.id}`)"
 		>
-			<VCol>
-				<span class="text-primary">{{ item.symbol }}</span>
-			</VCol>
+			<VRow
+				v-for="(item, index) in suggestions"
+				:key="item.id"
+				class="w-100 m-0 px-2 py-2"
+				no-gutters
+				:class="{
+					'bg-secondary text-light': index === selectedIndex || index === hoveredIndex
+				}"
+				@mouseenter="hoveredIndex = index"
+				@mouseleave="hoveredIndex = null"
+				@mousedown.prevent="navigateTo(`/cryptocurrency/${item.id}`)"
+			>
+				<VCol cols="2" sm="2" md="3">
+					<span class="text-primary">{{ item.symbol }}</span>
+				</VCol>
 
-			<VCol>
-				{{ item.name }}
-			</VCol>
-		</VRow>
+				<VCol cols="10" sm="10" md="9">
+					{{ item.name }}
+				</VCol>
+			</VRow>
+		</div>
 	</div>
-</div>
 </template>
 
 <script setup>

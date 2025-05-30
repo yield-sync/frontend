@@ -1,7 +1,5 @@
 <template>
-	<VContainer>
-		<Portfolios class="mx-auto" style="max-width: 600px;"/>
-	</VContainer>
+	<Portfolios class="mx-auto"/>
 </template>
 
 <script setup>

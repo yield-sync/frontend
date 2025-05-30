@@ -1,7 +1,5 @@
 <template>
-	<VContainer>
-		<SearchCryptocurrency :query="query"/>
-	</VContainer>
+	<SearchCryptocurrency :query="query"/>
 </template>
 
 <script lang="ts" setup>
@@ -13,7 +11,7 @@
 	const route = useRoute();
 
 
-	const query = computed(() => 
+	const query = computed(() =>
 	{
 		return route.params.query;
 	});

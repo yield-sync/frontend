@@ -1,7 +1,5 @@
 <template>
-	<VContainer>
-		<Stock :symbol="symbol"/>
-	</VContainer>
+	<Stock :symbol="symbol"/>
 </template>
 
 <script lang="ts" setup>

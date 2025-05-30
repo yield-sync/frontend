@@ -1,7 +1,5 @@
 <template>
-	<VContainer>
-		<Portfolio :id="id"/>
-	</VContainer>
+	<Portfolio :id="id"/>
 </template>
 
 <script lang="ts" setup>

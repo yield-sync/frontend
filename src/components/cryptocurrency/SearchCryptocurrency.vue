@@ -1,38 +1,38 @@
 <template>
-<VContainer style="max-width: 600px;">
-	<h2 v-if="loading" class="text-center text-primary">Loading..</h2>
+	<VContainer style="max-width: 600px;">
+		<h2 v-if="loading" class="text-center text-primary">Loading..</h2>
 
-	<div v-if="queryResult" class="mx-auto" >
-		<h1 class="text-light">Search results for: {{ props.query }}</h1>
+		<div v-if="queryResult" class="mx-auto" >
+			<h1 class="text-light">Search results for: {{ props.query }}</h1>
 
-		<hr class="my-3 border border-light"/>
+			<hr class="my-3 border border-light"/>
 
-		<div
-			v-for="q in queryResult"
-			:key="q.symbol"
-			class="search-result-row"
-			@click="handleSelect(q)"
-		>
-			<VRow>
-				<VCol cols="7">
-					<h3 class="text-primary">{{ q.symbol }}</h3>
+			<div
+				v-for="q in queryResult"
+				:key="q.symbol"
+				class="search-result-row"
+				@click="handleSelect(q)"
+			>
+				<VRow>
+					<VCol cols="7">
+						<h3 class="text-primary">{{ q.symbol }}</h3>
 
-					<h5 class="text-light">{{ q.name }}</h5>
-				</VCol>
+						<h5 class="text-light">{{ q.name }}</h5>
+					</VCol>
 
-				<VCol cols="3">
-					<h3 class="text-light">{{ q.exchange }}</h3>
-				</VCol>
+					<VCol cols="3">
+						<h3 class="text-light">{{ q.exchange }}</h3>
+					</VCol>
 
-				<VCol cols="2">
-					<VBtn color="secondary" rounded class="w-100" @click="handleSelect(q)">View</VBtn>
-				</VCol>
-			</VRow>
+					<VCol cols="2">
+						<VBtn color="secondary" rounded class="w-100" @click="handleSelect(q)">View</VBtn>
+					</VCol>
+				</VRow>
+			</div>
 		</div>
-	</div>
 
-	<h2 class="text-center text-error">{{ requestError }}</h2>
-</VContainer>
+		<h2 class="text-center text-error">{{ requestError }}</h2>
+	</VContainer>
 </template>
 
 <script setup>

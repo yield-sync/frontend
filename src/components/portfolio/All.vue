@@ -1,5 +1,5 @@
 <template>
-	<VContainer v-if="app.loggedIn">
+	<VContainer v-if="app.loggedIn" style="max-width: 600px;">
 		<VRow v-if="!requestError">
 			<VCol cols="12">
 				<h4 class="text-center text-light">Portfolios</h4>
