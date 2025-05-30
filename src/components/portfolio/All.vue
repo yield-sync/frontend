@@ -26,10 +26,6 @@
 			<h3 class="text-center text-error">{{ requestError }}</h3>
 		</div>
 	</VContainer>
-
-	<VContainer v-else>
-		<h3 class="text-center">Log in to view your portfolios</h3>
-	</VContainer>
 </template>
 
 <script setup>
