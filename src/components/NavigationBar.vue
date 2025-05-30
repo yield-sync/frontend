@@ -1,43 +1,36 @@
 <template>
-	<VContainer>
+	<VContainer style="max-width: 600px;">
 		<VRow>
-			<VCol cols="12" md="2">
+			<VCol cols="8" class="mb-12">
 				<RouterLink to="/" class="text-decoration-none">
-					<h1 class="text-bold">
+					<h2 class="text-bold">
 						<span>
-							<img src="../../public/favicon.png" style="height: 22px; margin-right: 8px;"/>
-						</span>YS
-					</h1>
+							<img src="../../public/favicon.png" style="height: 16px; margin-right: 8px;"/>
+						</span>Yield Sync
+					</h2>
 				</RouterLink>
 			</VCol>
 
-			<VCol cols="12" md="8">
-				<div class="mx-auto" style="position: relative; max-width: 600px;">
-					<SearchBars/>
-				</div>
+			<VCol cols="4" class="text-center text-md-right">
+				<RouterLink v-if="!app.loggedIn" to="/login">
+					<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
+				</RouterLink>
+
+				<VBtn
+					v-else
+					@click="logOut"
+					rounded
+					variant="outlined"
+					color="secondary"
+					elevation="0"
+					class="w-100"
+				>
+					Log out
+				</VBtn>
 			</VCol>
 
-			<VCol
-				cols="12"
-				md="2"
-				class="text-center text-md-right"
-			>
-				<div class="mx-auto" style="max-width: 600px;">
-					<RouterLink v-if="!app.loggedIn" to="/login">
-						<VBtn color="primary" rounded elevation="0" class="w-100">Log In</VBtn>
-					</RouterLink>
-
-					<VBtn
-						v-else
-						@click="logOut"
-						rounded
-						color="secondary"
-						elevation="0"
-						class="w-100"
-					>
-						Log out
-					</VBtn>
-				</div>
+			<VCol cols="12">
+				<SearchBars class="mx-auto" style="position: relative;"/>
 			</VCol>
 		</VRow>
 	</VContainer>
