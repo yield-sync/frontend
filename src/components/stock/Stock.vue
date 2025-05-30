@@ -1,37 +1,70 @@
 <template>
 	<div v-if="!loading">
-		<VRow v-if="stockProfileResult" class="mx-auto" style="max-width: 600px;">
+		<VRow v-if="stockProfile" class="mx-auto" style="max-width: 600px;">
 			<VCol cols="12">
-				<h1>{{ stockProfileResult.symbol }}</h1>
+				<h1>{{ stockProfile.symbol }}</h1>
 
-				<h2 class="text-light">{{ stockProfileResult.name }}</h2>
-			</VCol>
-
-			<VCol cols="6">
-				<h3 class="text-Primary">Exchange</h3>
-
-				<h3 class="text-light">{{ stockProfileResult.exchange }}</h3>
+				<a :href="stockProfile.website" target="_blank">
+					<h2 class="text-light">{{ stockProfile.name }} - {{ stockProfile.country }}</h2>
+				</a>
 			</VCol>
 
 			<VCol cols="6">
 				<h3 class="text-Primary">ISIN</h3>
 
-				<h3 class="text-light">{{ stockProfileResult.isin }}</h3>
+				<h3 class="text-light">{{ stockProfile.isin }}</h3>
+			</VCol>
+
+			<VCol cols="6">
+				<h3 class="text-Primary">Exchange</h3>
+
+				<h3 class="text-light">{{ stockProfile.exchange.toUpperCase() }}</h3>
 			</VCol>
 
 			<VCol cols="6">
 				<h3 class="text-Primary">Sector</h3>
 
-				<h3 class="text-light">{{ stockProfileResult.sector }}</h3>
+				<h3 class="text-light">{{ stockProfile.sector }}</h3>
 			</VCol>
 
 			<VCol cols="6">
 				<h3 class="text-Primary">Industry</h3>
 
-				<h3 class="text-light">{{ stockProfileResult.industry }}</h3>
+				<h3 class="text-light">{{ stockProfile.industry }}</h3>
 			</VCol>
 
-			<VCol v-if="stockProfileResult.refreshed" cols="12">
+			<VCol cols="6">
+				<h3 class="text-Primary">CEO</h3>
+				<p>{{ stockProfile.ceo }}</p>
+			</VCol>
+
+			<VCol cols="6">
+				<h3 class="text-Primary">Full Tile Employee</h3>
+				<p>{{ stockProfile.full_time_employees }}</p>
+			</VCol>
+
+			<VCol cols="6">
+				<h3>Address</h3>
+				<p>
+					{{ stockProfile.address }}, {{ stockProfile.city }}<br>
+					{{ stockProfile.state }} {{ stockProfile.zip }}<br>
+					{{ stockProfile.country }}
+				</p>
+			</VCol>
+
+			<VCol cols="6">
+				<h3>IPO Date</h3>
+				<p>
+					{{ stockProfile.ipo_date }}
+				</p>
+			</VCol>
+
+			<VCol cols="12">
+				<h3 class="text-Primary">Description</h3>
+				<p>{{ stockProfile.description }}</p>
+			</VCol>
+
+			<VCol v-if="stockProfile.refreshed" cols="12">
 				<h6 class="text-success">Refreshed</h6>
 			</VCol>
 
@@ -69,7 +102,7 @@
 	});
 
 	const symbol = ref(props.symbol);
-	const stockProfileResult = ref();
+	const stockProfile = ref();
 	const requestError = ref("");
 	const loading = ref(true);
 
@@ -94,8 +127,8 @@
 
 			console.log(response);
 
-			stockProfileResult.value = response.data.stock;
-			stockProfileResult.value.refreshed = response.data.refreshed;
+			stockProfile.value = response.data.stock;
+			stockProfile.value.refreshed = response.data.refreshed;
 		}
 		catch (error)
 		{
@@ -108,7 +141,7 @@
 	onMounted(async () =>
 	{
 		requestError.value = null;
-		stockProfileResult.value = null;
+		stockProfile.value = null;
 
 		await search();
 	});
@@ -124,7 +157,7 @@
 			symbol.value = newSymbol;
 
 			requestError.value = null;
-			stockProfileResult.value = null;
+			stockProfile.value = null;
 
 			await search();
 		}
