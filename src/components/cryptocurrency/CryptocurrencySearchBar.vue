@@ -1,4 +1,5 @@
 <template>
+<div class="position-relative" ref="wrapperRef">
 	<VTextField
 		v-model="query"
 		@keydown.esc.prevent="isListVisible = false"
@@ -19,12 +20,18 @@
 
 	<div
 		v-if="suggestions.length && isListVisible"
-		class="position-absolute w-100 px-3 py-3 text-light border border-light bg-dark-light rounded"
-		style="z-index: 10; max-height: 200px; overflow-y: auto;"
+		class="w-100 position-absolute bg-dark-light border border-light rounded text-light py-2"
+		:style="{
+			zIndex: 10,
+			maxHeight: '200px',
+			overflowY: 'auto',
+			top: `${inputHeight}px`
+		}"
 	>
 		<VRow
 			v-for="(item, index) in suggestions"
 			:key="item.id"
+			class="w-100"
 			:class="{
 				'bg-secondary text-light': index === selectedIndex || index === hoveredIndex
 			}"
@@ -32,13 +39,16 @@
 			@mouseleave="hoveredIndex = null"
 			@mousedown.prevent="navigateTo(`/cryptocurrency/${item.id}`)"
 		>
-			<VCol sm="4" md="3" lg="2">
+			<VCol>
 				<span class="text-primary">{{ item.symbol }}</span>
 			</VCol>
 
-			<VCol sm="8" md="9" lg="10">{{ item.name }}</VCol>
+			<VCol>
+				{{ item.name }}
+			</VCol>
 		</VRow>
 	</div>
+</div>
 </template>
 
 <script setup>

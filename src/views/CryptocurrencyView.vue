@@ -1,7 +1,5 @@
 <template>
-	<VContainer>
-		<Cryptocurrency :symbol="symbol"/>
-	</VContainer>
+	<Cryptocurrency :symbol="symbol"/>
 </template>
 
 <script lang="ts" setup>

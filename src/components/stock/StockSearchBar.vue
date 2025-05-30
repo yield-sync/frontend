@@ -1,4 +1,6 @@
 <template>
+<div class="position-relative" ref="wrapperRef">
+	<!-- Input field -->
 	<VTextField
 		v-model="query"
 		@keydown.esc.prevent="hideSuggestions"
@@ -15,16 +17,21 @@
 		class="text-light"
 	/>
 
-	<h5 class="text-center text-danger">{{ searchError }}</h5>
-
+	<!-- Suggestions -->
 	<div
 		v-if="suggestions.length && isListVisible"
-		class="position-absolute w-100 px-3 py-3 text-light border border-light bg-dark-light rounded"
-		style="z-index: 10; max-height: 200px; overflow-y: auto;"
+		class="w-100 position-absolute bg-dark-light border border-light rounded text-light py-2"
+		:style="{
+			zIndex: 10,
+			maxHeight: '200px',
+			overflowY: 'auto',
+			top: `${inputHeight}px`
+		}"
 	>
 		<VRow
 			v-for="(a, i) in suggestions"
 			:key="a.isin"
+			class="w-100"
 			:class="{
 				'bg-secondary text-light': i === selectedIndex || i === hoveredIndex
 			}"
@@ -32,15 +39,16 @@
 			@mouseleave="hoveredIndex = null"
 			@mousedown.prevent="navigateToStock(a.isin)"
 		>
-			<VCol sm="4" md="3" lg="2">
+			<VCol cols="2" sm="2" md="3" lg="4">
 				<span class="text-primary">{{ a.symbol }}</span>
 			</VCol>
 
-			<VCol sm="8" md="9" lg="10">
+			<VCol cols="10" sm="10" md="9" lg="8">
 				{{ a.name }}
 			</VCol>
 		</VRow>
 	</div>
+</div>
 </template>
 
 <script setup>
