@@ -1,12 +1,19 @@
 <template>
-	<div v-if="!loading">
-		<VRow v-if="stockProfile" class="mx-auto" style="max-width: 600px;">
+<VCard v-if="!loading" color=dark-light class="mx-auto" style="max-width: 600px;" rounded=xl elevation=0>
+	<VCardText>
+		<VRow v-if="stockProfile">
 			<VCol cols="12">
-				<h1>{{ stockProfile.symbol }}</h1>
-
-				<a :href="stockProfile.website" target="_blank">
-					<h2 class="text-light">{{ stockProfile.name }} - {{ stockProfile.country }}</h2>
-				</a>
+				<div class="text-center" style="font-size: 1.5rem;">
+					<span>
+						<span class="text-primary">{{ stockProfile.symbol }}</span> •
+						<a :href="stockProfile.website" target="_blank" style="text-underline-offset: 8px;">
+							<span class="text-light">
+							{{ stockProfile.name }}
+							</span>
+						</a>
+					</span>
+				</div>
+				<hr class="mt-5 border border-primary">
 			</VCol>
 
 			<VCol cols="6">
@@ -76,13 +83,14 @@
 		<div v-else>
 			<h2 class="text-center text-danger">Something went wrong with viewing stock</h2>
 		</div>
-	</div>
+	</VCardText>
+</VCard>
 
-	<div v-else>
-		<h2 class="text-center text-warning">Loading..</h2>
-	</div>
+<div v-else>
+	<h2 class="text-center text-warning">Loading..</h2>
+</div>
 
-	<h2 class="text-center text-error">{{ requestError }}</h2>
+<h2 class="text-center text-error">{{ requestError }}</h2>
 </template>
 
 <script setup>

@@ -137,7 +137,7 @@
 
 		if (selectedIndex.value === -1)
 		{
-			if (suggestions.value.length)
+			if (suggestions.value.length > 0 && suggestions.value[0].symbol.toUpperCase() == query.value.toUpperCase())
 			{
 				navigateToStock(suggestions.value[0].isin);
 				return;
@@ -145,6 +145,8 @@
 
 			try
 			{
+				console.log(`Attempting to create stock with symbol "${query.value}" since nothing was found in DB..`);
+
 				const res = await authAxios.post("/create-by-symbol", {
 					load: {
 						symbol: query.value
