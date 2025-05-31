@@ -1,6 +1,7 @@
 <template>
 	<VContainer style="max-width: 600px;">
-		<VCard v-if="!loading" color="dark-light" class="mx-auto" rounded="xl" elevation="0">
+		<VCard v-if="!loading" color="dark-light" class="mx-auto" rounded="xl"
+			elevation="0">
 			<VCardText>
 				<VRow v-if="stockProfile">
 					<VCol cols="12">
@@ -8,7 +9,7 @@
 							<span>
 								<span class="text-primary">{{ stockProfile.symbol }}</span>
 								•
-								<a :href="stockProfile.website" target="_blank" style="text-underline-offset: 8px;">
+								<a :href="stockProfile.website" target="_blank" style="text-decoration: none;">
 									<span class="text-light">
 										{{ stockProfile.name }}
 									</span>
@@ -17,6 +18,10 @@
 						</div>
 
 						<hr class="mt-5 border border-primary"/>
+					</VCol>
+
+					<VCol cols="12">
+						<TVWidget :symbol="stockProfile.symbol" class="w-100"/>
 					</VCol>
 
 					<VCol cols="6">
@@ -109,6 +114,7 @@
 	import { ref, onMounted, watch } from "vue";
 	import { useRoute } from "vue-router";
 	import useAppStore from "@/stores/App";
+	import TVWidget from "./TVWidget.vue";
 
 	const route = useRoute();
 	const app = useAppStore();

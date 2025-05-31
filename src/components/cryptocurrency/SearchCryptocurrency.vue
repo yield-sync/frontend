@@ -2,7 +2,7 @@
 	<VContainer style="max-width: 600px;">
 		<h2 v-if="loading" class="text-center text-primary">Loading..</h2>
 
-		<div v-if="queryResult" class="mx-auto" >
+		<div v-if="queryResult" class="mx-auto">
 			<h1 class="text-light">Search results for: {{ props.query }}</h1>
 
 			<hr class="my-3 border border-light"/>
