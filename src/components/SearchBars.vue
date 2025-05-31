@@ -12,7 +12,7 @@
 	>
 		<VBtn class="w-50">Stock</VBtn>
 
-		<VBtn class="w-50" >Crypto</VBtn>
+		<VBtn class="w-50">Crypto</VBtn>
 	</VBtnToggle>
 
 	<StockSearchBar v-if="searchAssetType === 0"/>

@@ -14,7 +14,7 @@
 			append-inner-icon="mdi-magnify"
 			ref="inputRef"
 			class="text-light"
-			hide-details=true
+			hide-details="true"
 		/>
 
 		<h6 v-if="searchError" class="text-center text-danger">{{ searchError }}</h6>

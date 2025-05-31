@@ -156,7 +156,8 @@
 					<VRow class="mb-3 px-3 py-1">
 						<VCol cols="12" xl="6">
 							<VRow>
-								<VCol cols="12" sm="6" md="6" lg="2" xl="1">
+								<VCol cols="12" sm="6" md="6" lg="2"
+									xl="1">
 									<h4 class="mb-1 text-light">Symbol</h4>
 
 									<RouterLink v-if="a.isin" :to="`/stock/${a.isin}`">
@@ -168,7 +169,8 @@
 									</RouterLink>
 								</VCol>
 
-								<VCol cols="12" sm="6" md="6" lg="3" xl="3">
+								<VCol cols="12" sm="6" md="6" lg="3"
+									xl="3">
 									<h4 class="mb-1 text-light">{{  a?.isin ? "Company" : "Crypto" }}</h4>
 
 									<h4 v-if="a.isin" class="text-primary">{{ a.stock_name }}</h4>
@@ -176,19 +178,22 @@
 									<h4 v-else class="text-primary">{{ a.cryptocurrency_name }}</h4>
 								</VCol>
 
-								<VCol cols="12" sm="6" md="6" lg="2" xl="3">
+								<VCol cols="12" sm="6" md="6" lg="2"
+									xl="3">
 									<h4 class="mb-1 text-light">Sector</h4>
 
 									<h4 class="text-primary">{{ a.sector }}</h4>
 								</VCol>
 
-								<VCol cols="12" sm="6" md="6" lg="2" xl="3">
+								<VCol cols="12" sm="6" md="6" lg="2"
+									xl="3">
 									<h4 class="mb-1 text-light">Industry</h4>
 
 									<h4 class="text-primary">{{ a.industry }}</h4>
 								</VCol>
 
-								<VCol cols="12" sm="12" md="12" lg="3" xl="2">
+								<VCol cols="12" sm="12" md="12" lg="3"
+									xl="2">
 									<h4 class="mb-1 text-light">Pct.</h4>
 
 									<VSheet color="secondary" rounded="xl" class="px-2 py-2 text-dark">
