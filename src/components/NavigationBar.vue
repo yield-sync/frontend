@@ -1,6 +1,6 @@
 <template>
-	<VContainer class="py-0" style="max-width: 600px;">
-		<VCard class="bg-secondary rounded-0 rounded-b-xl" elevation=0 style="overflow: visible; position: unset;">
+	<VContainer class="py-0 mb-5" style="max-width: 600px;">
+		<VCard class="bg-secondary rounded-0 rounded-b-xl" elevation="0" style="overflow: visible; position: unset;">
 			<VCardText>
 				<VRow>
 					<VCol cols="8">
@@ -15,7 +15,10 @@
 
 					<VCol cols="4" class="text-center text-md-right">
 						<RouterLink v-if="!app.loggedIn" to="/login">
-							<VBtn color="dark" rounded elevation="0" class="w-100" density="compact">Log In</VBtn>
+							<VBtn color="dark" rounded elevation="0" class="w-100"
+								density="compact">
+								Log In
+							</VBtn>
 						</RouterLink>
 
 						<VBtn
