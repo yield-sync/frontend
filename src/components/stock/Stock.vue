@@ -16,8 +16,6 @@
 								</a>
 							</span>
 						</div>
-
-						<hr class="mt-5 border border-primary"/>
 					</VCol>
 
 					<VCol cols="12">
