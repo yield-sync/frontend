@@ -14,15 +14,18 @@
 			label="Stock Symbol"
 			append-inner-icon="mdi-magnify"
 			ref="inputRef"
+			hide-details
 			class="text-light"
 		/>
+
+		<h6 v-if="searchError" class="mt-5 text-center text-danger">{{ searchError }}</h6>
 
 		<!-- Suggestions -->
 		<div
 			v-if="suggestions.length && isListVisible"
-			class="position-absolute w-100 bg-dark-light rounded text-light elevation-5"
+			class="position-absolute w-100 mt-3 bg-dark-light rounded text-light elevation-5"
 			:style="{
-				zIndex: 10,
+				zIndex: 1000000,
 				maxHeight: '200px',
 				minHeight: '44px',
 				overflowY: 'auto',

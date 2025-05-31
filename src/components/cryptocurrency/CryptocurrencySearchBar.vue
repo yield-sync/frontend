@@ -14,13 +14,14 @@
 			append-inner-icon="mdi-magnify"
 			ref="inputRef"
 			class="text-light"
+			hide-details=true
 		/>
 
-		<h6 class="text-center text-danger">{{ searchError }}</h6>
+		<h6 v-if="searchError" class="text-center text-danger">{{ searchError }}</h6>
 
 		<div
 			v-if="suggestions.length && isListVisible"
-			class="position-absolute w-100 bg-dark-light rounded text-light elevation-5"
+			class="position-absolute w-100 mt-3 bg-dark-light rounded text-light elevation-5"
 			:style="{
 				zIndex: 10,
 				maxHeight: '200px',

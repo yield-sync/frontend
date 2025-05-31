@@ -1,17 +1,18 @@
 <template>
 	<VBtnToggle
 		v-model="searchAssetType"
-		color="primary"
+		color="light"
 		variant="outlined"
 		divided
 		mandatory
 		rounded="xl"
 		class="w-100 mb-6 text-light"
+		density="compact"
 		border="light"
 	>
 		<VBtn class="w-50">Stock</VBtn>
 
-		<VBtn class="w-50">Crypto</VBtn>
+		<VBtn class="w-50" >Crypto</VBtn>
 	</VBtnToggle>
 
 	<StockSearchBar v-if="searchAssetType === 0"/>
