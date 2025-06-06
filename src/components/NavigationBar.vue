@@ -1,46 +1,46 @@
 <template>
-	<VContainer class="py-0 mb-5" style="max-width: 600px;">
-		<VCard class="bg-secondary rounded-0 rounded-b-xl" elevation="0" style="overflow: visible; position: unset;">
-			<VCardText>
-				<VRow>
-					<VCol cols="8">
-						<RouterLink to="/" class="text-decoration-none">
-							<h2 class="text-light text-bold">
-								<span>
-									<img src="../../public/symbol-light.png" style="height: 16px; margin-right: 8px;"/>
-								</span>Yield Sync
-							</h2>
-						</RouterLink>
-					</VCol>
+	<VContainer class="py-5 mb-5" style="max-width: 600px;">
+		<VRow>
+			<VCol cols="8">
+				<RouterLink to="/" class="text-decoration-none">
+					<h2 class="text-light text-bold">
+						<span>
+							<img src="../../public/symbol-light.png" style="height: 16px; margin-right: 8px;"/>
+						</span>Yield Sync
+					</h2>
+				</RouterLink>
+			</VCol>
 
-					<VCol cols="4" class="text-center text-md-right">
-						<RouterLink v-if="!app.loggedIn" to="/login">
-							<VBtn color="dark" rounded elevation="0" class="w-100"
-								density="compact">
-								Log In
-							</VBtn>
-						</RouterLink>
+			<VCol cols="4" class="text-center text-md-right">
+				<RouterLink v-if="!app.loggedIn" to="/login">
+					<VBtn
+						color="dark"
+						rounded elevation="0"
+						class="w-100"
+						density="compact"
+					>
+						Log In
+					</VBtn>
+				</RouterLink>
 
-						<VBtn
-							v-else
-							@click="logOut"
-							rounded
-							variant="outlined"
-							color="light"
-							elevation="0"
-							class="w-100"
-							density="compact"
-						>
-							Log out
-						</VBtn>
-					</VCol>
+				<VBtn
+					v-else
+					@click="logOut"
+					rounded
+					variant="outlined"
+					color="light"
+					elevation="0"
+					class="w-100"
+					density="compact"
+				>
+					Log out
+				</VBtn>
+			</VCol>
 
-					<VCol cols="12">
-						<SearchBars class="mx-auto" style="position: relative;"/>
-					</VCol>
-				</VRow>
-			</VCardText>
-		</VCard>
+			<VCol cols="12">
+				<SearchBars class="mx-auto" style="position: relative;"/>
+			</VCol>
+		</VRow>
 	</VContainer>
 </template>
 
