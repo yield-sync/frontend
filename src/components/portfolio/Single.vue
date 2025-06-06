@@ -50,7 +50,11 @@
 					rounded
 				>Show Add Asset</VBtn>
 
-				<div id="add-asset" :class="showAddAsset ? '' : 'd-none'" class="px-4 py-4 mb-3 border border-success bg-dark rounded-xl">
+				<div
+					id="add-asset"
+					:class="showAddAsset ? '' : 'd-none'"
+					class="px-4 py-4 mb-3 border border-success bg-dark rounded-xl"
+				>
 					<h3 class="mt-0 mb-4 text-center text-light">Add Asset</h3>
 
 					<VBtnToggle
@@ -60,6 +64,7 @@
 						divided
 						mandatory
 						rounded="xl"
+						density="compact"
 						class="w-100 mb-6 text-light"
 						border="light"
 					>
@@ -167,7 +172,7 @@
 					<div id="asset-info">
 						<h3 id="symbol-name-sector-industry"  class="mb-3 text-secondary">
 							<span v-if="a.isin" class="text-primary">
-								{{ a.stock_symbol }} -
+								[{{ a.stock_symbol }}]
 								{{ a.stock_name.length > 10 ? a.stock_name.slice(0, 10) + ".." : a.stock_name }}
 							</span>
 							<span v-else class="text-primary">
@@ -177,15 +182,33 @@
 							<span class="text-light">{{ a.sector }} - {{ a.industry }}</span>
 						</h3>
 
-						<VRow id="sector-&-industry">
-							<VCol id="asset-percent" cols="6">
+						<VRow id="percent-&-value">
+							<VCol id="asset-percent" cols="4">
+								<h3 class="text-center text-light">
+									Target Percent
+								</h3>
 								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
-									<h3 class="text-center text-light">Percent<br>{{ 0.00 }}</h3>
+									<h3 class="text-center text-light">
+										% {{ a.percent_allocation }}
+									</h3>
 								</VSheet>
 							</VCol>
-							<VCol id="asset-price" cols="6">
+							<VCol id="asset-percent" cols="4">
+								<h3 class="text-center text-light">
+									Actual Percent
+								</h3>
 								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
-									<h3 class="text-center text-light">Value<br>{{ a.balance * a.stock_price }}</h3>
+									<h3 class="text-center text-light">
+										% {{ 0.00 }}
+									</h3>
+								</VSheet>
+							</VCol>
+							<VCol id="asset-price" cols="4">
+								<h3 class="text-center text-light">
+									Total Value
+								</h3>
+								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
+									<h3 class="text-center text-light">$ {{ a.balance * a.stock_price }}</h3>
 								</VSheet>
 							</VCol>
 						</VRow>
@@ -194,7 +217,7 @@
 					<VBtn
 						color="warning"
 						variant="outlined"
-						class="w-100 mb-5"
+						class="w-100"
 						@click="() => {
 							if (visibleAssetSettings.has(a.portfolio_asset_id)) {
 							visibleAssetSettings.delete(a.portfolio_asset_id)
@@ -208,7 +231,11 @@
 						{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }} Asset Settings
 					</VBtn>
 
-					<VRow v-show="visibleAssetSettings.has(a.portfolio_asset_id)" id="asset-target-&-ownership-delete">
+					<VRow
+						v-show="visibleAssetSettings.has(a.portfolio_asset_id)"
+						id="asset-target-&-ownership-delete"
+						class="mt-5"
+					>
 						<VCol cols="12" sm="4">
 							<VTextField
 								v-model="a.percent_allocation"
