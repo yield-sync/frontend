@@ -3,11 +3,13 @@
 		<VCol cols="10">
 			<h1 class="text-primary">{{ portfolio.name }}</h1>
 		</VCol>
+
 		<VCol cols="2" class="d-flex justify-end">
 			<VMenu location="bottom right">
 				<template #activator="{ props }">
 					<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light" />
 				</template>
+
 				<VList bg-color="dark">
 					<VListItem @click="$emit('toggle-update')">
 						<VListItemTitle>Update Name</VListItemTitle>
@@ -19,8 +21,17 @@
 			</VMenu>
 		</VCol>
 	</VRow>
-	<UpdateName v-else :id="id" :name="portfolio.name" :rules="[]" :loading="loading"
-		@submit="$emit('update-name', $event)" @cancel="$emit('toggle-update')" class="mb-3" />
+
+	<UpdateName
+		v-else
+		:id="id"
+		:name="portfolio.name"
+		:rules="[]"
+		:loading="loading"
+		class="mb-3"
+		@submit="$emit('update-name', $event)"
+		@cancel="$emit('toggle-update')"
+	/>
 </template>
 
 <script setup lang="ts">
