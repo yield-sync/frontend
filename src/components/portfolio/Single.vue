@@ -6,39 +6,14 @@
 
 		<VCard v-if="portfolio && !loading" color="dark-light" elevation="0" rounded="xl">
 			<VCardText>
-				<VRow v-if="!updatePortfolioToggle">
-					<VCol cols="10">
-						<h1 class="text-primary">{{ portfolio.name }}</h1>
-					</VCol>
-
-					<VCol cols="2" class="d-flex justify-end">
-						<VMenu location="bottom right">
-							<template #activator="{ props }">
-								<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light"/>
-							</template>
-
-							<VList bg-color="dark">
-								<VListItem @click="updatePortfolioToggle = true">
-									<VListItemTitle>Update Name</VListItemTitle>
-								</VListItem>
-
-								<VListItem @click="confirmDeletePortfolio = true">
-									<VListItemTitle class="text-error">Delete</VListItemTitle>
-								</VListItem>
-							</VList>
-						</VMenu>
-					</VCol>
-				</VRow>
-
-				<UpdateName
-					v-if="updatePortfolioToggle"
+				<PortfolioHeader
 					:id="id"
-					:name="portfolio.name"
-					:rules="[]"
+					:portfolio="portfolio"
 					:loading="loading"
-					@submit="onPortfolioNameUpdate"
-					@cancel="updatePortfolioToggle = false"
-					class="mb-3"
+					:update-portfolio-toggle="updatePortfolioToggle"
+					@toggle-update="updatePortfolioToggle = !updatePortfolioToggle"
+					@confirm-delete="confirmDeletePortfolio = true"
+					@update-name="onPortfolioNameUpdate"
 				/>
 
 				<VBtn
@@ -363,6 +338,7 @@
 
 	import useAppStore from "@/stores/App";
 	import UpdateName from "./UpdateName.vue";
+	import PortfolioHeader from "./PortfolioHeader.vue";
 
 	const props = defineProps({
 		id: [
