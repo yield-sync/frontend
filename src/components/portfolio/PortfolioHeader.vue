@@ -11,7 +11,7 @@
 				</template>
 
 				<VList bg-color="dark">
-					<VListItem @click="$emit('toggle-update')">
+					<VListItem @click="updatePortfolioToggle = !updatePortfolioToggle">
 						<VListItemTitle>Update Name</VListItemTitle>
 					</VListItem>
 					<VListItem @click="$emit('confirm-delete')">
@@ -30,19 +30,22 @@
 		:loading="loading"
 		class="mb-3"
 		@submit="$emit('update-name', $event)"
-		@cancel="$emit('toggle-update')"
+		@cancel="updatePortfolioToggle = false"
 	/>
 </template>
 
 <script setup lang="ts">
+	import { ref } from "vue";
+
 	import UpdateName from './UpdateName.vue';
 
 	defineProps<{
 		id: string | number;
 		portfolio: { name: string };
 		loading: boolean;
-		updatePortfolioToggle: boolean;
 	}>();
 
-	defineEmits(['toggle-update', 'confirm-delete', 'update-name']);
+	defineEmits(['confirm-delete', 'update-name']);
+
+	const updatePortfolioToggle = ref(false);
 </script>
