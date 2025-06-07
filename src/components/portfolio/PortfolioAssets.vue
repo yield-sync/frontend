@@ -46,7 +46,7 @@
 				</h3>
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
-						% {{ a.percent_allocation }}
+						% {{ Number(a.percent_allocation) }}
 					</h3>
 				</VSheet>
 			</VCol>
@@ -55,7 +55,7 @@
 					Balance
 				</h3>
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
-					<h3 class="text-center text-primary">{{ a.balance }}</h3>
+					<h3 class="text-center text-primary">{{ Number(a.balance) }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -64,7 +64,7 @@
 					Total Value
 				</h3>
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
-					<h3 class="text-center text-primary">$ {{ a.balance * a.stock_price }}</h3>
+					<h3 class="text-center text-primary">$ {{ (a.balance * a.stock_price) }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -137,7 +137,7 @@
 
 					<VCol cols="12" sm="4">
 						<VBtn
-							@click="updatePorfolioAsset(i) && visibleAssetSettings.delete(a.portfolio_asset_id)"
+							@click="updatePorfolioAsset(a) && visibleAssetSettings.delete(a.portfolio_asset_id)"
 							variant="flat"
 							rounded="xl"
 							color="warning"
@@ -182,19 +182,16 @@
 	const requestError = ref("");
 	const visibleAssetSettings = ref(new Set())
 
-	// Portfolio
-
 	// Deleetion stuff
 	const assetToDeleteId = ref(null);
 	const confirmDeletePortfolioAsset = ref(false);
 
 	const app = useAppStore();
 
-
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
-
-	const stringShortener = (string, max = 10) => {
+	const stringShortener = (string, max = 10) =>
+	{
 		return string.length > max ? string.slice(0, max) + ".." : string
 	};
 
@@ -235,7 +232,7 @@
 		emit('assets-changed');
 	};
 
-	const updatePorfolioAsset = async (portfolioAssetsIndex) =>
+	const updatePorfolioAsset = async (portfolioAssets) =>
 	{
 		if (!app.loggedIn) return;
 
@@ -251,11 +248,11 @@
 		try
 		{
 			await authAxios.put(
-				`/update/${props.portfolioAssets.value[portfolioAssetsIndex].portfolio_asset_id}`,
+				`/update/${portfolioAssets.portfolio_asset_id}`,
 				{
 					load: {
-						balance: props.portfolioAssets.value[portfolioAssetsIndex].balance,
-						percent_allocation: props.portfolioAssets.value[portfolioAssetsIndex].percent_allocation,
+						balance: portfolioAssets.balance,
+						percent_allocation: portfolioAssets.percent_allocation,
 					}
 				}
 			);
