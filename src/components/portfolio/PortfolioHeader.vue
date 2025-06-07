@@ -22,7 +22,7 @@
 		</VCol>
 	</VRow>
 
-	<UpdateName
+	<PortfolioUpdateName
 		v-else
 		:id="id"
 		:name="portfolio.name"
@@ -37,7 +37,7 @@
 <script setup lang="ts">
 	import { ref } from "vue";
 
-	import UpdateName from './UpdateName.vue';
+	import PortfolioUpdateName from './PortfolioUpdateName.vue';
 
 	defineProps<{
 		id: string | number;
