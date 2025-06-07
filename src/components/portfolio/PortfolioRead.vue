@@ -16,7 +16,7 @@
 
 				<AddAssetForm :id="id" @asset-added="getPortfolio" />
 
-				<PortfolioAssets :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio" />
+				<PortfolioAssetsRead :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio" />
 			</VCardText>
 		</VCard>
 	</VContainer>
@@ -43,7 +43,7 @@
 	import PortfolioHeader from "./PortfolioHeader.vue";
 	import AddAssetForm from "./AddAssetForm.vue";
 	import ConfirmDialog from "./ConfirmDialog.vue";
-	import PortfolioAssets from "./PortfolioAssets.vue";
+	import PortfolioAssetsRead from "./PortfolioAssetsRead.vue";
 
 	const props = defineProps({
 		id: [
