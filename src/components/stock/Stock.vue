@@ -4,8 +4,8 @@
 			elevation="0">
 			<VCardText>
 				<VRow v-if="stockProfile">
-					<VCol cols="12">
-						<div class="text-center" style="font-size: 1.5rem;">
+					<VCol cols="9">
+						<div style="font-size: 1.5rem;">
 							<span>
 								<span class="text-primary">{{ stockProfile.symbol }}</span>
 								•
@@ -17,7 +17,9 @@
 							</span>
 						</div>
 					</VCol>
-
+					<VCol cols="3">
+						<h2 class="text-primary">{{ stockProfile.price_on_refresh }}</h2>
+					</VCol>
 					<VCol cols="12">
 						<TVWidget :symbol="stockProfile.symbol" class="w-100"/>
 					</VCol>
