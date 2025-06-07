@@ -44,8 +44,8 @@
 				<h3 class="text-center text-light">
 					Target %
 				</h3>
-				<VSheet rounded="xl" class="mt-1 border border-primary">
-					<h3 class="text-center text-dark">
+				<VSheet color="dark-light" rounded="xl" class="mt-1">
+					<h3 class="text-center text-primary">
 						% {{ a.percent_allocation }}
 					</h3>
 				</VSheet>
@@ -54,8 +54,8 @@
 				<h3 class="text-center text-light">
 					Balance
 				</h3>
-				<VSheet rounded="xl" class="mt-1 border border-primary">
-					<h3 class="text-center text-dark">{{ a.balance }}</h3>
+				<VSheet color="dark-light" rounded="xl" class="mt-1">
+					<h3 class="text-center text-primary">{{ a.balance }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -63,8 +63,8 @@
 				<h3 class="text-center text-light">
 					Total Value
 				</h3>
-				<VSheet rounded="xl" class="mt-1 border border-primary">
-					<h3 class="text-center text-dark">$ {{ a.balance * a.stock_price }}</h3>
+				<VSheet color="dark-light" rounded="xl" class="mt-1">
+					<h3 class="text-center text-primary">$ {{ a.balance * a.stock_price }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -72,8 +72,8 @@
 				<h3 class="text-center text-light">
 					Actual %
 				</h3>
-				<VSheet rounded="xl" class="mt-1 border border-primary">
-					<h3 class="text-center text-dark">
+				<VSheet color="dark-light" rounded="xl" class="mt-1">
+					<h3 class="text-center text-primary">
 						% {{ 0.00 }}
 					</h3>
 				</VSheet>
