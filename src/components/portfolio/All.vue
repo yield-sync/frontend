@@ -32,7 +32,7 @@
 	import { ref, onMounted } from "vue";
 	import { useRouter } from "vue-router";
 
-	import PortfolioCreate from "./Create.vue";
+	import PortfolioCreate from "./PortfolioCreate.vue";
 	import useAppStore from "@/stores/App";
 
 	const app = useAppStore();
