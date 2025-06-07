@@ -14,7 +14,7 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<AddAssetForm :id="id" @asset-added="getPortfolio" />
+				<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio" />
 
 				<PortfolioAssetsRead :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio" />
 			</VCardText>
@@ -41,7 +41,7 @@
 
 	import useAppStore from "@/stores/App";
 	import PortfolioHeader from "./PortfolioHeader.vue";
-	import AddAssetForm from "./AddAssetForm.vue";
+	import PortfolioAssetAddForm from "./PortfolioAssetAddForm.vue";
 	import ConfirmDialog from "./ConfirmDialog.vue";
 	import PortfolioAssetsRead from "./PortfolioAssetsRead.vue";
 
