@@ -160,56 +160,27 @@
 		</VCard>
 
 		<!-- Confirm delete portfolio -->
-		<VDialog v-model="confirmDeletePortfolio" max-width="400">
-			<VCard color="dark">
-				<VCardTitle class="text-center">
-					Are you sure?
-				</VCardTitle>
+		<ConfirmDialog
+			v-model="confirmDeletePortfolio"
+			title="Delete Portfolio?"
+			message="This action cannot be undone."
+			confirm-text="Yes, Delete"
+			max-width="400"
+			color="dark"
+			@confirm="onConfirmDeletePortfolio"
+			@cancel="confirmDeletePortfolio = false"
+		/>
 
-				<VCardText class="text-center">
-					<p>This action cannot be undone.</p>
-				</VCardText>
-
-				<VCardActions class="justify-center">
-					<VBtn color="light" variant="outlined" @click="confirmDelete = false">
-						Cancel
-					</VBtn>
-
-					<VBtn color="danger" variant="flat" @click="onConfirmDeletePortfolio">
-						Yes, Delete
-					</VBtn>
-				</VCardActions>
-			</VCard>
-		</VDialog>
-
-		<!-- Confirm delete portfolio asset -->
-		<VDialog v-model="confirmDeletePortfolioAsset" max-width="400">
-			<VCard color="dark">
-				<VCardTitle class="text-center">
-					Delete Asset?
-				</VCardTitle>
-
-				<VCardText class="text-center">
-					<p>This asset will be removed from the portfolio.</p>
-
-					<p class="text-error">This action cannot be undone.</p>
-				</VCardText>
-
-				<VCardActions class="justify-center">
-					<VBtn color="light" variant="outlined" @click="confirmDeletePortfolioAsset = false">
-						Cancel
-					</VBtn>
-
-					<VBtn
-						color="danger"
-						variant="flat"
-						@click="onConfirmDeletePortfolioAsset"
-					>
-						Yes, Delete
-					</VBtn>
-				</VCardActions>
-			</VCard>
-		</VDialog>
+		<ConfirmDialog
+			v-model="confirmDeletePortfolioAsset"
+			title="Delete Asset?"
+			message="This asset will be removed from the portfolio."
+			confirm-text="Yes, Delete"
+			max-width="400"
+			color="dark"
+			@confirm="onConfirmDeletePortfolioAsset"
+			@cancel="confirmDeletePortfolioAsset = false"
+		/>
 	</VContainer>
 </template>
 
@@ -221,6 +192,7 @@
 	import useAppStore from "@/stores/App";
 	import PortfolioHeader from "./PortfolioHeader.vue";
 	import AddAssetForm from "./AddAssetForm.vue";
+import ConfirmDialog from "./ConfirmDialog.vue";
 
 	const props = defineProps({
 		id: [
