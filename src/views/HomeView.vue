@@ -1,7 +1,7 @@
 <template>
-	<Portfolios class="mx-auto"/>
+	<PortfolioReadAll class="mx-auto"/>
 </template>
 
 <script setup>
-	import Portfolios from "@/components/portfolio/All.vue";
+	import PortfolioReadAll from "@/components/portfolio/PortfolioReadAll.vue";
 </script>
