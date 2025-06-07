@@ -206,7 +206,6 @@ import ConfirmDialog from "./ConfirmDialog.vue";
 	// UI
 	const loading = ref(false);
 	const requestError = ref("");
-	const updatePortfolioToggle = ref(false);
 	const visibleAssetSettings = ref(new Set())
 
 	// Portfolio
@@ -285,8 +284,6 @@ import ConfirmDialog from "./ConfirmDialog.vue";
 			requestError.value = "";
 
 			await getPortfolio();
-
-			updatePortfolioToggle.value = false;
 		}
 		catch (e)
 		{
