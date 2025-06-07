@@ -26,133 +26,145 @@
 					class="px-3 py-3 rounded-xl"
 					:class="i % 2 === 0 ? 'bg-dark' : ''"
 				>
-					<div id="asset-info">
-						<h3 id="symbol-name-sector-industry"  class="mb-3 text-secondary">
-							<span v-if="a.isin" class="text-primary">
-								[{{ a.stock_symbol }}]
-								{{ a.stock_name.length > 10 ? a.stock_name.slice(0, 10) + ".." : a.stock_name }}
-							</span>
-							<span v-else class="text-primary">
-								{{ a.cryptocurrency_symbol }} -
-								{{ a.cryptocurrency_name.length > 10 ? a.cryptocurrency_name.slice(0, 10) + ".." : a.cryptocurrency_name }}
-							</span> |
-							<span class="text-light">{{ a.sector }} - {{ a.industry }}</span>
-						</h3>
-
-						<VRow id="percent-&-value">
-							<VCol id="asset-percent" cols="4">
-								<h3 class="text-center text-light">
-									Target Percent
-								</h3>
-								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
-									<h3 class="text-center text-light">
-										% {{ a.percent_allocation }}
-									</h3>
-								</VSheet>
-							</VCol>
-							<VCol id="asset-percent" cols="4">
-								<h3 class="text-center text-light">
-									Actual Percent
-								</h3>
-								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
-									<h3 class="text-center text-light">
-										% {{ 0.00 }}
-									</h3>
-								</VSheet>
-							</VCol>
-							<VCol id="asset-price" cols="4">
-								<h3 class="text-center text-light">
-									Total Value
-								</h3>
-								<VSheet color="secondary" rounded="xl" class="mb-5 text-dark">
-									<h3 class="text-center text-light">$ {{ a.balance * a.stock_price }}</h3>
-								</VSheet>
-							</VCol>
-						</VRow>
-					</div>
-
-					<VBtn
-						color="warning"
-						variant="outlined"
-						class="w-100"
-						@click="() => {
-							if (visibleAssetSettings.has(a.portfolio_asset_id)) {
-							visibleAssetSettings.delete(a.portfolio_asset_id)
-							} else {
-							visibleAssetSettings.add(a.portfolio_asset_id)
-							}
-						}"
-						size="small"
-						rounded
-					>
-						{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }} Asset Settings
-					</VBtn>
-
-					<VRow
-						v-show="visibleAssetSettings.has(a.portfolio_asset_id)"
-						id="asset-target-&-ownership-delete"
-						class="mt-5"
-					>
-						<VCol cols="12" sm="4">
-							<VTextField
-								v-model="a.percent_allocation"
-								@blur="() => {
-									if (a.percent_allocation < 0) a.percent_allocation = 0;
-									if (a.percent_allocation > 100) a.percent_allocation = 100;
-								}"
-								rounded="xl"
-								label="Target %"
-								variant="outlined"
-								color="light"
-								class="text-light"
-								type="number"
-								density="compact"
-							>
-								<template #prepend-inner>
-									%
-								</template>
-							</VTextField>
+					<VRow id="asset-info">
+						<VCol id="symbol-name-secotor-industry" cols="10">
+							<h3 id="symbol-name-sector-industry"  class="text-secondary">
+								<span v-if="a.isin" class="text-primary">
+									[{{ a.stock_symbol }}]
+									{{ a.stock_name.length > 10 ? a.stock_name.slice(0, 10) + ".." : a.stock_name }}
+								</span>
+								<span v-else class="text-primary">
+									{{ a.cryptocurrency_symbol }} -
+									{{ a.cryptocurrency_name.length > 10 ? a.cryptocurrency_name.slice(0, 10) + ".." : a.cryptocurrency_name }}
+								</span> |
+								<span class="text-light">
+									{{ a.sector }} - {{ a.industry.length > 10 ? a.industry.slice(0, 10) + ".." : a.industry }}
+								</span>
+							</h3>
 						</VCol>
-
-						<VCol cols="12" sm="4">
-							<VTextField
-								v-model="a.balance"
-								rounded="xl"
-								variant="outlined"
-								label="Balance"
-								color="light"
-								class="text-light"
-								type="number"
-								density="compact"
-							/>
-						</VCol>
-
-						<VCol cols="12" sm="4">
+						<VCol id="asset-percent" cols="2">
 							<VBtn
-								@click="updatePorfolioAsset(i)"
-								variant="flat"
-								rounded="xl"
-								color="warning"
-								class="w-100"
-							>
-								Update
-							</VBtn>
-						</VCol>
-
-						<VCol cols="12">
-							<VBtn
+								v-show="visibleAssetSettings.has(a.portfolio_asset_id)"
 								@click="() => {
 									confirmDeletePortfolioAsset = true;
 									assetToDeleteId = a.portfolio_asset_id
 								}"
-								variant="flat"
-								rounded="xl"
+								variant="outlined"
 								color="danger"
+								rounded="xl"
+								density="compact"
 								class="w-100"
-								size="small"
 							>
-								✖ Delete
+								✖
 							</VBtn>
+						</VCol>
+						<VCol id="asset-percent" cols="3">
+							<h3 class="text-center text-light">
+								Target %
+							</h3>
+							<VSheet rounded="xl" class="mt-1 border border-primary">
+								<h3 class="text-center text-dark">
+									% {{ a.percent_allocation }}
+								</h3>
+							</VSheet>
+						</VCol>
+						<VCol id="asset-price" cols="3">
+							<h3 class="text-center text-light">
+								Balance
+							</h3>
+							<VSheet rounded="xl" class="mt-1 border border-primary">
+								<h3 class="text-center text-dark">{{ a.balance }}</h3>
+							</VSheet>
+						</VCol>
+
+						<VCol id="asset-price" cols="3">
+							<h3 class="text-center text-light">
+								Total Value
+							</h3>
+							<VSheet rounded="xl" class="mt-1 border border-primary">
+								<h3 class="text-center text-dark">$ {{ a.balance * a.stock_price }}</h3>
+							</VSheet>
+						</VCol>
+
+						<VCol id="asset-percent" cols="3">
+							<h3 class="text-center text-light">
+								Actual %
+							</h3>
+							<VSheet rounded="xl" class="mt-1 border border-primary">
+								<h3 class="text-center text-dark">
+									% {{ 0.00 }}
+								</h3>
+							</VSheet>
+						</VCol>
+					</VRow>
+
+					<VRow>
+						<VCol id="assets-settings-toggle" cols="12" class="text-center">
+							<VBtn
+								color="primary"
+								:variant="visibleAssetSettings.has(a.portfolio_asset_id) ? 'flat': 'outlined'"
+								class=""
+								@click="() => {
+									if (visibleAssetSettings.has(a.portfolio_asset_id)) {
+										visibleAssetSettings.delete(a.portfolio_asset_id)
+									} else {
+										visibleAssetSettings.add(a.portfolio_asset_id)
+									}
+								}"
+								size="small"
+								rounded
+							>
+								{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }} Asset Settings
+							</VBtn>
+						</VCol>
+						<VCol v-if="visibleAssetSettings.has(a.portfolio_asset_id)" id="assets-settings" cols="12">
+							<VRow id="asset-target-&-ownership-delete">
+								<VCol cols="12" sm="4">
+									<VTextField
+										v-model="a.percent_allocation"
+										@blur="() => {
+											if (a.percent_allocation < 0) a.percent_allocation = 0;
+											if (a.percent_allocation > 100) a.percent_allocation = 100;
+										}"
+										rounded="xl"
+										label="Target %"
+										variant="outlined"
+										color="light"
+										class="text-light"
+										type="number"
+										density="compact"
+									>
+										<template #prepend-inner>
+											%
+										</template>
+									</VTextField>
+								</VCol>
+
+								<VCol cols="12" sm="4">
+									<VTextField
+										v-model="a.balance"
+										rounded="xl"
+										variant="outlined"
+										label="Balance"
+										color="light"
+										class="text-light"
+										type="number"
+										density="compact"
+									/>
+								</VCol>
+
+								<VCol cols="12" sm="4">
+									<VBtn
+										@click="updatePorfolioAsset(i) && visibleAssetSettings.delete(a.portfolio_asset_id)"
+										variant="flat"
+										rounded="xl"
+										color="warning"
+										class="w-100"
+									>
+										Update
+									</VBtn>
+								</VCol>
+							</VRow>
 						</VCol>
 					</VRow>
 				</div>
