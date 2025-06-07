@@ -1,10 +1,10 @@
 <template>
-	<Portfolio :id="id"/>
+	<PortfolioRead :id="id"/>
 </template>
 
 <script lang="ts" setup>
 	import { useRoute } from "vue-router";
-	import Portfolio from "@/components/portfolio/Single.vue";
+	import PortfolioRead from "@/components/portfolio/PortfolioRead.vue";
 
 	const route = useRoute();
 
