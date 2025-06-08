@@ -3,6 +3,8 @@
 
 	<h3 v-if="portfolioAssets.length == 0" class="py-12 text-center text-light">No assets in portfolio</h3>
 
+	<h3 class="my-3 text-center text-light">Total Portfolio Balue: $ {{ Number(totalPortfolioValue) }}</h3>
+
 	<div
 		v-if="portfolioAssets.length > 0"
 		v-for="(a, i) in portfolioAssets"
@@ -72,7 +74,7 @@
 				</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
-					<h3 class="text-center text-primary">$ {{ (a.balance * a.stock_price) }}</h3>
+					<h3 class="text-center text-primary">$ {{ Number(a.balance * a.stock_price) }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -83,7 +85,7 @@
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
-						% {{ 0.00 }}
+						% {{ Math.round(Number(a.balance * a.stock_price) / totalPortfolioValue * 1000) / 1000 * 100 }}
 					</h3>
 				</VSheet>
 			</VCol>
@@ -189,6 +191,24 @@
 	const emit = defineEmits([
 		"assets-changed",
 	]);
+
+	const computePortfolioBalance = () =>
+	{
+		let totalValue = 0;
+
+		for (let i = 0; i < props.portfolioAssets.length; i++)
+		{
+			const pa = props.portfolioAssets[i];
+
+			totalValue += pa.balance * pa.stock_price
+		}
+
+		return totalValue;
+	};
+
+	const totalPortfolioValue = ref(computePortfolioBalance());
+
+	console.log("ss", totalPortfolioValue.value);
 
 	// UI
 	const requestError = ref("");
