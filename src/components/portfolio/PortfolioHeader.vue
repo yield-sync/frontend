@@ -7,13 +7,14 @@
 		<VCol cols="2" class="d-flex justify-end">
 			<VMenu location="bottom right">
 				<template #activator="{ props }">
-					<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light" />
+					<VBtn icon="mdi-dots-vertical" v-bind="props" variant="text" color="light"/>
 				</template>
 
 				<VList bg-color="dark">
 					<VListItem @click="updatePortfolioToggle = !updatePortfolioToggle">
 						<VListItemTitle>Update Name</VListItemTitle>
 					</VListItem>
+
 					<VListItem @click="$emit('confirm-delete')">
 						<VListItemTitle class="text-error">Delete</VListItemTitle>
 					</VListItem>
@@ -37,7 +38,7 @@
 <script setup lang="ts">
 	import { ref } from "vue";
 
-	import PortfolioUpdateName from './PortfolioUpdateName.vue';
+	import PortfolioUpdateName from "./PortfolioUpdateName.vue";
 
 	defineProps<{
 		id: string | number;
@@ -45,7 +46,10 @@
 		loading: boolean;
 	}>();
 
-	defineEmits(['confirm-delete', 'update-name']);
+	defineEmits([
+		"confirm-delete",
+		"update-name",
+	]);
 
 	const updatePortfolioToggle = ref(false);
 </script>

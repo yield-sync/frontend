@@ -17,9 +17,11 @@
 							</span>
 						</div>
 					</VCol>
+
 					<VCol cols="3">
 						<h2 class="text-primary">{{ Number(stockProfile.price_on_refresh) }}</h2>
 					</VCol>
+
 					<VCol cols="12">
 						<TVWidget :symbol="stockProfile.symbol" class="w-100"/>
 					</VCol>

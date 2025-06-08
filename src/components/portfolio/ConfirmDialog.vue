@@ -2,14 +2,18 @@
 	<VDialog :max-width="maxWidth">
 		<VCard :color="color">
 			<VCardTitle class="text-center">{{ title }}</VCardTitle>
+
 			<VCardText class="text-center">
 				<p>{{ message }}</p>
+
 				<p v-if="warning" class="text-error">{{ warning }}</p>
 			</VCardText>
+
 			<VCardActions class="justify-center">
 				<VBtn color="light" variant="outlined" @click="$emit('cancel')">
 					Cancel
 				</VBtn>
+
 				<VBtn color="danger" variant="flat" @click="$emit('confirm')">
 					{{ confirmText }}
 				</VBtn>
@@ -28,5 +32,8 @@
 		color?: string;
 	}>();
 
-	defineEmits(['cancel', 'confirm']);
+	defineEmits([
+		"cancel",
+		"confirm",
+	]);
 </script>

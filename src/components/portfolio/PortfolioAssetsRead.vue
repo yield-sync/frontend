@@ -16,14 +16,17 @@
 					<span v-if="a.isin" class="text-primary">
 						[{{ a.stock_symbol }}] {{ stringShortener(a.stock_name, 35) }}
 					</span>
+
 					<span v-else class="text-primary">
 						[{{ a.cryptocurrency_symbol }}] {{ stringShortener(a.cryptocurrency_name, 35) }}
 					</span>
 				</h3>
+
 				<h6 id="symbol-name-sector-industry"  class="text-light">
 					{{ stringShortener(`${a.sector} - ${a.industry}`, 100) }}
 				</h6>
 			</VCol>
+
 			<VCol id="asset-percent" cols="2">
 				<VBtn
 					v-show="visibleAssetSettings.has(a.portfolio_asset_id)"
@@ -40,20 +43,24 @@
 					✖
 				</VBtn>
 			</VCol>
+
 			<VCol id="asset-percent" cols="3">
 				<h3 class="text-center text-light">
 					Target %
 				</h3>
+
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
 						% {{ Number(a.percent_allocation) }}
 					</h3>
 				</VSheet>
 			</VCol>
+
 			<VCol id="asset-price" cols="3">
 				<h3 class="text-center text-light">
 					Balance
 				</h3>
+
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">{{ Number(a.balance) }}</h3>
 				</VSheet>
@@ -63,6 +70,7 @@
 				<h3 class="text-center text-light">
 					Total Value
 				</h3>
+
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">$ {{ (a.balance * a.stock_price) }}</h3>
 				</VSheet>
@@ -72,6 +80,7 @@
 				<h3 class="text-center text-light">
 					Actual %
 				</h3>
+
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
 						% {{ 0.00 }}
@@ -99,6 +108,7 @@
 					{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }} Asset Settings
 				</VBtn>
 			</VCol>
+
 			<VCol v-if="visibleAssetSettings.has(a.portfolio_asset_id)" id="assets-settings" cols="12">
 				<VRow id="asset-target-&-ownership-delete">
 					<VCol cols="12" sm="4">
@@ -176,11 +186,13 @@
 		]
 	});
 
-	const emit = defineEmits(['assets-changed']);
+	const emit = defineEmits([
+		"assets-changed",
+	]);
 
 	// UI
 	const requestError = ref("");
-	const visibleAssetSettings = ref(new Set())
+	const visibleAssetSettings = ref(new Set());
 
 	// Deleetion stuff
 	const assetToDeleteId = ref(null);
@@ -192,7 +204,7 @@
 
 	const stringShortener = (string, max = 10) =>
 	{
-		return string.length > max ? string.slice(0, max) + ".." : string
+		return string.length > max ? string.slice(0, max) + ".." : string;
 	};
 
 	const onConfirmDeletePortfolioAsset = async () =>
@@ -204,7 +216,7 @@
 		confirmDeletePortfolioAsset.value = false;
 		assetToDeleteId.value = null;
 
-		emit('assets-changed');
+		emit("assets-changed");
 	};
 
 	const deletePortfolioAsset = async (portfolio_asset_id) =>
@@ -229,7 +241,7 @@
 			requestError.value = error.response?.data.message || error.message;
 		}
 
-		emit('assets-changed');
+		emit("assets-changed");
 	};
 
 	const updatePorfolioAsset = async (portfolioAssets) =>
@@ -262,6 +274,6 @@
 			requestError.value = error.response?.data.message || error.message;
 		}
 
-		emit('assets-changed');
+		emit("assets-changed");
 	};
 </script>

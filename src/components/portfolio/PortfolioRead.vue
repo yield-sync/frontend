@@ -14,9 +14,9 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio" />
+				<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
 
-				<PortfolioAssetsRead :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio" />
+				<PortfolioAssetsRead :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio"/>
 			</VCardText>
 		</VCard>
 	</VContainer>

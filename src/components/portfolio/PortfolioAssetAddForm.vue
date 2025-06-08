@@ -3,10 +3,12 @@
 		@click="showAddAsset = !showAddAsset"
 		color="success"
 		variant="outlined"
-		size=small
+		size="small"
 		class="w-100 my-3"
 		rounded
-	>Show Add Asset</VBtn>
+	>
+		Show Add Asset
+	</VBtn>
 
 	<div
 		id="add-asset"
@@ -132,7 +134,9 @@
 		]
 	});
 
-	const emit = defineEmits(['asset-added']);
+	const emit = defineEmits([
+		"asset-added",
+	]);
 
 	const id = ref(props.id);
 
@@ -212,7 +216,7 @@
 
 			clearSearch();
 
-			emit('asset-added');
+			emit("asset-added");
 		}
 		catch (error)
 		{
