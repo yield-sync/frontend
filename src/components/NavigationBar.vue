@@ -1,11 +1,11 @@
 <template>
-	<VContainer class="py-5 mb-5" style="max-width: 600px;">
+	<VContainer style="max-width: 600px;">
 		<VRow>
 			<VCol cols="8">
 				<RouterLink to="/" class="text-decoration-none">
-					<h2 class="text-light text-bold">
+					<h2 class="text-bold">
 						<span>
-							<img src="../../public/symbol-light.png" style="height: 16px; margin-right: 8px;"/>
+							<img src="../../public/favicon.png" style="height: 16px; margin-right: 8px;"/>
 						</span>Yield Sync
 					</h2>
 				</RouterLink>

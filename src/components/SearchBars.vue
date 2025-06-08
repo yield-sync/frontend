@@ -1,14 +1,14 @@
 <template>
 	<VBtnToggle
 		v-model="searchAssetType"
-		color="light"
+		color="primary"
 		variant="outlined"
 		divided
 		mandatory
 		rounded="xl"
-		class="w-100 mb-6 text-light"
+		class="w-100 mb-6 text-primary"
 		density="compact"
-		border="light"
+		border="primary"
 	>
 		<VBtn class="w-50">Stock</VBtn>
 

@@ -1,10 +1,6 @@
 <template>
 	<VContainer v-if="app.loggedIn" style="max-width: 600px;">
 		<VRow v-if="!requestError">
-			<VCol cols="12">
-				<h4 class="text-center text-light">Portfolios</h4>
-			</VCol>
-
 			<VCol v-if="app.portfolios.length > 0" v-for="p in app.portfolios" :key="p.id" cols="12">
 				<VCard @click="router.push(`/portfolio/${p.id}`)" color="dark-light" elevation="0" class="rounded-xl">
 					<VCardTitle class="py-6 text-center">
