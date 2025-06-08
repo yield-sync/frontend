@@ -49,5 +49,5 @@
 
 	const app = useAppStore();
 
-	const tab = ref("tab-2");
+	const tab = ref(app.loggedIn ? "tab-1" : "tab-2");
 </script>
