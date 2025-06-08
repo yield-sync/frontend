@@ -31,7 +31,7 @@
 
 	const container = ref(null);
 
-	onMounted(() => 
+	onMounted(() =>
 	{
 		const script = document.createElement("script");
 		script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
@@ -47,7 +47,7 @@
 			],
 			chartOnly: false,
 			width: "100%",
-			height: "400",
+			height: "460",
 			locale: "en",
 			colorTheme: "dark",
 			autosize: true,
@@ -62,10 +62,12 @@
 				"-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
 			fontSize: "10",
 			noTimeScale: false,
+			backgroundColor: "rgba(255, 255, 255, 0)",
 			valuesTracking: "1",
 			changeMode: "price-and-percent",
-			chartType: "area",
+			chartType: "candlesticks",
 			maLineColor: "#2962FF",
+			headerFontSize: "small",
 			maLineWidth: 1,
 			maLength: 9,
 			headerFontSize: "medium",

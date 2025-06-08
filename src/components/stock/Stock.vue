@@ -4,26 +4,8 @@
 			elevation="0">
 			<VCardText>
 				<VRow v-if="stockProfile">
-					<VCol cols="9">
-						<div style="font-size: 1.5rem;">
-							<span>
-								<span class="text-primary">{{ stockProfile.symbol }}</span>
-								•
-								<a :href="stockProfile.website" target="_blank" style="text-decoration: none;">
-									<span class="text-light">
-										{{ stockProfile.name }}
-									</span>
-								</a>
-							</span>
-						</div>
-					</VCol>
-
-					<VCol cols="3">
-						<h2 class="text-primary">{{ Number(stockProfile.price_on_refresh) }}</h2>
-					</VCol>
-
 					<VCol cols="12">
-						<TVWidget :symbol="stockProfile.symbol" class="w-100"/>
+						<TradingViewWidgetCharting :symbol="stockProfile.symbol" class="w-100"/>
 					</VCol>
 
 					<VCol cols="6">
@@ -82,18 +64,34 @@
 						</p>
 					</VCol>
 
+					<VCol cols="6">
+						<h3 class="text-Primary">Website</h3>
+
+						<a :href="stockProfile.website" target="_blank" style="text-decoration: none;">
+							<span class="text-light">
+								{{ stockProfile.website }}
+							</span>
+						</a>
+					</VCol>
+
 					<VCol cols="12">
 						<h3 class="text-Primary">Description</h3>
 
 						<p>{{ stockProfile.description }}</p>
 					</VCol>
 
-					<VCol v-if="stockProfile.refreshed" cols="12">
-						<h6 class="text-success">Refreshed</h6>
+					<VCol  cols="6">
+						<h3 class="text-Primary">Refreshed</h3>
+
+						<h3 v-if="stockProfile.refreshed" class="text-success">Refreshed</h3>
+
+						<h3 v-else class="text-light">Not Refreshed</h3>
 					</VCol>
 
-					<VCol v-else cols="12">
-						<h6 class="text-light">Not Refreshed</h6>
+					<VCol cols="6">
+						<h3 class="text-Primary">Price On Refresh</h3>
+
+						<h3 class="text-light">{{ Number(stockProfile.price_on_refresh) }}</h3>
 					</VCol>
 				</VRow>
 
@@ -116,7 +114,7 @@
 	import { ref, onMounted, watch } from "vue";
 	import { useRoute } from "vue-router";
 	import useAppStore from "@/stores/App";
-	import TVWidget from "./TVWidget.vue";
+	import TradingViewWidgetCharting from "../tradingview-widgets/TradingViewWidgetCharting.vue";
 
 	const route = useRoute();
 	const app = useAppStore();
