@@ -15,6 +15,7 @@
 			append-inner-icon="mdi-magnify"
 			ref="inputRef"
 			hide-details
+			density="compact"
 			class="text-light"
 		/>
 

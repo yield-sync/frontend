@@ -7,7 +7,6 @@
 		mandatory
 		rounded="xl"
 		class="w-100 mb-6 text-primary"
-		density="compact"
 		border="primary"
 	>
 		<VBtn class="w-50">Stock</VBtn>

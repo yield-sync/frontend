@@ -14,7 +14,7 @@
 			<VCol cols="4" class="text-center text-md-right">
 				<RouterLink v-if="!app.loggedIn" to="/login">
 					<VBtn
-						color="dark"
+						color="secondary"
 						rounded elevation="0"
 						class="w-100"
 						density="compact"
@@ -27,8 +27,8 @@
 					v-else
 					@click="logOut"
 					rounded
-					variant="outlined"
-					color="light"
+					variant="flat"
+					color="dark-light"
 					elevation="0"
 					class="w-100"
 					density="compact"
