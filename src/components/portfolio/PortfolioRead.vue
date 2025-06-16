@@ -14,9 +14,53 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
+				<h2 class="my-1 text-center text-light">
+					Total Value:
+					<span class="text-primary">$ {{ Number(totalPortfolioValue).toFixed(2) }}</span>
+				</h2>
 
-				<PortfolioAssetsRead :portfolioAssets="portfolioAssets" @assets-changed="getPortfolio"/>
+				<VTabs
+					v-model="tab"
+					align-tabs="center"
+					bg-color="dark-light"
+					stacked
+					grow
+					fixed-tabs
+				>
+					<VTab value="tab-1" color="primary">
+						<VIcon icon="mdi-chart-donut" class="mb-2"/>
+						Sector
+					</VTab>
+
+					<VTab value="tab-2" color="primary">
+						<VIcon icon="mdi-format-list-bulleted" class="mb-2"/>
+						Assets
+					</VTab>
+
+					<VTab value="tab-3" color="primary">
+						<VIcon icon="mdi-chart-pie" class="mb-2"/>
+						Chart
+					</VTab>
+				</VTabs>
+
+				<VTabsWindow v-model="tab" class="elevation-0 mx-auto mt-5" style="max-width: 600px;">
+					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
+						<div v-show="tab == 'tab-1'">
+						</div>
+
+						<div v-show="tab == 'tab-2'">
+							<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
+							<PortfolioAssetsRead
+								:portfolioAssets="portfolioAssets"
+								:totalPortfolioValue="totalPortfolioValue"
+								@assets-changed="getPortfolio"
+							/>
+						</div>
+
+						<div v-show="tab == 'tab-3'">
+						</div>
+					</VTabsWindowItem>
+				</VTabsWindow>
 			</VCardText>
 		</VCard>
 	</VContainer>
@@ -45,6 +89,9 @@
 	import ConfirmDialog from "./ConfirmDialog.vue";
 	import PortfolioAssetsRead from "./PortfolioAssetsRead.vue";
 
+	const router = useRouter();
+
+	const app = useAppStore();
 	const props = defineProps({
 		id: [
 			String,
@@ -55,6 +102,7 @@
 	const id = ref(props.id);
 
 	// UI
+	const tab = ref(app.loggedIn ? "tab-1" : "tab-2");
 	const loading = ref(false);
 	const requestError = ref("");
 
@@ -63,15 +111,26 @@
 	const portfolioAssets = ref([
 	]);
 
+	const totalPortfolioValue = ref(0);
+
 	// Deleetion stuff
 	const confirmDeletePortfolio = ref(false);
-
-	const router = useRouter();
-	const app = useAppStore();
 
 
 	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
+
+	const computePortfolioBalance = (assets) =>
+	{
+		let totalValue = 0;
+
+		for (let i = 0; i < assets.length; i++)
+		{
+			totalValue += assets[i].balance * assets[i].stock_price
+		}
+
+		return totalValue;
+	};
 
 	const onConfirmDeletePortfolio = async () =>
 	{
@@ -95,6 +154,8 @@
 		portfolio.value = response.data.portfolio;
 
 		portfolioAssets.value = response.data.portfolioAssets;
+
+		totalPortfolioValue.value = computePortfolioBalance(portfolioAssets.value);
 
 		loading.value = false;
 	};
@@ -152,6 +213,9 @@
 
 			portfolio.value = response.data.portfolio;
 			portfolioAssets.value = response.data.portfolioAssets;
+
+			totalPortfolioValue.value = computePortfolioBalance(portfolioAssets.value);
+
 			requestError.value = "";
 
 			router.push("/");
