@@ -11,8 +11,8 @@
 		class="px-3 py-3 mb-3 rounded-xl border bg-dark"
 	>
 		<VRow id="asset-info">
-			<VCol id="symbol-name-secotor-industry" cols="10">
-				<h3 id="symbol-name-sector-industry"  class="text-secondary">
+			<VCol id="symbol-name-secotor-industry" cols="3">
+				<h3 id="symbol-name-sector-industry" class="text-secondary">
 					<span v-if="a.isin" class="text-primary">
 						[{{ a.stock_symbol }}] {{ stringShortener(a.stock_name, 35) }}
 					</span>
@@ -22,64 +22,37 @@
 					</span>
 				</h3>
 
-				<h6 id="symbol-name-sector-industry"  class="text-light">
+				<h6 id="symbol-name-sector-industry" class="text-light">
 					{{ stringShortener(`${a.sector} - ${a.industry}`, 100) }}
 				</h6>
 			</VCol>
 
 			<VCol id="asset-percent" cols="2">
-				<VBtn
-					v-show="visibleAssetSettings.has(a.portfolio_asset_id)"
-					@click="() => {
-						confirmDeletePortfolioAsset = true;
-						assetToDeleteId = a.portfolio_asset_id
-					}"
-					variant="outlined"
-					color="danger"
-					rounded="xl"
-					density="compact"
-					class="w-100"
-				>
-					✖
-				</VBtn>
-			</VCol>
-
-			<VCol id="asset-percent" cols="3">
-				<h3 class="text-center text-light">
-					Target %
-				</h3>
+				<h3 class="text-center text-light">Target %</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
-					<h3 class="text-center text-primary">
-						% {{ Number(a.percent_allocation) }}
-					</h3>
+					<h3 class="text-center text-primary">% {{ Number(a.percent_allocation) }}</h3>
 				</VSheet>
 			</VCol>
 
-			<VCol id="asset-price" cols="3">
-				<h3 class="text-center text-light">
-					Balance
-				</h3>
+			<VCol id="asset-price" cols="2">
+				<h3 class="text-center text-light">Balance</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">{{ Number(a.balance) }}</h3>
 				</VSheet>
 			</VCol>
 
-			<VCol id="asset-price" cols="3">
-				<h3 class="text-center text-light">
-					Total Value
-				</h3>
+			<VCol id="asset-price" cols="2">
+				<h3 class="text-center text-light">Total Value</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">$ {{ Number(a.balance * a.stock_price) }}</h3>
 				</VSheet>
 			</VCol>
 
-			<VCol id="asset-percent" cols="3">
-				<h3 class="text-center text-light">
-					Actual %
-				</h3>
+			<VCol id="asset-percent" cols="2">
+				<h3 class="text-center text-light">Actual %</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
@@ -87,10 +60,10 @@
 					</h3>
 				</VSheet>
 			</VCol>
-		</VRow>
 
-		<VRow>
-			<VCol id="assets-settings-toggle" cols="12" class="text-center">
+			<VCol id="asset-percent" cols="1">
+				<h3 class="text-center text-light">Settings</h3>
+
 				<VBtn
 					color="primary"
 					:variant="visibleAssetSettings.has(a.portfolio_asset_id) ? 'flat': 'outlined'"
@@ -103,15 +76,32 @@
 					}"
 					size="small"
 					rounded
-					class="w-100"
+					class="w-100 mt-1"
 				>
-					{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }} Asset Settings
+					{{ visibleAssetSettings.has(a.portfolio_asset_id) ? 'Hide' : 'Show' }}
 				</VBtn>
 			</VCol>
+		</VRow>
 
+		<VRow>
 			<VCol v-if="visibleAssetSettings.has(a.portfolio_asset_id)" id="assets-settings" cols="12">
 				<VRow id="asset-target-&-ownership-delete">
-					<VCol cols="12" sm="4">
+					<VCol cols="12" sm="3">
+						<VBtn
+							@click="() => {
+								confirmDeletePortfolioAsset = true;
+								assetToDeleteId = a.portfolio_asset_id
+							}"
+							variant="outlined"
+							color="danger"
+							rounded="xl"
+							class="w-100"
+						>
+							✖ Delete
+						</VBtn>
+					</VCol>
+
+					<VCol cols="12" sm="3">
 						<VTextField
 							v-model="a.percent_allocation"
 							@blur="() => {
@@ -132,7 +122,7 @@
 						</VTextField>
 					</VCol>
 
-					<VCol cols="12" sm="4">
+					<VCol cols="12" sm="3">
 						<VTextField
 							v-model="a.balance"
 							rounded="xl"
@@ -145,7 +135,7 @@
 						/>
 					</VCol>
 
-					<VCol cols="12" sm="4">
+					<VCol cols="12" sm="3">
 						<VBtn
 							@click="updatePorfolioAsset(a) && visibleAssetSettings.delete(a.portfolio_asset_id)"
 							variant="flat"

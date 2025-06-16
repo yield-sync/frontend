@@ -1,5 +1,5 @@
 <template>
-	<VContainer style="max-width: 600px;">
+	<VContainer style="">
 		<h3 v-if="loading" class="text-center text-primary">Loading..</h3>
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
@@ -14,9 +14,8 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<h2 class="my-1 text-center text-light">
-					Total Value:
-					<span class="text-primary">$ {{ Number(totalPortfolioValue).toFixed(2) }}</span>
+				<h2 class="my-3 text-light">
+					Total Value: <span class="text-primary">$ {{ Number(totalPortfolioValue).toFixed(2) }}</span>
 				</h2>
 
 				<VTabs
@@ -43,7 +42,7 @@
 					</VTab>
 				</VTabs>
 
-				<VTabsWindow v-model="tab" class="elevation-0 mx-auto mt-5" style="max-width: 600px;">
+				<VTabsWindow v-model="tab" class="elevation-0 mx-auto mt-5">
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
 						<div v-show="tab == 'tab-1'">
 						</div>
