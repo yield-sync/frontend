@@ -173,7 +173,7 @@
 
 	const validateAllocation = () =>
 	{
-		if (percentAllocation.value < .00) percentAllocation.value = 0.00;
+		if (percentAllocation.value < 0) percentAllocation.value = 0.00;
 		if (percentAllocation.value > 100) percentAllocation.value = 100;
 	};
 
