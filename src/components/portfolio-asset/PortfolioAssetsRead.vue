@@ -178,7 +178,7 @@
 	import { ref } from "vue";
 
 	import useAppStore from "@/stores/App";
-	import ConfirmDialog from "./ConfirmDialog.vue";
+	import ConfirmDialog from "../portfolio/ConfirmDialog.vue";
 
 	const props = defineProps({
 		portfolioAssets: [

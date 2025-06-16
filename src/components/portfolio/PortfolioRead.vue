@@ -84,10 +84,10 @@
 	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
+	import PortfolioAssetsRead from "../portfolio-asset/PortfolioAssetsRead.vue";
+	import PortfolioAssetAddForm from "../portfolio-asset/PortfolioAssetAddForm.vue";
 	import PortfolioHeader from "./PortfolioHeader.vue";
-	import PortfolioAssetAddForm from "./PortfolioAssetAddForm.vue";
 	import ConfirmDialog from "./ConfirmDialog.vue";
-	import PortfolioAssetsRead from "./PortfolioAssetsRead.vue";
 
 	const router = useRouter();
 
