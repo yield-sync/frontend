@@ -3,8 +3,10 @@ import { defineStore } from "pinia";
 
 
 type State = {
+	baseAPIURL: string,
 	loggedIn: boolean,
 	portfolios: any[],
+	sectors: string[]
 }
 
 type Getters = {
@@ -12,7 +14,9 @@ type Getters = {
 
 type Actions = {
 	setLoggedIn(state: boolean): void,
-	getPortfolios(): void,
+	setSectors(): Promise<void>,
+	getPortfolios(): Promise<void>
+	init(): void,
 }
 
 
@@ -21,13 +25,12 @@ export default defineStore<"App", State, Getters, Actions>(
 	{
 		state: () =>
 		{
-			const loggedIn = (
-				localStorage.getItem("authToken") && localStorage.getItem("authToken") != ""
-			) ? true : false;
-
 			return {
-				loggedIn,
+				baseAPIURL: import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "",
+				loggedIn: (localStorage.getItem("authToken") && localStorage.getItem("authToken") != "") ? true : false,
 				portfolios: [
+				],
+				sectors: [
 				],
 			};
 		},
@@ -41,12 +44,44 @@ export default defineStore<"App", State, Getters, Actions>(
 				this.loggedIn = state;
 			},
 
-			async getPortfolios()
+			async setSectors(): Promise<void>
 			{
-				const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
-
 				const authAxios = axios.create({
-					baseURL: `${URL}/api/portfolio`,
+					baseURL: `${this.baseAPIURL}/api/sector`,
+					headers: {
+						authorization: `Bearer ${localStorage.getItem("authToken")}`
+					}
+				});
+
+				const response = await authAxios.get("/");
+
+				if (response.status !== 200)
+				{
+					throw new Error("Failed to fetch sectors");
+				}
+
+				if (!response.data)
+				{
+					throw new Error("Invalid response format for sectors");
+				}
+
+				if (!Array.isArray(response.data))
+				{
+					throw new Error("Sectors data is not an array");
+				}
+
+				if (response.data.length === 0)
+				{
+					throw new Error("No sectors found");
+				}
+
+				this.sectors = response.data;
+			},
+
+			async getPortfolios(): Promise<void>
+			{
+				const authAxios = axios.create({
+					baseURL: `${this.baseAPIURL}/api/portfolio`,
 					headers: {
 						authorization: `Bearer ${localStorage.getItem("authToken")}`
 					}
@@ -55,6 +90,18 @@ export default defineStore<"App", State, Getters, Actions>(
 				const response = await authAxios.get("/");
 
 				this.portfolios = response.data.portfolios;
+			},
+
+			async init()
+			{
+				try
+				{
+					await this.setSectors();
+				}
+				catch (e)
+				{
+					console.error("[app-store] Failed to initialize sectors:", e);
+				}
 			},
 		},
 	}

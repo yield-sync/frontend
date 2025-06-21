@@ -59,10 +59,13 @@
 
 <script setup>
 	import axios from "axios";
-	import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+	import { ref, onMounted, onBeforeUnmount } from "vue";
 	import { useRouter } from "vue-router";
 
+	import useAppStore from "@/stores/App";
+
 	const router = useRouter();
+	const appStore = useAppStore();
 
 	const query = ref("");
 	const suggestions = ref([
@@ -74,10 +77,9 @@
 	const hoveredIndex = ref(null);
 	const inputRef = ref(null);
 
-	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const authAxios = axios.create({
-		baseURL: `${apiUrl}/api/stock`,
+		baseURL: `${appStore.baseURL}/api/stock`,
 		headers: {
 			authorization: `Bearer ${localStorage.getItem("authToken")}`,
 		},

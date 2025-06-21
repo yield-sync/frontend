@@ -40,7 +40,10 @@
 	import { ref, onMounted, watch } from "vue";
 	import { useRouter } from "vue-router";
 
+	import useAppStore from "@/stores/App";
 
+
+	const appStore = useAppStore();
 	const router = useRouter();
 
 	const props = defineProps({
@@ -54,14 +57,12 @@
 	const requestError = ref("");
 	const loading = ref(false);
 
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
-
 	const search = async () =>
 	{
 		loading.value = true;
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api`,
+			baseURL: `${appStore.baseAPIURL}/api`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},

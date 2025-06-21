@@ -33,7 +33,7 @@
 	import useAppStore from "@/stores/App";
 
 	const route = useRoute();
-	const app = useAppStore();
+	const appStore = useAppStore();
 
 	const props = defineProps({
 		symbol: [
@@ -47,16 +47,13 @@
 	const requestError = ref("");
 	const loading = ref(true);
 
-	const URL = import.meta.env.MODE === "development"
-		? import.meta.env.VITE_DEV_SERVER_URL
-		: "";
 
 	const search = async () =>
 	{
 		loading.value = true;
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api`,
+			baseURL: `${appStore.baseAPIURL}/api`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},

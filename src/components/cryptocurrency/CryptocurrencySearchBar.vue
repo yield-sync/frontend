@@ -55,9 +55,13 @@
 </template>
 
 <script setup>
-	import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+	import { ref, onMounted, onBeforeUnmount } from "vue";
 	import { useRouter } from "vue-router";
 	import axios from "axios";
+
+	import useAppStore from "@/stores/App";
+
+	const appStore = useAppStore();
 
 	const router = useRouter();
 
@@ -71,10 +75,9 @@
 	const isListVisible = ref(true);
 	const inputRef = ref(null);
 
-	const apiUrl = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const authAxios = axios.create({
-		baseURL: `${apiUrl}/api/cryptocurrency`,
+		baseURL: `${appStore.baseAPIURL}/api/cryptocurrency`,
 		headers: {
 			authorization: `Bearer ${localStorage.getItem("authToken")}`,
 		},

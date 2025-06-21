@@ -1,5 +1,5 @@
 <template>
-	<VSheet v-if="app.loggedIn" class="text-center" color="dark">
+	<VSheet v-if="appStore.loggedIn" class="text-center" color="dark">
 		<VForm @submit.prevent="createPortfolio" validate-on="submit lazy" ref="formRef">
 			<VRow>
 				<VCol cols="8">
@@ -43,7 +43,7 @@
 
 	import useAppStore from "@/stores/App";
 
-	const app = useAppStore();
+	const appStore = useAppStore();
 
 	const portfolioName = ref("");
 	const requestError = ref("");
@@ -62,11 +62,10 @@
 		},
 	];
 
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const createPortfolio = async () =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
 		successMessage.value = "";
@@ -79,7 +78,7 @@
 		loading.value = true;
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`
 			}
@@ -93,7 +92,7 @@
 				}
 			});
 
-			await app.getPortfolios();
+			await appStore.getPortfolios();
 
 			successMessage.value = "Portfolio created successfully!";
 			portfolioName.value = "";

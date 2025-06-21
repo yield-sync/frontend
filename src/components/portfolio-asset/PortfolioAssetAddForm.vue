@@ -154,9 +154,7 @@
 	]);
 	const selectedSuggestionIndex = ref(-1);
 
-	const app = useAppStore();
-
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const appStore = useAppStore();
 
 
 	const clearSearch = () =>
@@ -179,7 +177,7 @@
 
 	const addPortfolioAsset = async () =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		if (!selectedSuggestionIndex.value === -1)
 		{
@@ -191,7 +189,7 @@
 		requestError.value = "";
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio-asset`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio-asset`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},
@@ -227,7 +225,7 @@
 	const fetchSuggestions = async () =>
 	{
 		const authAxios = axios.create({
-			baseURL: `${URL}/api`,
+			baseURL: `${appStore.baseAPIURL}/api`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},

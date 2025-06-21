@@ -14,9 +14,11 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<h2 class="my-3 text-light">
-					Total Value: <span class="text-primary">$ {{ Number(totalPortfolioValue).toFixed(2) }}</span>
-				</h2>
+				<div class="mx-auto mb-1 py-1 text-center bg-green rounded-xl" style="max-width: 300px;">
+					<h3 class="mx-0 my-0 text-white">
+						Total Value: $ {{ Number(totalPortfolioValue).toFixed(2) }}
+					</h3>
+				</div>
 
 				<VTabs
 					v-model="tab"
@@ -44,8 +46,49 @@
 
 				<VTabsWindow v-model="tab" class="elevation-0 mx-auto mt-5">
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
-						<div v-show="tab == 'tab-1'">
-						</div>
+						<VRow v-show="tab == 'tab-1'">
+							<VCol cols="12">
+								<h2 class="text-center text-primary">Sector Allocation</h2>
+							</VCol>
+
+							<VCol v-if="appStore.sectors" cols="12">
+								{{ appStore.sectors }}
+							</VCol>
+
+							<VCol cols="6">
+								<VRow v-for="sector in sectors">
+									<VCol cols="4">
+										<h2 class="text-primary text-uppercase text-right">
+											{{ sector }}
+										</h2>
+									</VCol>
+									<VCol cols="8">
+										<VTextField
+											v-model="a.percent_allocation"
+											@blur="() => {
+												if (sector.percent_allocation < 0) sector.percent_allocation = 0;
+												if (sector.percent_allocation > 100) sector.percent_allocation = 100;
+											}"
+											rounded="xl"
+											label="Target %"
+											variant="outlined"
+											color="light"
+											class="text-light"
+											type="number"
+											density="compact"
+										>
+											<template #prepend-inner>
+												%
+											</template>
+										</VTextField>
+									</VCol>
+								</VRow>
+							</VCol>
+
+							<VCol cols="6">
+
+							</VCol>
+						</VRow>
 
 						<div v-show="tab == 'tab-2'">
 							<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
@@ -90,7 +133,8 @@
 
 	const router = useRouter();
 
-	const app = useAppStore();
+	const appStore = useAppStore();
+
 	const props = defineProps({
 		id: [
 			String,
@@ -101,7 +145,7 @@
 	const id = ref(props.id);
 
 	// UI
-	const tab = ref(app.loggedIn ? "tab-1" : "tab-2");
+	const tab = ref(appStore.loggedIn ? "tab-1" : "tab-2");
 	const loading = ref(false);
 	const requestError = ref("");
 
@@ -109,14 +153,13 @@
 	const portfolio = ref();
 	const portfolioAssets = ref([
 	]);
+	const sectors = ref([
+	]);
 
 	const totalPortfolioValue = ref(0);
 
-	// Deleetion stuff
+	// Deletion stuff
 	const confirmDeletePortfolio = ref(false);
-
-
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 
 	const computePortfolioBalance = (assets) =>
@@ -142,7 +185,7 @@
 		loading.value = true;
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio/`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio/`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`
 			}
@@ -164,7 +207,7 @@
 		loading.value = true;
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio/`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio/`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`
 			}
@@ -195,12 +238,12 @@
 
 	const deletePortfolio = async () =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio/`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio/`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`
 			}
@@ -227,7 +270,7 @@
 
 	onMounted(async () =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		try
 		{

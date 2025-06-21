@@ -67,7 +67,7 @@
 
 	import useAppStore from "@/stores/App";
 
-	const app = useAppStore();
+	const appStore = useAppStore();
 	const router = useRouter();
 
 	const email = ref("");
@@ -76,7 +76,6 @@
 	const loginError = ref("");
 	const loading = ref(false);
 
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
 
 	const handleLogin = async () =>
 	{
@@ -86,7 +85,7 @@
 
 		try
 		{
-			const response = await axios.post(`${URL}/api/user/login`, {
+			const response = await axios.post(`${appStore.baseAPIURL}/api/user/login`, {
 				load: {
 					email: email.value,
 					password: password.value,
@@ -101,7 +100,7 @@
 
 			localStorage.setItem("authToken",  response.data.token);
 
-			app.setLoggedIn(true);
+			appStore.setLoggedIn(true);
 
 			await new Promise((resolve) =>
 			{

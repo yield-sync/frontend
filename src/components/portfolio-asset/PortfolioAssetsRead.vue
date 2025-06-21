@@ -23,7 +23,7 @@
 				</h3>
 
 				<h6 id="symbol-name-sector-industry" class="text-light">
-					{{ stringShortener(`${a.sector} - ${a.industry}`, 100) }}
+					{{ stringShortener(`${a.sector_id} - ${a.industry}`, 100) }}
 				</h6>
 			</VCol>
 
@@ -189,9 +189,7 @@
 	const assetToDeleteId = ref(null);
 	const confirmDeletePortfolioAsset = ref(false);
 
-	const app = useAppStore();
-
-	const URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_DEV_SERVER_URL : "";
+	const appStore = useAppStore();
 
 	const stringShortener = (string, max = 10) =>
 	{
@@ -212,12 +210,12 @@
 
 	const deletePortfolioAsset = async (portfolio_asset_id) =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio-asset`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio-asset`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},
@@ -237,12 +235,12 @@
 
 	const updatePorfolioAsset = async (portfolioAssets) =>
 	{
-		if (!app.loggedIn) return;
+		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
 
 		const authAxios = axios.create({
-			baseURL: `${URL}/api/portfolio-asset`,
+			baseURL: `${appStore.baseAPIURL}/api/portfolio-asset`,
 			headers: {
 				authorization: `Bearer ${localStorage.getItem("authToken")}`,
 			},

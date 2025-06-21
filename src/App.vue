@@ -13,6 +13,11 @@
 
 	import NavigationBar from "@/components/NavigationBar.vue";
 	import FooterBar from "@/components/FooterBar.vue";
+	import useAppStore from "@/stores/App";
+
+	const appStore = useAppStore();
+
+	appStore.init();
 </script>
 
 <style lang="scss">
