@@ -52,7 +52,53 @@
 							</VCol>
 
 							<VCol v-if="appStore.sectors" cols="12">
-								{{ appStore.sectors }}
+								<VRow class="mb-2 mx-auto border border-success rounded-xl">
+									<VCol cols="3">
+										<h2 class="text-center text-success">Add Sector Allocation</h2>
+									</VCol>
+									<VCol cols="3">
+										<v-select
+											label="Select Sector"
+											density="compact"
+											:items="appStore.sectors || []"
+										></v-select>
+									</VCol>
+									<VCol cols="3">
+										<VTextField
+											v-model="addSectorAllocation"
+											@blur="() => {
+												if (addSectorAllocation < 0) addSectorAllocation = 0;
+												if (addSectorAllocation > 100) addSectorAllocation = 100;
+											}"
+											rounded="xl"
+											label="Target %"
+											variant="outlined"
+											color="light"
+											class="text-light"
+											type="number"
+											density="compact"
+										>
+											<template #prepend-inner>
+												%
+											</template>
+										</VTextField>
+									</VCol>
+									<VCol cols="3">
+										<VBtn
+											color="success"
+											rounded="xl"
+											variant="outlined"
+											icon="mdi-plus"
+											:loading="loading"
+											:disabled="loading"
+											@click="() => {}"
+											class="w-100"
+											style="height: 40px;"
+										>
+											Add Sector
+										</VBtn>
+									</VCol>
+								</VRow>
 							</VCol>
 
 							<VCol cols="6">
@@ -157,6 +203,9 @@
 	]);
 
 	const totalPortfolioValue = ref(0);
+
+	// Addition stuff
+	const addSectorAllocation = ref(0);
 
 	// Deletion stuff
 	const confirmDeletePortfolio = ref(false);
