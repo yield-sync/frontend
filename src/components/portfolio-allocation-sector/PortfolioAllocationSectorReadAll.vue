@@ -1,19 +1,15 @@
 <template>
 	<VRow>
-		<VCol cols="12">
-			<h2 class="text-center text-primary">Sector Allocation</h2>
-		</VCol>
-
 		<VCol v-if="loading" cols="12">
 			<h3 class="text-center text-primary">Loading..</h3>
 		</VCol>
 
 		<VCol v-if="!loading && appStore.sectors" cols="12">
-			<VRow class="mb-2 mx-auto border border-success rounded-xl">
-				<VCol cols="3">
-					<h2 class="text-center text-success">Add Sector Allocation</h2>
+			<VRow class="my-2 mx-auto border border-success rounded-xl">
+				<VCol cols="12">
+					<h3 class="text-center text-success">Add Sector Allocation</h3>
 				</VCol>
-				<VCol cols="3">
+				<VCol cols="4">
 					<v-select
 						v-model="selectedSector"
 						label="Select Sector"
@@ -21,7 +17,7 @@
 						:items="appStore.sectors || []"
 						></v-select>
 				</VCol>
-				<VCol cols="3">
+				<VCol cols="4">
 					<VTextField
 						v-model="addSectorAllocation"
 						@blur="() => {
@@ -41,7 +37,7 @@
 						</template>
 					</VTextField>
 				</VCol>
-				<VCol cols="3">
+				<VCol cols="4">
 					<VBtn
 						color="success"
 						rounded="xl"
