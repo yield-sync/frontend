@@ -1,5 +1,5 @@
 <template>
-	<VContainer style="">
+	<VContainer>
 		<h3 v-if="loading" class="text-center text-primary">Loading..</h3>
 
 		<h3 v-if="requestError" class="text-center text-error">{{ requestError }}</h3>
@@ -46,95 +46,7 @@
 
 				<VTabsWindow v-model="tab" class="elevation-0 mx-auto mt-5">
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
-						<VRow v-show="tab == 'tab-1'">
-							<VCol cols="12">
-								<h2 class="text-center text-primary">Sector Allocation</h2>
-							</VCol>
-
-							<VCol v-if="appStore.sectors" cols="12">
-								<VRow class="mb-2 mx-auto border border-success rounded-xl">
-									<VCol cols="3">
-										<h2 class="text-center text-success">Add Sector Allocation</h2>
-									</VCol>
-									<VCol cols="3">
-										<v-select
-											label="Select Sector"
-											density="compact"
-											:items="appStore.sectors || []"
-										></v-select>
-									</VCol>
-									<VCol cols="3">
-										<VTextField
-											v-model="addSectorAllocation"
-											@blur="() => {
-												if (addSectorAllocation < 0) addSectorAllocation = 0;
-												if (addSectorAllocation > 100) addSectorAllocation = 100;
-											}"
-											rounded="xl"
-											label="Target %"
-											variant="outlined"
-											color="light"
-											class="text-light"
-											type="number"
-											density="compact"
-										>
-											<template #prepend-inner>
-												%
-											</template>
-										</VTextField>
-									</VCol>
-									<VCol cols="3">
-										<VBtn
-											color="success"
-											rounded="xl"
-											variant="outlined"
-											icon="mdi-plus"
-											:loading="loading"
-											:disabled="loading"
-											@click="() => {}"
-											class="w-100"
-											style="height: 40px;"
-										>
-											Add Sector
-										</VBtn>
-									</VCol>
-								</VRow>
-							</VCol>
-
-							<VCol cols="6">
-								<VRow v-for="sector in sectors">
-									<VCol cols="4">
-										<h2 class="text-primary text-uppercase text-right">
-											{{ sector }}
-										</h2>
-									</VCol>
-									<VCol cols="8">
-										<VTextField
-											v-model="a.percent_allocation"
-											@blur="() => {
-												if (sector.percent_allocation < 0) sector.percent_allocation = 0;
-												if (sector.percent_allocation > 100) sector.percent_allocation = 100;
-											}"
-											rounded="xl"
-											label="Target %"
-											variant="outlined"
-											color="light"
-											class="text-light"
-											type="number"
-											density="compact"
-										>
-											<template #prepend-inner>
-												%
-											</template>
-										</VTextField>
-									</VCol>
-								</VRow>
-							</VCol>
-
-							<VCol cols="6">
-
-							</VCol>
-						</VRow>
+						<PortfolioAllocationSectorReadAll v-show="tab == 'tab-1'" :portfolio_id="id" />
 
 						<div v-show="tab == 'tab-2'">
 							<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
@@ -146,6 +58,8 @@
 						</div>
 
 						<div v-show="tab == 'tab-3'">
+							<!-- Placeholder for future chart implementation -->
+							<h3 class="text-center text-light">Chart will be implemented soon.</h3>
 						</div>
 					</VTabsWindowItem>
 				</VTabsWindow>
@@ -172,6 +86,7 @@
 	import { useRouter } from "vue-router";
 
 	import useAppStore from "@/stores/App";
+	import PortfolioAllocationSectorReadAll from "../portfolio-allocation-sector/PortfolioAllocationSectorReadAll.vue";
 	import PortfolioAssetsRead from "../portfolio-asset/PortfolioAssetsRead.vue";
 	import PortfolioAssetAddForm from "../portfolio-asset/PortfolioAssetAddForm.vue";
 	import PortfolioHeader from "./PortfolioHeader.vue";
@@ -199,13 +114,8 @@
 	const portfolio = ref();
 	const portfolioAssets = ref([
 	]);
-	const sectors = ref([
-	]);
 
 	const totalPortfolioValue = ref(0);
-
-	// Addition stuff
-	const addSectorAllocation = ref(0);
 
 	// Deletion stuff
 	const confirmDeletePortfolio = ref(false);
