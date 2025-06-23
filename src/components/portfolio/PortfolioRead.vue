@@ -55,7 +55,10 @@
 						</div>
 
 						<div v-show="tab == 'tab-2'">
-							<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
+							<div style="max-width: 600px; margin: auto;">
+								<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
+							</div>
+
 							<PortfolioAssetsRead
 								:portfolioAssets="portfolioAssets"
 								:totalPortfolioValue="totalPortfolioValue"
