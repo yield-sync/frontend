@@ -79,7 +79,7 @@
 
 
 	const authAxios = axios.create({
-		baseURL: `${appStore.baseURL}/api/stock`,
+		baseURL: `${appStore.baseAPIURL}/api/stock`,
 		headers: {
 			authorization: `Bearer ${localStorage.getItem("authToken")}`,
 		},

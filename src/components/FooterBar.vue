@@ -1,5 +1,7 @@
 <template>
-	<h6>URL: {{ appStore.baseURL }}</h6>
+	<VContainer style="max-width: 600px;">
+		<h6>URL: {{ appStore.baseAPIURL }}</h6>
+	</VContainer>
 </template>
 
 <script setup>
