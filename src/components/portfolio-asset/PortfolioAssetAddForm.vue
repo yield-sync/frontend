@@ -1,80 +1,77 @@
 <template>
-	<VBtn
-		@click="showAddAsset = !showAddAsset"
-		color="success"
-		variant="outlined"
-		size="small"
-		class="w-100 my-3"
-		rounded
-	>
-		Show Add Asset
-	</VBtn>
 
-	<div
-		id="add-asset"
-		:class="showAddAsset ? '' : 'd-none'"
-		class="px-4 py-4 mb-3 border border-success bg-dark rounded-xl"
-	>
-		<h3 class="mt-0 mb-4 text-center text-light">Add Asset</h3>
-
-		<VBtnToggle
-			v-model="addAssetType"
-			color="primary"
+	<div class="px-5 py-5 mb-3 rounded-xl bg-dark">
+		<VBtn
+			@click="showAddAsset = !showAddAsset"
+			color="success"
 			variant="outlined"
-			divided
-			mandatory
-			rounded="xl"
-			density="compact"
-			class="w-100 mb-6 text-light"
-			border="light"
+			size="small"
+			rounded
 		>
-			<VBtn @click="fetchSuggestions" class="w-50">Stock</VBtn>
+			Show Add Asset
+		</VBtn>
 
-			<VBtn @click="fetchSuggestions" class="w-50">Crypto</VBtn>
-		</VBtnToggle>
+		<VRow id="add-asset" class="mt-5" :class="showAddAsset ? '' : 'd-none'">
+			<VCol cols="4">
+				<VBtnToggle
+					v-model="addAssetType"
+					color="primary"
+					variant="outlined"
+					divided
+					mandatory
+					rounded="xl"
+					class="w-100 mb-6 text-light"
+					border="light"
+				>
+					<VBtn @click="fetchSuggestions" class="w-50">Stock</VBtn>
 
-		<VTextField
-			v-model="symbol"
-			@input="fetchSuggestions"
-			@update:modelValue="fetchSuggestions"
-			color="primary"
-			density="compact"
-			rounded="xl"
-			:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
-			variant="outlined"
-			class="text-light"
-		/>
+					<VBtn @click="fetchSuggestions" class="w-50">Crypto</VBtn>
+				</VBtnToggle>
 
-		<div class="mb-5 asset-list-wrapper custom-scrollbar bg-dark-light">
-			<VRow
-				v-if="queryResult.length > 0"
-				v-for="(a, i) in queryResult"
-				:key="a.isin"
-				class="w-100 cursor-pointer my-0"
-				:class="selectedSuggestionIndex === i ? 'bg-primary text-dark' : 'text-light'"
-				@click="selectedSuggestionIndex = i"
-			>
-				<VCol sm="3">
-					<span
-						class="h4 ml-2"
-						:class="selectedSuggestionIndex === i ? 'text-dark' : 'text-primary'"
-					>
-						{{ a.symbol }}
-					</span>
-				</VCol>
+				<VTextField
+					v-model="symbol"
+					@input="fetchSuggestions"
+					@update:modelValue="fetchSuggestions"
+					color="primary"
+					density="compact"
+					rounded="xl"
+					:label="addAssetType == 0 ? 'Stock Symbol' : 'Crypto Symbol'"
+					variant="outlined"
+					class="text-light"
+				/>
+			</VCol>
 
-				<VCol sm="9">
-					<span class="h4">{{ a.name }}</span>
-				</VCol>
-			</VRow>
+			<VCol cols="4">
+				<div class="mb-5 asset-list-wrapper custom-scrollbar bg-dark-light">
+					<VRow
+						v-if="queryResult.length > 0"
+						v-for="(a, i) in queryResult"
+						:key="a.isin"
+						class="w-100 cursor-pointer my-0"
+						:class="selectedSuggestionIndex === i ? 'bg-primary text-dark' : 'text-light'"
+						@click="selectedSuggestionIndex = i"
+						>
+						<VCol sm="3">
+							<span
+								class="h4 ml-2"
+								:class="selectedSuggestionIndex === i ? 'text-dark' : 'text-primary'"
+								>
+								{{ a.symbol }}
+							</span>
+						</VCol>
 
-			<div v-else>
-				<h3 class="my-7 text-center text-light">Selection List Empty</h3>
-			</div>
-		</div>
+						<VCol sm="9">
+							<span class="h4">{{ a.name }}</span>
+						</VCol>
+					</VRow>
 
-		<VRow>
-			<VCol cols="12" md="6">
+					<div v-else>
+						<h3 class="my-7 text-center text-light">Selection List Empty</h3>
+					</div>
+				</div>
+			</VCol>
+
+			<VCol cols="4">
 				<VTextField
 					v-model="percentAllocation"
 					density="compact"
@@ -87,9 +84,6 @@
 					:max="100"
 					@input="validateAllocation"
 				/>
-			</VCol>
-
-			<VCol cols="12" md="6">
 				<VTextField
 					v-model="balance"
 					density="compact"

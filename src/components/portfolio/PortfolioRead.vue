@@ -14,50 +14,56 @@
 					@update-name="onPortfolioNameUpdate"
 				/>
 
-				<div class="w-100 text-center">
-					<div class="mb-5 px-3 py-1 text-center bg-green rounded-xl" style="display: inline-block;">
-						<h2 class="mx-0 my-0 text-white">
-							Total Value: $ {{ Number(totalPortfolioValue).toFixed(2) }}
-						</h2>
-					</div>
-				</div>
 
-				<VTabs
-					v-model="tab"
-					align-tabs="center"
-					bg-color="dark-light"
-					stacked
-					grow
-					fixed-tabs
-					class="mx-auto mb-5 rounded-xl border border-light"
-					style="max-width: 600px;"
-				>
-					<VTab value="tab-1" color="primary">
-						<VIcon icon="mdi-chart-donut" class="mb-2"/>
-						Sector
-					</VTab>
+				<VRow class="mb-5">
+					<VCol cols="3">
+						<div class="w-100 mb-5 px-3 py-1 text-center bg-green rounded-xl" style="display: inline-block;">
+							<h3 class="mx-0 my-0 text-white">
+								Total Value: $ {{ Number(totalPortfolioValue).toFixed(2) }}
+							</h3>
+						</div>
+					</VCol>
 
-					<VTab value="tab-2" color="primary">
-						<VIcon icon="mdi-format-list-bulleted" class="mb-2"/>
-						Assets
-					</VTab>
+					<VCol cols="6" class="text-center">
+						<VTabs
+							v-model="tab"
+							align-tabs="center"
+							bg-color="dark-light"
+							stacked
+							grow
+							fixed-tabs
+							class="mx-auto mb-5 rounded-xl border border-light"
+						>
+							<VTab value="tab-1" color="primary">
+								<VIcon icon="mdi-chart-donut" class="mb-2"/>
+								Sector
+							</VTab>
 
-					<VTab value="tab-3" color="primary">
-						<VIcon icon="mdi-chart-pie" class="mb-2"/>
-						Chart
-					</VTab>
-				</VTabs>
+							<VTab value="tab-2" color="primary">
+								<VIcon icon="mdi-format-list-bulleted" class="mb-2"/>
+								Assets
+							</VTab>
+
+							<VTab value="tab-3" color="primary">
+								<VIcon icon="mdi-chart-pie" class="mb-2"/>
+								Chart
+							</VTab>
+						</VTabs>
+					</VCol>
+
+					<VCol cols="3" class="text-center">
+					</VCol>
+				</VRow>
 
 				<VTabsWindow v-model="tab" class="elevation-0 mx-auto">
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
 						<div v-show="tab == 'tab-1'">
+							<h2 class="text-center text-light">Set Sector Allocation</h2>
 							<PortfolioAllocationSectorReadAll :portfolio_id="id" />
 						</div>
 
 						<div v-show="tab == 'tab-2'">
-							<div style="max-width: 600px; margin: auto;">
-								<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
-							</div>
+							<PortfolioAssetAddForm :id="id" @asset-added="getPortfolio"/>
 
 							<PortfolioAssetsRead
 								:portfolioAssets="portfolioAssets"
