@@ -13,12 +13,8 @@
 		<VRow id="asset-info">
 			<VCol id="symbol-name-secotor-industry" cols="3">
 				<h3 id="symbol-name-sector-industry" class="text-secondary">
-					<span v-if="a.isin" class="text-primary">
-						[{{ a.stock_symbol }}] {{ stringShortener(a.stock_name, 35) }}
-					</span>
-
-					<span v-else class="text-primary">
-						[{{ a.cryptocurrency_symbol }}] {{ stringShortener(a.cryptocurrency_name, 35) }}
+					<span class="text-primary">
+						[{{ a.symbol }}] {{ stringShortener(a.name, 35) }}
 					</span>
 				</h3>
 
@@ -47,7 +43,7 @@
 				<h3 class="text-center text-light">Total Value</h3>
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
-					<h3 class="text-center text-primary">$ {{ Number(a.balance * a.stock_price) }}</h3>
+					<h3 class="text-center text-primary">$ {{ Number(a.balance * a.price) }}</h3>
 				</VSheet>
 			</VCol>
 
@@ -56,7 +52,7 @@
 
 				<VSheet color="dark-light" rounded="xl" class="mt-1">
 					<h3 class="text-center text-primary">
-						% {{ Math.round(Number(a.balance * a.stock_price) / totalPortfolioValue * 1000) / 1000 * 100 }}
+						% {{ Math.round(Number(a.balance * a.price) / totalPortfolioValue * 1000) / 1000 * 100 }}
 					</h3>
 				</VSheet>
 			</VCol>

@@ -136,7 +136,7 @@
 
 		for (let i = 0; i < assets.length; i++)
 		{
-			totalValue += assets[i].balance * assets[i].stock_price
+			totalValue += assets[i].balance * assets[i].price
 		}
 
 		return totalValue;
