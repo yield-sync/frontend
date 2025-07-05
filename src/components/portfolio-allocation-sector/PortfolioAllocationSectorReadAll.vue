@@ -63,7 +63,7 @@
 			<VRow v-for="sector, i in sectors" class="mx-auto">
 				<VCol cols="5">
 					<h2 class="text-light text-uppercase">
-						{{ sector.sector_id }}
+						{{ sector.sector }}
 					</h2>
 				</VCol>
 				<VCol cols="4">
@@ -152,7 +152,7 @@
 				load: {
 					portfolio_id: props.portfolio_id,
 					percent_allocation: addSectorAllocation.value,
-					sector_id: selectedSector.value,
+					sector: selectedSector.value,
 				}
 			});
 

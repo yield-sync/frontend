@@ -23,7 +23,7 @@
 				</h3>
 
 				<h6 id="symbol-name-sector-industry" class="text-light">
-					{{ stringShortener(`${a.sector_id} - ${a.industry}`, 100) }}
+					{{ stringShortener(`${a.sector} - ${a.industry}`, 100) }}
 				</h6>
 			</VCol>
 
