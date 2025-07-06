@@ -59,7 +59,10 @@
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
 						<div v-show="tab == 'tab-1'">
 							<h2 class="text-center text-light">Set Sector Allocation</h2>
-							<PortfolioAllocationSectorReadAll :portfolio_id="id" />
+							<PortfolioAllocationSectorReadAll
+								:portfolio_id="id"
+								:sectorAllocations="sectorAllocations"
+							/>
 						</div>
 
 						<div v-show="tab == 'tab-2'">
@@ -129,6 +132,8 @@
 	const portfolio = ref();
 	const portfolioAssets = ref([
 	]);
+	const sectorAllocations = ref();
+
 
 	const totalPortfolioValue = ref(0);
 
@@ -170,6 +175,7 @@
 		portfolio.value = response.data.portfolio;
 
 		portfolioAssets.value = response.data.portfolioAssets;
+		sectorAllocations.value = response.data.sectorAllocations;
 
 		totalPortfolioValue.value = computePortfolioBalance(portfolioAssets.value);
 

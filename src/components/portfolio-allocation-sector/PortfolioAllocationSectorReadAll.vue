@@ -59,14 +59,31 @@
 			<h3 class="text-center text-error">{{ requestError }}</h3>
 		</VCol>
 
-		<VCol cols="6">
-			<VRow v-for="sector, i in sectors" class="mx-auto">
-				<VCol cols="5">
-					<h2 class="text-light text-uppercase">
-						{{ sector.sector }}
-					</h2>
-				</VCol>
+		<VCol cols="12" lg="6">
+			<VRow class="mx-auto">
 				<VCol cols="4">
+					<h3 class="text-uppercase">Sector</h3>
+				</VCol>
+
+				<VCol cols="2">
+					<h3 class="text-uppercase">Actual Pct.</h3>
+				</VCol>
+
+				<VCol cols="5">
+					<h3 class="text-uppercase">Target Pct.</h3>
+				</VCol>
+			</VRow>
+
+			<VRow v-for="sector, i in sectors" class="mx-auto">
+				<VCol cols="4">
+					<h3 class="text-light text-uppercase">{{ sector.sector }}</h3>
+				</VCol>
+
+				<VCol cols="2">
+					<h2 class="text-light text-uppercase">{{ Number(props.sectorAllocations[sector.sector]) }}%</h2>
+				</VCol>
+
+				<VCol cols="3">
 					<VTextField
 						v-model="sectors[i].percent_allocation"
 						@blur="() => {
@@ -87,7 +104,7 @@
 					</VTextField>
 				</VCol>
 
-				<VCol cols="3">
+				<VCol cols="2">
 					<VBtn
 						@click="updatePortfolioAllocationSector(sector)"
 						variant=flat
@@ -100,7 +117,7 @@
 			</VRow>
 		</VCol>
 
-		<VCol cols="6">
+		<VCol cols="12" lg="6">
 			<h3 class="text-center">pie chart goes here</h3>
 		</VCol>
 	</VRow>
@@ -119,7 +136,8 @@
 		portfolio_id: [
 			String,
 			Number,
-		]
+		],
+		sectorAllocations: {}
 	});
 
 	// UI
