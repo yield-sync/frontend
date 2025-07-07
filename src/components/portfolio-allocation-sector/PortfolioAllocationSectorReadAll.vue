@@ -66,11 +66,15 @@
 				</VCol>
 
 				<VCol cols="2">
+					<h3 class="text-uppercase">Target Pct.</h3>
+				</VCol>
+
+				<VCol cols="2">
 					<h3 class="text-uppercase">Actual Pct.</h3>
 				</VCol>
 
-				<VCol cols="5">
-					<h3 class="text-uppercase">Target Pct.</h3>
+				<VCol cols="2">
+					<h3 class="text-uppercase">Difference</h3>
 				</VCol>
 			</VRow>
 
@@ -80,10 +84,6 @@
 				</VCol>
 
 				<VCol cols="2">
-					<h2 class="text-light text-uppercase">{{ Number(props.sectorAllocations[sector.sector]) }}%</h2>
-				</VCol>
-
-				<VCol cols="3">
 					<VTextField
 						v-model="sectors[i].percent_allocation"
 						@blur="() => {
@@ -102,6 +102,32 @@
 							%
 						</template>
 					</VTextField>
+				</VCol>
+
+				<VCol cols="2">
+					<h2
+						:class="
+							difference(
+								props.sectorAllocations[sector.sector],
+								sectors[i].percent_allocation
+							) == 0 ? 'text-light' : 'text-error'
+						"
+					>
+						{{ Number(props.sectorAllocations[sector.sector]) }}%
+					</h2>
+				</VCol>
+
+				<VCol cols="2">
+					<h2
+						:class="
+							difference(
+								props.sectorAllocations[sector.sector],
+								sectors[i].percent_allocation
+							) == 0 ? 'text-light' : 'text-error'
+						"
+					>
+						{{ difference(props.sectorAllocations[sector.sector], sectors[i].percent_allocation) }}%
+					</h2>
 				</VCol>
 
 				<VCol cols="2">
@@ -180,6 +206,11 @@
 		{
 			requestError.value = error.response?.data.message || error.message;
 		}
+	};
+
+	const difference = (actual, target) => {
+		if (actual === undefined || target === undefined) return 0;
+		return Math.round((target - actual) * 100) / 100;
 	};
 
 	const getPortfolioAllocationSectors = async () => {
