@@ -1,7 +1,14 @@
 <template>
-	<VContainer style="max-width: 600px;">
+	<VContainer>
 		<VRow>
-			<VCol cols="8">
+			<VCol
+				order="1"
+				order-sm="1"
+				order-lg="1"
+				cols="6"
+				sm="6"
+				lg="4"
+			>
 				<RouterLink to="/" class="text-decoration-none">
 					<h2 class="text-bold">
 						<span>
@@ -11,7 +18,26 @@
 				</RouterLink>
 			</VCol>
 
-			<VCol cols="4" class="text-center text-md-right">
+			<VCol
+				order="3"
+				order-sm="3"
+				order-lg="2"
+				cols="12"
+				sm="12"
+				lg="4"
+			>
+				<SearchBars class="mx-auto" style="position: relative;"/>
+			</VCol>
+
+			<VCol
+				order="2"
+				order-sm="2"
+				order-lg="3"
+				cols="6"
+				sm="6"
+				lg="4"
+				class="text-center text-md-right"
+			>
 				<RouterLink v-if="!app.loggedIn" to="/login">
 					<VBtn
 						color="secondary"
@@ -30,15 +56,11 @@
 					variant="flat"
 					color="dark-light"
 					elevation="0"
-					class="w-100"
+					class="w-100 w-lg-auto"
 					density="compact"
 				>
 					Log out
 				</VBtn>
-			</VCol>
-
-			<VCol cols="12">
-				<SearchBars class="mx-auto" style="position: relative;"/>
 			</VCol>
 		</VRow>
 	</VContainer>
