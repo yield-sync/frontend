@@ -51,14 +51,14 @@
 						</VTabs>
 					</VCol>
 
-					<VCol cols="3" class="text-center">
-					</VCol>
+					<VCol cols="3" class="text-center"/>
 				</VRow>
 
 				<VTabsWindow v-model="tab" class="elevation-0 mx-auto">
 					<VTabsWindowItem v-for="i in 3" :key="i" :value="'tab-' + i">
 						<div v-show="tab == 'tab-1'">
 							<h2 class="text-center text-light">Set Sector Allocation</h2>
+
 							<PortfolioAllocationSectorReadAll
 								:portfolio_id="id"
 								:sectorAllocations="sectorAllocations"
@@ -147,7 +147,7 @@
 
 		for (let i = 0; i < assets.length; i++)
 		{
-			totalValue += assets[i].balance * assets[i].price
+			totalValue += assets[i].balance * assets[i].price;
 		}
 
 		return totalValue;

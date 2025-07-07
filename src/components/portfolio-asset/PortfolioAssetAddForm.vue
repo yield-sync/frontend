@@ -50,12 +50,12 @@
 						class="w-100 cursor-pointer my-0"
 						:class="selectedSuggestionIndex === i ? 'bg-primary text-dark' : 'text-light'"
 						@click="selectedSuggestionIndex = i"
-						>
+					>
 						<VCol sm="3">
 							<span
 								class="h4 ml-2"
 								:class="selectedSuggestionIndex === i ? 'text-dark' : 'text-primary'"
-								>
+							>
 								{{ a.symbol }}
 							</span>
 						</VCol>
@@ -84,6 +84,7 @@
 					:max="100"
 					@input="validateAllocation"
 				/>
+
 				<VTextField
 					v-model="balance"
 					density="compact"

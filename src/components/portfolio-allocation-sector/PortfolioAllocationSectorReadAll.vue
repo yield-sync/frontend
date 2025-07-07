@@ -9,14 +9,16 @@
 				<VCol cols="12">
 					<h3 class="text-center text-success">Add Sector Allocation</h3>
 				</VCol>
+
 				<VCol cols="4">
-					<v-select
+					<VSelect
 						v-model="selectedSector"
 						label="Select Sector"
 						density="compact"
 						:items="appStore.sectors || []"
-						></v-select>
+					/>
 				</VCol>
+
 				<VCol cols="4">
 					<VTextField
 						v-model="addSectorAllocation"
@@ -37,6 +39,7 @@
 						</template>
 					</VTextField>
 				</VCol>
+
 				<VCol cols="4">
 					<VBtn
 						color="success"
@@ -133,8 +136,8 @@
 				<VCol cols="2">
 					<VBtn
 						@click="updatePortfolioAllocationSector(sector)"
-						variant=flat
-						color=warning
+						variant="flat"
+						color="warning"
 						class="w-100 rounded-xl"
 					>
 						Update
@@ -163,7 +166,8 @@
 			String,
 			Number,
 		],
-		sectorAllocations: {}
+		sectorAllocations: {
+		}
 	});
 
 	// UI
@@ -178,7 +182,8 @@
 	const addSectorAllocation = ref(0);
 
 
-	const createPortfolioAllocationSector = async () => {
+	const createPortfolioAllocationSector = async () => 
+	{
 		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
@@ -208,12 +213,14 @@
 		}
 	};
 
-	const difference = (actual, target) => {
+	const difference = (actual, target) => 
+	{
 		if (actual === undefined || target === undefined) return 0;
 		return Math.round((target - actual) * 100) / 100;
 	};
 
-	const getPortfolioAllocationSectors = async () => {
+	const getPortfolioAllocationSectors = async () => 
+	{
 		loading.value = true;
 
 		const authAxios = axios.create({
@@ -230,7 +237,8 @@
 		loading.value = false;
 	};
 
-	const updatePortfolioAllocationSector = async (sector) => {
+	const updatePortfolioAllocationSector = async (sector) => 
+	{
 		if (!appStore.loggedIn) return;
 
 		requestError.value = "";
