@@ -1,6 +1,12 @@
 # At the top of Dockerfile
 FROM node:20
 
+# Go to app dir
+WORKDIR /app
+
+# Copy backend files from the local context into the image
+COPY . .
+
 # Install npm packages
 RUN npm install
 
