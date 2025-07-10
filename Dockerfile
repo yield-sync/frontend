@@ -12,3 +12,9 @@ RUN npm install
 
 # Rebuild if something was pulled
 RUN npm run build
+
+# Expose the preview server port
+EXPOSE 4173
+
+# Start the preview server
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
