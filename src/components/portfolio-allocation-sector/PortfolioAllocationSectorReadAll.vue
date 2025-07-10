@@ -93,7 +93,6 @@
 							if (sectors.percent_allocation < 0) sectors.percent_allocation = 0;
 							if (sectors.percent_allocation > 100) sectors.percent_allocation = 100;
 						}"
-						rounded="xl"
 						label="Target %"
 						variant="outlined"
 						color="light"
@@ -182,7 +181,7 @@
 	const addSectorAllocation = ref(0);
 
 
-	const createPortfolioAllocationSector = async () => 
+	const createPortfolioAllocationSector = async () =>
 	{
 		if (!appStore.loggedIn) return;
 
@@ -213,13 +212,13 @@
 		}
 	};
 
-	const difference = (actual, target) => 
+	const difference = (actual, target) =>
 	{
 		if (actual === undefined || target === undefined) return 0;
 		return Math.round((target - actual) * 100) / 100;
 	};
 
-	const getPortfolioAllocationSectors = async () => 
+	const getPortfolioAllocationSectors = async () =>
 	{
 		loading.value = true;
 
@@ -237,7 +236,7 @@
 		loading.value = false;
 	};
 
-	const updatePortfolioAllocationSector = async (sector) => 
+	const updatePortfolioAllocationSector = async (sector) =>
 	{
 		if (!appStore.loggedIn) return;
 
