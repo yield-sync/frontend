@@ -2,7 +2,7 @@
 FROM node:20
 
 # Install npm packages
-RUN npm install && npm run build
+RUN npm install
 
 # Rebuild if something was pulled
-RUN npm install && npm run build
+RUN npm run build
