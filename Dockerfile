@@ -15,7 +15,7 @@ RUN npm run build
 
 
 # Start the preview server
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5173"]
+CMD ["npm", "run", "preview", "--", "--port", "5173"]
 
 # Expose the preview server port
 EXPOSE 5173
