@@ -17,4 +17,4 @@ RUN npm run build
 EXPOSE 4173
 
 # Start the preview server
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
